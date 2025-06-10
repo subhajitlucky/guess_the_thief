@@ -1,0 +1,18 @@
+.App {
+  text-align: center;
+  margin: 50px auto;
+  max-width: 800px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 20px;
+}
+
+.App h1 {
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}
+
+.App p {
+  color: #7f8c8d;
+  font-size: 1.2em;
+}
