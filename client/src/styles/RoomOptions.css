@@ -1,0 +1,66 @@
+.room-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.welcome-header {
+  text-align: center;
+}
+
+.welcome-header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-header h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-header p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.option-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 15px;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.option-btn span {
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .room-options {
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .welcome-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .option-btn {
+    padding: 1.5rem;
+    font-size: 1.2rem;
+  }
+} 

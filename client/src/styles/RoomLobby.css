@@ -1,0 +1,146 @@
+.room-lobby {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.lobby-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.room-info h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+}
+
+.room-code-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.room-code {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.copy-btn-small {
+  padding: 0.3rem 0.5rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+.leave-btn {
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.players-section {
+  margin-bottom: 2rem;
+}
+
+.players-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.players-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.ready-count {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.player-card {
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.player-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.player-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.player-status {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.lobby-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.ready-btn {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.start-btn {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.lobby-info {
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.lobby-info p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .room-lobby {
+    padding: 1rem;
+  }
+  
+  .lobby-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .lobby-actions {
+    flex-direction: column;
+  }
+  
+  .players-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+} 

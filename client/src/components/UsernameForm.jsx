@@ -1,39 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import '../styles/UsernameForm.css'
 
-function UsernameForm({ onUsernameSet, isConnected }) {
+function UsernameForm({ onUsernameSubmit, isSubmitting, setIsSubmitting }) {
   const [username, setUsername] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (username.trim()) {
-      console.log('✅ Username set:', username.trim())
-      onUsernameSet(username.trim())
+    
+    if (!username.trim()) {
+      alert('Please enter a username!')
+      return
     }
+
+    setIsSubmitting(true)
+    onUsernameSubmit(username.trim())
   }
 
   return (
-    <div>
-      <h2>Enter Your Username</h2>
+    <div className="username-form">
+      <h2>🎮 Guess the Thief</h2>
+      <p>Enter your username</p>
       
-      {/* Show connection status */}
-      <div >
-        {isConnected ? '🟢 Connected' : '🔴 Disconnected'}
-      </div>
-
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Your username..."
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          disabled={isSubmitting}
           maxLength={20}
-          disabled={!isConnected}
         />
-        <button 
-          type="submit" 
-          disabled={!username.trim() || !isConnected}
-        >
-          Set Username
+        
+        <button type="submit" disabled={isSubmitting || !username.trim()}>
+          {isSubmitting ? 'Setting...' : 'Set Username'}
         </button>
       </form>
     </div>
