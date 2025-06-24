@@ -1,0 +1,67 @@
+name: 📊 Progress Tracker
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  analyze-progress:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Analyze Project Progress
+      run: |
+        echo "🔍 Analyzing project structure..."
+        
+        # Count completed features based on file existence and content
+        TOTAL_PHASES=8
+        COMPLETED_PHASES=0
+        
+        # Phase 1: Foundation (check if basic files exist)
+        if [ -f "server/index.js" ] && [ -f "client/src/App.jsx" ]; then
+          COMPLETED_PHASES=$((COMPLETED_PHASES + 1))
+          echo "✅ Phase 1: Foundation - Complete"
+        fi
+        
+        # Phase 2: Lobby System (check for lobby components)
+        if [ -f "client/src/pages/RoomLobby.jsx" ] && [ -f "client/src/pages/CreateRoom.jsx" ]; then
+          COMPLETED_PHASES=$((COMPLETED_PHASES + 1))
+          echo "✅ Phase 2: Lobby System - Complete"
+        fi
+        
+        # Phase 3: Role Assignment (check for role assignment component)
+        if [ -f "client/src/components/RoleAssignment.jsx" ]; then
+          COMPLETED_PHASES=$((COMPLETED_PHASES + 1))
+          echo "✅ Phase 3: Role Assignment - Complete"
+        else
+          echo "🚧 Phase 3: Role Assignment - In Progress"
+        fi
+        
+        # Calculate progress percentage
+        PROGRESS=$((COMPLETED_PHASES * 100 / TOTAL_PHASES))
+        echo "📊 Current Progress: $PROGRESS%"
+        echo "PROGRESS=$PROGRESS" >> $GITHUB_ENV
+        
+    - name: Update Progress Badge
+      if: github.event_name == 'push'
+      run: |
+        echo "🏷️ Progress badge would be updated to $PROGRESS%"
+        echo "This could trigger a commit to update README badges automatically"
+        
+    - name: Project Stats
+      run: |
+        echo "📈 PROJECT STATISTICS"
+        echo "==================="
+        echo "React Components: $(find client/src -name "*.jsx" | wc -l)"
+        echo "CSS Files: $(find client/src -name "*.css" | wc -l)"
+        echo "Server Files: $(find server -name "*.js" | wc -l)"
+        echo "Total Lines of Code: $(find . -name "*.jsx" -o -name "*.js" -o -name "*.css" | grep -v node_modules | xargs wc -l | tail -1)" 
