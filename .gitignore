@@ -1,0 +1,169 @@
+# 🕵️ Guess the Thief - Root .gitignore
+# Comprehensive ignore patterns for Node.js, React, and progress tracking system
+
+# ===== NODE.JS =====
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage
+.grunt
+
+# Bower dependency directory
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons
+build/Release
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript v1 declaration files
+typings/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# ===== ENVIRONMENT & CONFIG =====
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ===== REACT/VITE =====
+# Build outputs
+dist/
+build/
+.vite/
+
+# Vite cache
+.vite
+
+# React Hot Reload
+.cache/
+
+# ===== DEVELOPMENT TOOLS =====
+# Logs
+logs
+*.log
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+
+# ===== OPERATING SYSTEM =====
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS Thumbnails
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+
+# ===== PROGRESS TRACKING SYSTEM =====
+# Generated progress data (optional - remove if you want to track progress history)
+progress-data.json
+
+# Temporary progress files
+.progress-cache/
+progress-*.tmp
+
+# ===== PROJECT SPECIFIC =====
+# Backup files
+*.backup
+*.bak
+*.orig
+
+# Test coverage
+coverage/
+.coverage
+
+# Database files (if any)
+*.db
+*.sqlite
+*.sqlite3
+
+# Certificates and keys
+*.pem
+*.key
+*.crt
+*.cert
+
+# ===== DOCKER =====
+# Docker
+.dockerignore
+Dockerfile
+docker-compose*.yml
+
+# ===== MISC =====
+# Package lock files (uncomment if you want to ignore them)
+# package-lock.json
+# yarn.lock
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Runtime files
+*.out
+*.exe 
