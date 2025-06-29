@@ -258,7 +258,7 @@ npm run build                 # Build client for production
 ![GitHub stars](https://img.shields.io/github/stars/subhajitlucky/guess_the_thief?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/subhajitlucky/guess_the_thief?style=social)
 
-**⭐ Star this repo if you find it interesting!**
+
 
 *🔄 Progress tracking auto-updates with each commit*
 
