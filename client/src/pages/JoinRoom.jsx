@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import '../styles/JoinRoom.css'
+// import '../styles/JoinRoom.css'
 
 function JoinRoom({ socket, username }) {
   const navigate = useNavigate()

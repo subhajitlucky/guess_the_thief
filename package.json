@@ -12,7 +12,13 @@
     "update-badges": "npm run progress && node scripts/update-readme-badges.js",
     "test": "echo \"No tests specified\" && exit 0"
   },
-  "keywords": ["game", "multiplayer", "socket.io", "react", "social-deduction"],
+  "keywords": [
+    "game",
+    "multiplayer",
+    "socket.io",
+    "react",
+    "social-deduction"
+  ],
   "author": "Subhajit <subhajitlucky@github>",
   "license": "MIT",
   "devDependencies": {
@@ -20,5 +26,8 @@
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.8.1"
   }
-} 
+}

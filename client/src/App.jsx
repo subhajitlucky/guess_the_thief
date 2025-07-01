@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import io from 'socket.io-client'
+import Navbar from './components/layout/Navbar'
+import Footer from './components/layout/Footer'
+import HeroPage from './pages/HeroPage'
 import UsernameForm from './components/UsernameForm'
 import RoomOptions from './pages/RoomOptions'
 import CreateRoom from './pages/CreateRoom'
 import JoinRoom from './pages/JoinRoom'
 import RoomLobby from './pages/RoomLobby'
 import GamePage from './pages/GamePage'
-import './App.css'
+import './styles/global.css'
 
 // Connect to our server
 const socket = io('http://localhost:4000')
@@ -62,43 +65,52 @@ function App() {
     socket.emit('set-username', { username: enteredUsername })
   }
 
-  // Show connection status and username form if not connected or no username
-  if (!isConnected) {
-    return (
-      <div className="App">
-        <div className="status">🔴 Connecting...</div>
-        <div>Connecting to server...</div>
-      </div>
-    )
-  }
-
-  if (!hasUsername) {
-    return (
-      <div className="App">
-        <div className="status">🟢 Connected</div>
-        <UsernameForm 
-          onUsernameSubmit={handleUsernameSubmit}
-          isSubmitting={isSubmitting}
-          setIsSubmitting={setIsSubmitting}
-        />
-      </div>
-    )
-  }
-
-  // Main app with router
+  // Main app with beautiful layout
   return (
     <div className="App">
-      <div className="status">🟢 Connected</div>
-      
       <Router>
-        <Routes>
-          <Route path="/" element={<RoomOptions username={username} />} />
-          <Route path="/create" element={<CreateRoom socket={socket} username={username} />} />
-          <Route path="/join" element={<JoinRoom socket={socket} username={username} />} />
-          <Route path="/lobby/:roomCode" element={<RoomLobby socket={socket} username={username} />} />
-          <Route path="/game" element={<GamePage socket={socket} username={username} />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+          <Navbar username={username} isConnected={isConnected} />
+          
+          <main style={{ flex: 1 }}>
+            <Routes>
+              <Route 
+                path="/" 
+                element={
+                  !isConnected ? (
+                    <div style={{ 
+                      display: 'flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      minHeight: '80vh',
+                      flexDirection: 'column',
+                      gap: '1rem'
+                    }}>
+                      <div className="animate-pulse" style={{ fontSize: '2rem' }}>🔗</div>
+                      <div style={{ color: 'var(--purple-200)' }}>Connecting to server...</div>
+                    </div>
+                  ) : !hasUsername ? (
+                    <HeroPage 
+                      username={username}
+                      onUsernameSubmit={handleUsernameSubmit}
+                      isSubmitting={isSubmitting}
+                      setIsSubmitting={setIsSubmitting}
+                    />
+                  ) : (
+                    <RoomOptions username={username} />
+                  )
+                } 
+              />
+              <Route path="/create" element={<CreateRoom socket={socket} username={username} />} />
+              <Route path="/join" element={<JoinRoom socket={socket} username={username} />} />
+              <Route path="/lobby/:roomCode" element={<RoomLobby socket={socket} username={username} />} />
+              <Route path="/game" element={<GamePage socket={socket} username={username} />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
       </Router>
     </div>
   )
