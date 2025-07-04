@@ -9,7 +9,7 @@ function Navbar({ username, isConnected }) {
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'Play', href: username ? '/' : '/play' },
+    { name: 'Play', href: '/play' }
   ]
 
   const isActive = (path) => location.pathname === path

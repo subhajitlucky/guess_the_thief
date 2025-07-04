@@ -1,0 +1,80 @@
+/* CreateRoom.css */
+
+.create-room {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #1e1b4b;
+  color: #e0e7ff;
+  border-radius: 0.75rem;
+  border: 1px solid #4f46e5;
+}
+
+.create-room .header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.create-room .header h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.back-btn {
+  background: none;
+  border: 1px solid #4f46e5;
+  color: #c7d2fe;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: rgba(79, 70, 229, 0.2);
+}
+
+.create-section {
+  text-align: center;
+}
+
+.create-section .info {
+  margin-bottom: 2rem;
+}
+
+.create-section .info h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.create-section .info p {
+  color: #a5b4fc;
+  margin-bottom: 0.5rem;
+}
+
+.create-section .create-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  background-color: #4f46e5;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-section .create-btn:hover {
+  background-color: #4338ca;
+}
+
+.create-section .create-btn:disabled {
+  background-color: #3730a3;
+  cursor: not-allowed;
+} 

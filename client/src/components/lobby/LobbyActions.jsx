@@ -1,12 +1,21 @@
+import '../../styles/LobbyComponents.css';
+
 function LobbyActions({ isHost, canStart, isReady, onToggleReady, onStartGame }) {
   return (
-    <div>
-      <button onClick={onToggleReady}>
+    <div className="lobby-actions">
+      <button 
+        onClick={onToggleReady}
+        className={`action-btn ready-btn ${isReady ? 'ready' : 'not-ready'}`}
+      >
         {isReady ? 'Ready' : 'Not Ready'}
       </button>
 
       {isHost && (
-        <button onClick={onStartGame} disabled={!canStart}>
+        <button 
+          onClick={onStartGame} 
+          disabled={!canStart}
+          className="action-btn start-btn"
+        >
           Start Game
         </button>
       )}

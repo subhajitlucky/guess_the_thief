@@ -69,25 +69,18 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <div className="app-container">
           <Navbar username={username} isConnected={isConnected} />
           
-          <main style={{ flex: 1 }}>
+          <main className="main-content">
             <Routes>
               <Route 
                 path="/" 
                 element={
                   !isConnected ? (
-                    <div style={{ 
-                      display: 'flex', 
-                      justifyContent: 'center', 
-                      alignItems: 'center', 
-                      minHeight: '80vh',
-                      flexDirection: 'column',
-                      gap: '1rem'
-                    }}>
-                      <div className="animate-pulse" style={{ fontSize: '2rem' }}>🔗</div>
-                      <div style={{ color: 'var(--purple-200)' }}>Connecting to server...</div>
+                    <div className="connecting-container">
+                      <div className="connecting-icon">🔗</div>
+                      <div className="connecting-text">Connecting to server...</div>
                     </div>
                   ) : !hasUsername ? (
                     <HeroPage 

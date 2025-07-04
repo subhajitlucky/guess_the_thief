@@ -1,14 +1,33 @@
+import { useState } from 'react';
+
 function QueenThiefView({ onSendEmoji }) {
-  const emojis = ['😊', '😂', '🤔', '😢', '😠', '😱'];
-  
+  const emojis = ['👍', '👎', '😂', '🤔', '🤫', '👀', '🤥', '😇'];
+  const [selectedEmoji, setSelectedEmoji] = useState(null);
+
+  const handleSelect = (emoji) => {
+    console.log('🚀 Sending emoji:', emoji);
+    setSelectedEmoji(emoji);
+    onSendEmoji(emoji);
+    // Maybe add a cooldown later
+  };
+
   return (
-    <div>
-      <h4>Royal Court</h4>
-      <p>You are a subject in the court. The Police is watching.</p>
-      <p>Send an emoji to confuse them:</p>
-      {emojis.map(emoji => (
-        <button key={emoji} onClick={() => onSendEmoji(emoji)}>{emoji}</button>
-      ))}
+    <div className="game-view">
+      <h3 className="view-title">Send an Emoji</h3>
+      <p className="view-description">
+        The Police is investigating. Send an emoji to the feed to help (or confuse) them.
+      </p>
+      <div className="emoji-picker">
+        {emojis.map(emoji => (
+          <button 
+            key={emoji}
+            onClick={() => handleSelect(emoji)}
+            className={`emoji-btn ${selectedEmoji === emoji ? 'selected' : ''}`}
+          >
+            {emoji}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-// import '../styles/RoomLobby.css'
+import '../styles/RoomLobby.css'
 
 // Import the new lobby components
 import LobbyHeader from '../components/lobby/LobbyHeader'
@@ -38,7 +38,7 @@ function RoomLobby({ socket, username }) {
     // Listen for game start
     socket.on('game-started', (data) => {
       console.log('Game started!')
-      navigate('/game')
+      navigate('/game', { state: { roomCode } })
     })
 
     socket.on('lobby-error', (data) => {
@@ -67,7 +67,6 @@ function RoomLobby({ socket, username }) {
 
   const handleCopyRoomCode = () => {
     navigator.clipboard.writeText(roomCode)
-    alert('Room code copied!')
   }
 
   const handleLeaveRoom = () => {
@@ -76,15 +75,15 @@ function RoomLobby({ socket, username }) {
   }
 
   return (
-    <div>
+    <div className="room-lobby">
       <LobbyHeader 
         roomCode={roomCode}
         onCopy={handleCopyRoomCode}
         onLeave={handleLeaveRoom}
       />
-      <hr />
+      <hr className="lobby-divider" />
       <PlayerList players={players} currentUser={username} />
-      <hr />
+      <hr className="lobby-divider" />
       <LobbyActions 
         isHost={isHost}
         canStart={canStart}
@@ -92,8 +91,8 @@ function RoomLobby({ socket, username }) {
         onToggleReady={handleToggleReady}
         onStartGame={handleStartGame}
       />
-      <hr />
-      <div>
+      <hr className="lobby-divider" />
+      <div className="lobby-info">
         <p>💡 Share the room code with your friends to invite them!</p>
         <p>🎯 Game will start when all 4 players are ready</p>
       </div>

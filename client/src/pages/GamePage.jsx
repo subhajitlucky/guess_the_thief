@@ -1,70 +1,122 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-// import '../styles/GamePage.css'; // CSS removed
+import { useNavigate, useLocation } from 'react-router-dom';
+import '../styles/GamePage.css';
+import '../styles/GameComponents.css';
 
 // Import the new components
 import RoleSpinner from '../components/game/RoleSpinner';
 import RoleCard from '../components/game/RoleCard';
 import KingView from '../components/game/KingView';
 import PoliceView from '../components/game/PoliceView';
+import PoliceResponseView from '../components/game/PoliceResponseView';
 import QueenThiefView from '../components/game/QueenThiefView';
-import EmojiFeed from '../components/game/EmojiFeed';
 import RoundOverView from '../components/game/RoundOverView';
 import GameOverView from '../components/game/GameOverView';
+import PublicChat from '../components/game/PublicChat';
+import InvestigationTimer from '../components/game/InvestigationTimer';
+import ScoreBoard from '../components/game/ScoreBoard';
 
 function GamePage({ socket, username }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [myRole, setMyRole] = useState('');
   const [players, setPlayers] = useState([]);
   const [gameState, setGameState] = useState(null);
   const [gameMessage, setGameMessage] = useState('');
-  const [isSpinning, setIsSpinning] = useState(true); // Start with spinner
-  const [roomCode, setRoomCode] = useState('');
-  const [emojiFeed, setEmojiFeed] = useState([]);
+  const [roomCode, setRoomCode] = useState(location.state?.roomCode || '');
   const [finalScores, setFinalScores] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
 
   useEffect(() => {
-    // Listen for game start with role assignment
+    console.log('GamePage: Setting up socket listeners for user:', username, 'in room:', roomCode);
+    
+    // Join the room if we have a room code
+    if (roomCode) {
+      socket.emit('join-room-for-game', { roomCode });
+    }
+
     socket.on('game-started', (data) => {
-      console.log(`Game started! My role is: ${data.yourRole}`);
+      console.log('🎮 Game started event received:', data);
+      console.log(`🎭 My role is: ${data.yourRole} for Round ${data.gameState?.round}`);
+      
+      if (!data.yourRole) {
+        console.error('❌ No role received in game-started event!');
+        return;
+      }
+      
+      // Clear previous state for new round
+      setMyRole('');
+      
+      // Set new round data
       setMyRole(data.yourRole);
       setPlayers(data.allPlayers);
       setGameState(data.gameState);
       setGameMessage(data.message);
-      setRoomCode(data.roomCode || data.gameState.roomCode || '');
-      setFinalScores(null); // Reset final scores
+      setFinalScores(null);
       
-      setTimeout(() => setIsSpinning(false), 3000); // 3-second spin
+      // Clear chat only for Round 1
+      if (data.gameState && data.gameState.round === 1) {
+        setChatMessages([]);
+      }
+      
+      console.log(`✅ Round ${data.gameState?.round} role set successfully: ${data.yourRole}`);
+      console.log(`🎯 Game state phase: ${data.gameState?.phase}`);
     });
 
-    // Listen for other game events (to be added later)
     socket.on('game-update', (data) => {
-      console.log('Game update received:', data);
-      setGameState(data.gameState);
+      console.log('🔄 Game update received:', data);
+      if (data.gameState) setGameState(data.gameState);
       if (data.message) setGameMessage(data.message);
     });
 
     socket.on('emoji-broadcast', (data) => {
-        setEmojiFeed(prevFeed => [...prevFeed, data]);
+        const chatEntry = {
+          from: data.from,
+          text: data.emoji,
+          timestamp: new Date().toLocaleTimeString(),
+          type: 'emoji'
+        };
+        setChatMessages(prev => [...prev, chatEntry]);
+    });
+
+    socket.on('chat-message', (data) => {
+        console.log('💬 Chat message received:', data);
+        setChatMessages(prevMessages => [...prevMessages, data]);
     });
 
     socket.on('game-over', (data) => {
         setGameMessage(data.message);
         setFinalScores(data.scores);
-        setGameState(null); // End the game state
+        setGameState(null);
     });
 
-    // Cleanup listeners
+    socket.on('game-error', (error) => {
+        console.error('🚨 Game error:', error);
+        alert('Game Error: ' + error.message);
+    });
+
+    socket.on('error', (error) => {
+        console.error('🚨 Socket error:', error);
+    });
+
     return () => {
+      console.log('🧹 Cleaning up GamePage socket listeners');
       socket.off('game-started');
       socket.off('game-update');
       socket.off('emoji-broadcast');
+      socket.off('chat-message');
       socket.off('game-over');
+      socket.off('game-error');
+      socket.off('error');
     };
-  }, [socket]);
+  }, [socket, username, roomCode]);
 
   const handleKingAction = () => {
     socket.emit('king-reveals-police', { roomCode });
+  };
+
+  const handlePoliceRespond = () => {
+    socket.emit('police-responds', { roomCode });
   };
 
   const handlePoliceGuess = (suspectUsername) => {
@@ -76,10 +128,10 @@ function GamePage({ socket, username }) {
   };
 
   const handleLeaveGame = () => {
+      socket.emit('leave-game', { roomCode });
       navigate('/');
   };
 
-  // Helper function to get role description
   const getRoleDescription = (role) => {
     const descriptions = {
       'King': 'Identify the Police and oversee the realm.',
@@ -90,7 +142,6 @@ function GamePage({ socket, username }) {
     return descriptions[role] || 'Unknown role';
   };
 
-  // Helper function to get role emoji
   const getRoleEmoji = (role) => {
     const emojis = {
       'King': '👑',
@@ -101,34 +152,53 @@ function GamePage({ socket, username }) {
     return emojis[role] || '❓';
   };
 
-  // The "brains" function that decides which component to show
   const renderCurrentPhase = () => {
     if (finalScores) {
         return <GameOverView message={gameMessage} scores={finalScores} onLeave={handleLeaveGame} />;
     }
 
-    if (!gameState) return <p>Waiting for game to start...</p>;
-    const { phase } = gameState;
+    if (!gameState) {
+      return <p>Waiting for game to start...</p>;
+    }
 
-    if (isSpinning && phase === 'role-spinning') {
+    if (gameState.phase === 'role-spinning') {
         return <RoleSpinner />;
     }
     
-    switch(phase) {
+    switch(gameState.phase) {
         case 'king-turn':
             if (myRole === 'King') return <KingView onKingAction={handleKingAction} />;
             return <p>Waiting for the King to make a move...</p>;
 
+        case 'waiting-police-response':
+            if (myRole === 'Police') return <PoliceResponseView onPoliceRespond={handlePoliceRespond} />;
+            return <p>Waiting for the Police to respond...</p>;
+
         case 'police-investigation':
             if (myRole === 'Police') {
-                const kingUsername = players.find(p => p.role === 'King')?.username;
-                const suspects = players.filter(p => p.username !== username && p.username !== kingUsername);
-                return <PoliceView phase={phase} suspects={suspects} onGuess={handlePoliceGuess} />;
+                // Police can guess any player except themselves
+                const suspects = players.filter(p => p.username !== username);
+                return (
+                    <div>
+                        <InvestigationTimer startTime={gameState.investigationStartTime} duration={60} />
+                        <PoliceView phase={gameState.phase} suspects={suspects} onGuess={handlePoliceGuess} />
+                    </div>
+                );
             }
             if (myRole === 'Queen' || myRole === 'Thief') {
-                return <QueenThiefView onSendEmoji={handleSendEmoji} />;
+                return (
+                    <div>
+                        <InvestigationTimer startTime={gameState.investigationStartTime} duration={60} />
+                        <QueenThiefView onSendEmoji={handleSendEmoji} />
+                    </div>
+                );
             }
-            return <p>The Police is investigating...</p>;
+            return (
+                <div>
+                    <InvestigationTimer startTime={gameState.investigationStartTime} duration={60} />
+                    <p>The Police is investigating...</p>
+                </div>
+            );
         
         case 'round-over':
             return <RoundOverView message={gameMessage} scores={gameState.scores} />;
@@ -143,47 +213,38 @@ function GamePage({ socket, username }) {
       <div className="game-header">
         <h1>🕵️ Guess the Thief</h1>
         <h2>Game in Progress</h2>
+        <button className="leave-btn" onClick={handleLeaveGame}>Leave Game</button>
         {gameState && (
-          <div className="game-info">
-            <span>Round {gameState.round}</span> • 
-            <span>Phase: {gameState.phase}</span>
+          <div className="stats-row">
+            <div className="game-info">
+              <span>Round {gameState.round}</span>
+              <span>Phase: {gameState.phase}</span>
+            </div>
+            <ScoreBoard scores={gameState.scores} />
           </div>
         )}
       </div>
 
-      {/* Role Display - This is private to each player */}
-      {isSpinning && (
-        <div className="spinner-container">
-          <div className="spinner"></div>
-          <p>Spinning for your role...</p>
-        </div>
+      {myRole && gameState && gameState.phase !== 'role-spinning' && (
+        <RoleCard 
+          role={myRole} 
+          emoji={getRoleEmoji(myRole)}
+          description={getRoleDescription(myRole)}
+        />
       )}
 
-      {!isSpinning && myRole && (
-        <div className="role-section">
-          <div className="role-card">
-            <div className="role-header">
-              <span className="role-emoji">{getRoleEmoji(myRole)}</span>
-              <h3>Your Role: {myRole}</h3>
-            </div>
-            <p className="role-description">
-              {getRoleDescription(myRole)}
-            </p>
-            <div className="role-warning">
-              🤫 Keep your role secret from other players!
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Game Message */}
       {gameMessage && (
         <div className="game-message">
           <p>{gameMessage}</p>
         </div>
       )}
 
-      {/* Players List (without roles) */}
+      <PublicChat messages={chatMessages} />
+
+      <div className="game-content">
+        {renderCurrentPhase()}
+      </div>
+
       <div className="players-section">
         <h3>Players in Game</h3>
         <div className="players-grid">
@@ -192,25 +253,13 @@ function GamePage({ socket, username }) {
               <span className="player-name">
                 {player.username}
                 {player.isHost && ' 👑'}
-                {player.username === username && ' (You)'}
               </span>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Game Phase Content */}
-      <div className="game-content">
-        {renderCurrentPhase()}
-      </div>
-
-      {/* Live Emoji Feed */}
-      <div className="emoji-feed">
-        <h3>Live Emoji Feed:</h3>
-        <EmojiFeed feed={emojiFeed} />
-      </div>
     </div>
-  )
+  );
 }
 
-export default GamePage 
+export default GamePage; 

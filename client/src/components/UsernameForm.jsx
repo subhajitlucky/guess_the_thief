@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-// import '../styles/UsernameForm.css'
+import '../styles/UsernameForm.css'
 
 function UsernameForm({ onUsernameSubmit, isSubmitting, setIsSubmitting }) {
   const [username, setUsername] = useState('')
@@ -29,9 +29,10 @@ function UsernameForm({ onUsernameSubmit, isSubmitting, setIsSubmitting }) {
           onChange={(e) => setUsername(e.target.value)}
           disabled={isSubmitting}
           maxLength={20}
+          className="username-input"
         />
         
-        <button type="submit" disabled={isSubmitting || !username.trim()}>
+        <button type="submit" disabled={isSubmitting || !username.trim()} className="submit-btn">
           {isSubmitting ? 'Setting...' : 'Set Username'}
         </button>
       </form>

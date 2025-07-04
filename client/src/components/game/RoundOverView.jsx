@@ -3,18 +3,19 @@ function RoundOverView({ message, scores }) {
   const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
 
   return (
-    <div>
-      <h4>Round Over!</h4>
-      <p>{message}</p>
-      <h5>Leaderboard:</h5>
-      <ol>
+    <div className="summary-view">
+      <h2 className="summary-title">Round Over</h2>
+      <p className="summary-message">{message}</p>
+      
+      <h3>Scores This Round:</h3>
+      <ul className="scores-list">
         {sortedScores.map(([username, score]) => (
-          <li key={username}>
-            {username}: {score} points
+          <li key={username} className="score-item">
+            <span>{username}</span>
+            <span>+{score}</span>
           </li>
         ))}
-      </ol>
-      <p>Next round starting soon...</p>
+      </ul>
     </div>
   );
 }

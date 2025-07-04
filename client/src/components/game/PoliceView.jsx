@@ -1,24 +1,25 @@
 function PoliceView({ phase, suspects, onGuess }) {
-  if (phase === 'king-turn') {
-    return <p>Waiting for the King's command...</p>;
-  }
+  if (phase !== 'police-investigation') return null;
 
-  if (phase === 'police-investigation') {
-    return (
-      <div>
-        <h4>Police Investigation</h4>
-        <p>"I will find the thief!"</p>
-        <p>Choose your suspect from the remaining players:</p>
-        {suspects.map(p => (
-          <button key={p.username} onClick={() => onGuess(p.username)}>
-            {p.username}
+  return (
+    <div className="game-view">
+      <h3 className="view-title">Police Investigation</h3>
+      <p className="view-description">
+        You are the Police. One of these players is the Thief. Make your guess!
+      </p>
+      <div className="suspects-grid">
+        {suspects.map((suspect) => (
+          <button 
+            key={suspect.username} 
+            onClick={() => onGuess(suspect.username)}
+            className="action-btn suspect-btn"
+          >
+            {suspect.username}
           </button>
         ))}
       </div>
-    );
-  }
-
-  return <p>Awaiting orders...</p>;
+    </div>
+  );
 }
 
 export default PoliceView; 

@@ -1,10 +1,12 @@
 function KingView({ onKingAction }) {
   return (
-    <div>
-      <h4>King's Court</h4>
-      <p>You are the King. It is your duty to command the Police.</p>
-      <button onClick={onKingAction}>
-        "Who is the Police here? Find the thief in 1 minute!"
+    <div className="game-view">
+      <h3 className="view-title">King's Turn</h3>
+      <p className="view-description">
+        You are the King! Send a message to reveal the Police to everyone.
+      </p>
+      <button onClick={onKingAction} className="action-btn">
+        💬 "Who is the Police here? Find the thief in 1 minute!"
       </button>
     </div>
   );

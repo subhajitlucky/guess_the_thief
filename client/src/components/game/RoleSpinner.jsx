@@ -1,8 +1,8 @@
 function RoleSpinner() {
   return (
-    <div>
-      <h2>Spinning for your role...</h2>
-      <p>(This is a placeholder for the spinning animation)</p>
+    <div className="spinner-container">
+      <div className="spinner"></div>
+      <p>Spinning for your role...</p>
     </div>
   );
 }
