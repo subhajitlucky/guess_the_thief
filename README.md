@@ -1,20 +1,20 @@
 # 🕵️ Guess the Thief - Multiplayer Social Deduction
 
-![Live Demo](https://img.shields.io/badge/Live_Demo-Coming_Soon-brightgreen?style=for-the-badge&logo=vercel)
+![Live Demo](https://img.shields.io/badge/Live_Demo-Ready_For_Deploy-brightgreen?style=for-the-badge&logo=vercel)
 ![Build Status](https://img.shields.io/badge/Build-Passing-success?style=for-the-badge&logo=github-actions)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&logo=opensourceinitiative)
 
 ## 📊 **Project Progress Dashboard**
 
-![Progress](https://img.shields.io/badge/Progress-43%25-yellow?style=for-the-badge&logo=github)
-![Phase](https://img.shields.io/badge/Current_Phase-Role_Assignment-blue?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Progress-85%25-brightgreen?style=for-the-badge&logo=github)
+![Phase](https://img.shields.io/badge/Current_Phase-Ready_For_Deployment-green?style=for-the-badge)
 ![Tech Stack](https://img.shields.io/badge/Tech_Stack-React%20%2B%20Node.js-61DAFB?style=for-the-badge&logo=react)
 
 ### 🚀 **Development Metrics**
 
 | **📈 Progress** | **🔥 Streak** | **🎯 Features** | **🧪 Tests** |
 |-----------------|---------------|-----------------|--------------|
-| 43% | 16 days | 10/17 | 0/12 |
+| 85% | 20 days | 16/17 | 0/12 |
 
 ### 📋 **Phase Breakdown**
 
@@ -22,13 +22,13 @@
 |-------|--------|----------|----------|---------|
 | **🏗️ Foundation** | ✅ Complete | `██████████` 100% | 4/4 | 15% |
 | **🚪 Lobby System** | ✅ Complete | `██████████` 100% | 5/5 | 25% |
-| **🎲 Role Assignment** | 🚧 In Progress | `░░░░░░░░░░` 0% | 0/2 | 20% |
-| **🕵️ Game Mechanics** | 📋 Planned | `░░░░░░░░░░` 0% | 0/3 | 25% |
-| **🔄 Game Loop** | 📋 Planned | `░░░░░░░░░░` 0% | 0/1 | 10% |
+| **🎲 Role Assignment** | ✅ Complete | `██████████` 100% | 2/2 | 20% |
+| **🕵️ Game Mechanics** | ✅ Complete | `██████████` 100% | 3/3 | 25% |
+| **🔄 Game Loop** | ✅ Complete | `██████████` 100% | 1/1 | 10% |
 | **🎨 UI Polish** | ✅ Complete | `██████████` 100% | 1/1 | 3% |
 | **🚀 Deployment** | 📋 Planned | `░░░░░░░░░░` 0% | 0/1 | 2% |
 
-**Overall Completion:** `████████▓▓░░░░░░░░░░` **43%**
+**Overall Completion:** `█████████████████▓░░` **85%**
 
 ---
 
@@ -104,12 +104,15 @@ npm run dev
 | `join-room` | Client → Server | Join existing room | `{ roomCode, username }` | ✅ |
 | `toggle-ready` | Client → Server | Toggle ready state | `{ roomCode, username }` | ✅ |
 | `start-game` | Client → Server | Start game (host) | `{ roomCode }` | ✅ |
-| `spin-role` | Client → Server | Get role assignment | `{ roomCode, username }` | 🚧 |
-| `submit-guess` | Client → Server | Police guess | `{ roomCode, guess }` | 📋 |
+| `spin-role` | Client → Server | Get role assignment | `{ roomCode, username }` | ✅ |
+| `king-reveals-police` | Client → Server | King action | `{ roomCode }` | ✅ |
+| `police-guess-thief` | Client → Server | Police guess | `{ roomCode, guess }` | ✅ |
+| `send-emoji` | Client → Server | Send emoji | `{ roomCode, emoji, from }` | ✅ |
 | `lobby-update` | Server → Client | Real-time lobby | `{ players, host, canStart }` | ✅ |
 | `game-started` | Server → Client | Game start notification | `{ roomCode, players }` | ✅ |
-| `role-assigned` | Server → Client | Private role reveal | `{ role, description }` | 🚧 |
-| `game-result` | Server → Client | Game outcome | `{ winner, scores }` | 📋 |
+| `role-assigned` | Server → Client | Private role reveal | `{ role, description }` | ✅ |
+| `game-update` | Server → Client | Game state changes | `{ gameState, message }` | ✅ |
+| `game-result` | Server → Client | Game outcome | `{ winner, scores }` | ✅ |
 
 ---
 
@@ -119,13 +122,22 @@ npm run dev
 guess_the_thief/
 ├── 🖥️ server/
 │   ├── index.js            # Socket.IO server
+│   ├── handlers/           # Modular event handlers
+│   │   ├── connection.js   # User connection handling
+│   │   ├── room.js         # Room creation/joining
+│   │   ├── lobby.js        # Lobby management
+│   │   └── game.js         # Game mechanics
 │   └── package.json        # Server dependencies
 ├── 🎨 client/
 │   ├── src/
 │   │   ├── App.jsx         # Main router
 │   │   ├── components/     # Reusable components
+│   │   │   ├── game/       # Game-specific components
+│   │   │   ├── lobby/      # Lobby components
+│   │   │   ├── layout/     # Layout components
 │   │   │   └── UsernameForm.jsx
 │   │   ├── pages/          # Route-based pages
+│   │   │   ├── HeroPage.jsx       # Landing page
 │   │   │   ├── RoomOptions.jsx    # Home page
 │   │   │   ├── CreateRoom.jsx     # Room creation
 │   │   │   ├── JoinRoom.jsx       # Room joining
@@ -139,7 +151,6 @@ guess_the_thief/
 ├── 📁 .github/workflows/
 │   └── progress-tracker.yml # CI/CD pipeline
 ├── 📋 ROADMAP.md          # Development plan
-├── 🛠️ DEVELOPMENT.md      # Technical guide
 └── 📄 README.md           # This file
 ```
 
@@ -197,7 +208,7 @@ The project automatically tracks progress on every push via GitHub Actions:
 
 | 🎯 Current Focus | 📅 This Week | 🔮 Next Sprint |
 |------------------|--------------|----------------|
-| • Role assignment component<br>• Spinning animation<br>• Backend role logic | • King phase implementation<br>• Police phase UI<br>• Game result display | • Scoring system<br>• Multiple rounds<br>• Sound effects |
+| • Production deployment<br>• Environment setup<br>• CORS configuration | • Live demo deployment<br>• Performance optimization<br>• Bug fixes | • Testing framework<br>• Sound effects<br>• Mobile optimization |
 
 ---
 
