@@ -51,10 +51,25 @@
   --transition-fast: all 0.2s ease-in-out;
   --transition-normal: all 0.3s ease-in-out;
   --transition-slow: all 0.5s ease-in-out;
+  
+  /* Mobile-first responsive spacing */
+  --spacing-xs: 0.25rem;  /* 4px */
+  --spacing-sm: 0.5rem;   /* 8px */
+  --spacing-md: 1rem;     /* 16px */
+  --spacing-lg: 1.5rem;   /* 24px */
+  --spacing-xl: 2rem;     /* 32px */
+  --spacing-2xl: 3rem;    /* 48px */
+  --spacing-3xl: 4rem;    /* 64px */
+  
+  /* Touch-friendly sizes */
+  --touch-target: 44px;   /* Minimum touch target size */
+  --touch-spacing: 8px;   /* Minimum spacing between touch targets */
 }
 
 html {
   scroll-behavior: smooth;
+  /* Prevent zoom on input focus in iOS Safari */
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -63,9 +78,11 @@ body {
   color: var(--slate-100);
   line-height: 1.6;
   overflow-x: hidden;
+  /* Improve touch scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Typography */
+/* Typography - Mobile First */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
@@ -73,7 +90,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 3.5rem;
+  font-size: 2rem;  /* Mobile first: smaller */
   background: var(--gradient-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -81,26 +98,28 @@ h1 {
 }
 
 h2 {
-  font-size: 2.5rem;
+  font-size: 1.5rem;  /* Mobile first: smaller */
   color: white;
 }
 
 h3 {
-  font-size: 1.875rem;
+  font-size: 1.25rem;  /* Mobile first: smaller */
   color: white;
 }
 
 h4 {
-  font-size: 1.5rem;
+  font-size: 1.125rem;  /* Mobile first: smaller */
   color: white;
 }
 
 p {
   color: var(--purple-200);
   margin-bottom: 1rem;
+  font-size: 0.875rem;  /* Mobile first: smaller */
+  line-height: 1.5;
 }
 
-/* Button Styles */
+/* Button Styles - Mobile First with Touch Targets */
 .btn {
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
@@ -111,9 +130,13 @@ p {
   transition: var(--transition-normal);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
   box-shadow: var(--shadow-lg);
+  min-height: var(--touch-target);  /* Touch-friendly */
+  min-width: var(--touch-target);
+  text-align: center;
 }
 
 .btn:hover {
@@ -154,19 +177,33 @@ p {
   box-shadow: none;
 }
 
-/* Card Styles */
+/* Small button variant for mobile */
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  min-height: 36px;
+}
+
+/* Large button variant for important actions */
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  min-height: 48px;
+}
+
+/* Card Styles - Mobile First */
 .card {
   background: rgba(30, 41, 59, 0.5);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(139, 92, 246, 0.2);
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: 1rem;  /* Mobile first: smaller padding */
   transition: var(--transition-normal);
 }
 
 .card:hover {
   border-color: rgba(139, 92, 246, 0.4);
-  transform: translateY(-5px);
+  transform: translateY(-2px);  /* Smaller transform for mobile */
   box-shadow: var(--shadow-xl);
 }
 
@@ -177,7 +214,7 @@ p {
   border-radius: 1rem;
 }
 
-/* Input Styles */
+/* Input Styles - Mobile First with Touch Optimization */
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -185,8 +222,9 @@ p {
   border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: 0.5rem;
   color: white;
-  font-size: 1rem;
+  font-size: 1rem;  /* Prevent zoom on iOS */
   transition: var(--transition-fast);
+  min-height: var(--touch-target);
 }
 
 .input::placeholder {
@@ -284,11 +322,11 @@ p {
   animation: glow 2s ease-in-out infinite;
 }
 
-/* Utility Classes */
+/* Utility Classes - Mobile First */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.75rem;  /* Mobile first: smaller padding */
 }
 
 .text-center {
@@ -315,6 +353,10 @@ p {
   justify-content: space-between;
 }
 
+.gap-2 {
+  gap: 0.5rem;
+}
+
 .gap-4 {
   gap: 1rem;
 }
@@ -332,15 +374,19 @@ p {
 }
 
 .grid-cols-2 {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);  /* Mobile first: single column */
 }
 
 .grid-cols-3 {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);  /* Mobile first: single column */
 }
 
 .grid-cols-4 {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(1, 1fr);  /* Mobile first: single column */
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 
 .mb-4 {
@@ -351,12 +397,21 @@ p {
   margin-bottom: 2rem;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .py-4 {
@@ -372,6 +427,11 @@ p {
 .py-16 {
   padding-top: 4rem;
   padding-bottom: 4rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .px-4 {
@@ -449,8 +509,90 @@ p {
   background: var(--red-400);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Mobile-specific utilities */
+.mobile-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}
+
+.mobile-tap-highlight {
+  -webkit-tap-highlight-color: rgba(139, 92, 246, 0.3);
+}
+
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Responsive Design - Mobile First Approach */
+
+/* Telegram Mini App (320px-480px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+  
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+  }
+  
+  .btn {
+    width: 100%;  /* Full width buttons on very small screens */
+    margin-bottom: var(--touch-spacing);
+  }
+  
+  .btn-group .btn {
+    width: auto;  /* Override for button groups */
+  }
+  
+  .card {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Hide less important content on very small screens */
+  .hide-on-mobile {
+    display: none;
+  }
+  
+  /* Stack everything vertically */
+  .flex-mobile-col {
+    flex-direction: column;
+  }
+  
+  /* Reduce gap on mobile */
+  .gap-mobile-sm {
+    gap: 0.5rem;
+  }
+}
+
+/* Small Mobile (481px-640px) */
+@media (min-width: 481px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .btn {
+    width: auto;  /* Allow auto width */
+  }
+}
+
+/* Tablet Portrait (641px-768px) */
+@media (min-width: 641px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
   h1 {
     font-size: 2.5rem;
   }
@@ -459,16 +601,16 @@ p {
     font-size: 2rem;
   }
   
-  .container {
-    padding: 0 0.5rem;
+  p {
+    font-size: 1rem;
   }
   
-  .grid-cols-2 {
-    grid-template-columns: 1fr;
+  .card {
+    padding: 1.5rem;
   }
   
   .grid-cols-3 {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
   
   .grid-cols-4 {
@@ -476,8 +618,79 @@ p {
   }
 }
 
-@media (max-width: 640px) {
+/* Tablet Landscape (769px-1024px) */
+@media (min-width: 769px) {
+  h1 {
+    font-size: 3rem;
+  }
+  
+  h2 {
+    font-size: 2.25rem;
+  }
+  
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
   .grid-cols-4 {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Desktop (1025px+) */
+@media (min-width: 1025px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  h1 {
+    font-size: 3.5rem;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+  }
+  
+  .card {
+    padding: 2rem;
+  }
+  
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  /* Hover effects only on desktop */
+  .card:hover {
+    transform: translateY(-5px);
+  }
+}
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Optimize for retina displays */
+  .btn {
+    border-width: 0.5px;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobile-landscape-adjust {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 } 

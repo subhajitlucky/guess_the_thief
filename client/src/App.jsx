@@ -12,8 +12,12 @@ import RoomLobby from './pages/RoomLobby'
 import GamePage from './pages/GamePage'
 import './styles/global.css'
 
-// Connect to our server
-const socket = io('http://localhost:4000')
+// Use URL from env during dev; default to local backend if not supplied
+// const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4000'
+// const socket = io(SOCKET_URL)
+
+// Connect to the same server that serves this page (via proxy)
+const socket = io()
 
 function App() {
   const [isConnected, setIsConnected] = useState(false)

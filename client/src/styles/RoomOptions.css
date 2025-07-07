@@ -1,46 +1,53 @@
-/* RoomOptions.css */
+/* RoomOptions.css - Mobile First Responsive Design */
 
 .room-options {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 80px); /* Adjust for navbar height */
-  padding: 2rem;
-  background-color: #1e1b4b; /* A deep purple, but not a gradient */
+  min-height: calc(100vh - 3.5rem); /* Mobile first: adjust for smaller navbar */
+  padding: 1rem;  /* Mobile first: smaller padding */
+  background-color: #1e1b4b;
   color: #e0e7ff;
+  /* Improve mobile scrolling */
+  -webkit-overflow-scrolling: touch;
 }
 
 .welcome-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;  /* Mobile first: smaller margin */
+  max-width: 100%;
 }
 
 .welcome-header h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;  /* Mobile first: smaller */
   font-weight: 700;
   color: #c7d2fe;
   margin-bottom: 0.5rem;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .welcome-header h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;  /* Mobile first: smaller */
   font-weight: 600;
   color: #ffffff;
   margin-bottom: 0.5rem;
 }
 
 .welcome-header p {
-  font-size: 1.125rem;
+  font-size: 1rem;  /* Mobile first: smaller */
   color: #a5b4fc;
 }
 
 .options-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;  /* Mobile first: smaller gap */
   width: 100%;
-  max-width: 400px;
+  max-width: 300px;  /* Mobile first: smaller max-width */
 }
 
 .option-btn {
@@ -48,37 +55,306 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1.25rem;  /* Mobile first: smaller padding */
   border: 1px solid #4f46e5;
   border-radius: 0.75rem;
   background-color: rgba(79, 70, 229, 0.2);
   color: #e0e7ff;
-  font-size: 1.5rem;
+  font-size: 1.25rem;  /* Mobile first: smaller */
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: all 0.3s ease;
   text-align: center;
+  text-decoration: none;
+  min-height: var(--touch-target);
+  /* Add gradient background for visual appeal */
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(139, 92, 246, 0.2));
+  position: relative;
+  overflow: hidden;
+}
+
+.option-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.option-btn:hover::before {
+  left: 100%;
 }
 
 .option-btn:hover {
-  background-color: rgba(79, 70, 229, 0.4);
-  transform: translateY(-5px);
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.4), rgba(139, 92, 246, 0.4));
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
+  border-color: #a78bfa;
+}
+
+.option-btn:active {
+  transform: translateY(-1px);
 }
 
 .option-btn span {
-  font-size: 0.875rem;
+  font-size: 0.8rem;  /* Mobile first: smaller */
   font-weight: 400;
   margin-top: 0.5rem;
   color: #c7d2fe;
+  opacity: 0.9;
 }
 
-@media (min-width: 768px) {
+/* Add emoji styling */
+.option-btn::after {
+  font-size: 2rem;  /* Mobile first: smaller emoji */
+  margin-bottom: 0.5rem;
+}
+
+.option-btn.create-btn::after {
+  content: '🏠';
+}
+
+.option-btn.join-btn::after {
+  content: '🚪';
+}
+
+/* Telegram Mini App Optimizations */
+@media (max-width: 480px) {
+  .room-options {
+    padding: 0.75rem;
+    min-height: calc(100vh - 3rem); /* Adjust for mini app navbar */
+  }
+  
+  .welcome-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .welcome-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .welcome-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .welcome-header p {
+    font-size: 0.875rem;
+  }
+  
+  .options-container {
+    max-width: 280px;
+    gap: 0.75rem;
+  }
+  
+  .option-btn {
+    padding: 1rem;
+    font-size: 1.125rem;
+    min-height: 80px;  /* Larger touch target */
+  }
+  
+  .option-btn span {
+    font-size: 0.75rem;
+  }
+  
+  .option-btn::after {
+    font-size: 1.75rem;
+  }
+}
+
+/* Small Mobile */
+@media (min-width: 481px) and (max-width: 640px) {
+  .room-options {
+    padding: 1rem;
+  }
+  
+  .options-container {
+    max-width: 350px;
+  }
+  
+  .option-btn {
+    padding: 1.5rem;
+  }
+}
+
+/* Tablet Portrait */
+@media (min-width: 641px) {
+  .room-options {
+    padding: 2rem;
+    min-height: calc(100vh - 4rem);
+  }
+  
+  .welcome-header {
+    margin-bottom: 2.5rem;
+  }
+  
+  .welcome-header h1 {
+    font-size: 2.25rem;
+  }
+  
+  .welcome-header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .welcome-header p {
+    font-size: 1.125rem;
+  }
+  
+  .options-container {
+    max-width: 400px;
+    gap: 1.25rem;
+  }
+  
+  .option-btn {
+    padding: 1.5rem;
+    font-size: 1.375rem;
+  }
+  
+  .option-btn span {
+    font-size: 0.875rem;
+  }
+  
+  .option-btn::after {
+    font-size: 2.25rem;
+  }
+}
+
+/* Tablet Landscape and Desktop */
+@media (min-width: 769px) {
+  .room-options {
+    min-height: calc(100vh - 4rem);
+  }
+  
+  .welcome-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .welcome-header h2 {
+    font-size: 2rem;
+  }
+  
   .options-container {
     flex-direction: row;
-    max-width: 800px;
+    max-width: 700px;
+    gap: 2rem;
   }
+  
   .option-btn {
-    flex-grow: 1;
-    flex-basis: 0;
+    flex: 1;
+    padding: 2rem;
+    font-size: 1.5rem;
+    min-height: 160px;
   }
+  
+  .option-btn span {
+    font-size: 1rem;
+  }
+  
+  .option-btn::after {
+    font-size: 2.5rem;
+  }
+  
+  /* Enhanced hover effects on desktop */
+  .option-btn:hover {
+    transform: translateY(-5px) scale(1.02);
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1025px) {
+  .welcome-header {
+    margin-bottom: 3rem;
+  }
+  
+  .options-container {
+    max-width: 800px;
+    gap: 2.5rem;
+  }
+  
+  .option-btn {
+    padding: 2.5rem;
+    font-size: 1.75rem;
+    min-height: 200px;
+  }
+  
+  .option-btn::after {
+    font-size: 3rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .room-options {
+    padding: 0.5rem;
+    min-height: calc(100vh - 2.5rem);
+  }
+  
+  .welcome-header {
+    margin-bottom: 1rem;
+  }
+  
+  .welcome-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .welcome-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .welcome-header p {
+    font-size: 0.875rem;
+  }
+  
+  .options-container {
+    flex-direction: row;
+    max-width: 500px;
+    gap: 1rem;
+  }
+  
+  .option-btn {
+    padding: 1rem;
+    font-size: 1rem;
+    min-height: 60px;
+  }
+  
+  .option-btn::after {
+    font-size: 1.5rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .option-btn,
+  .option-btn::before {
+    transition: none;
+  }
+  
+  .option-btn:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .option-btn {
+    border-width: 2px;
+    border-color: #ffffff;
+  }
+  
+  .option-btn:hover {
+    border-color: #ffffff;
+    background: rgba(79, 70, 229, 0.6);
+  }
+}
+
+/* Focus styles for accessibility */
+.option-btn:focus {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
+.option-btn:focus:not(:focus-visible) {
+  outline: none;
 } 

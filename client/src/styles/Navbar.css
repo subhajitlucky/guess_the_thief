@@ -1,19 +1,25 @@
+/* Navbar.css - Mobile First Responsive Design */
+
 .navbar {
   background: linear-gradient(135deg, var(--slate-900), var(--purple-900), var(--slate-900));
   box-shadow: var(--shadow-lg);
   border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
 }
 
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.75rem;  /* Mobile first */
 }
 
 .navbar-content {
   display: flex;
   justify-content: space-between;
-  height: 4rem;
+  height: 3.5rem;  /* Mobile first: smaller height */
   align-items: center;
 }
 
@@ -22,30 +28,36 @@
   align-items: center;
   cursor: pointer;
   transition: var(--transition-fast);
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  padding: 0.5rem;
+  margin: -0.5rem;
+  border-radius: 0.5rem;
 }
 
 .navbar-brand:hover {
   transform: scale(1.05);
+  background: rgba(139, 92, 246, 0.1);
 }
 
 .navbar-logo {
-  font-size: 1.5rem;
+  font-size: 1.25rem;  /* Mobile first: smaller */
   font-weight: 700;
   background: var(--gradient-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  white-space: nowrap;
 }
 
+/* Desktop Navigation - Hidden on mobile */
 .navbar-desktop {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
+  display: none;  /* Mobile first: hidden */
 }
 
 .navbar-nav {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .navbar-link {
@@ -62,6 +74,8 @@
   cursor: pointer;
   text-decoration: none;
   color: var(--purple-200);
+  min-height: var(--touch-target);
+  white-space: nowrap;
 }
 
 .navbar-link:hover {
@@ -78,18 +92,20 @@
 .navbar-status {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .status-indicator {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
   border: 1px solid;
+  white-space: nowrap;
 }
 
 .status-indicator.connected {
@@ -108,6 +124,7 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .status-dot.connected {
@@ -121,46 +138,66 @@
 .username-badge {
   background: rgba(139, 92, 246, 0.3);
   color: var(--purple-200);
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
   border: 1px solid rgba(139, 92, 246, 0.3);
+  white-space: nowrap;
+  max-width: 120px;  /* Prevent overflow on mobile */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* Mobile Menu Toggle */
 .navbar-mobile-toggle {
-  display: none;
+  display: flex;  /* Mobile first: visible */
+  align-items: center;
+  justify-content: center;
   color: var(--purple-200);
   transition: var(--transition-fast);
   background: none;
   border: none;
   cursor: pointer;
   padding: 0.5rem;
+  margin: -0.5rem;
+  border-radius: 0.5rem;
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  font-size: 1.25rem;
 }
 
 .navbar-mobile-toggle:hover {
   color: white;
+  background: rgba(139, 92, 246, 0.2);
 }
 
+.navbar-mobile-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Mobile Navigation Menu */
 .navbar-mobile {
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(20px);
   border-top: 1px solid rgba(139, 92, 246, 0.2);
-  padding: 1rem 0.5rem;
+  padding: 1rem;
+  box-shadow: var(--shadow-xl);
 }
 
 .navbar-mobile-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .navbar-mobile-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   font-weight: 500;
   transition: var(--transition-fast);
@@ -169,6 +206,8 @@
   cursor: pointer;
   text-decoration: none;
   color: var(--purple-200);
+  min-height: var(--touch-target);
+  font-size: 1rem;
 }
 
 .navbar-mobile-link:hover {
@@ -182,27 +221,206 @@
 }
 
 .navbar-mobile-status {
-  padding-top: 0.75rem;
+  padding-top: 1rem;
   border-top: 1px solid rgba(139, 92, 246, 0.2);
-  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 .navbar-mobile-status .status-indicator {
   justify-content: center;
-  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
 }
 
 .navbar-mobile-status .username-badge {
   text-align: center;
   display: block;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  max-width: none;
 }
 
-@media (max-width: 768px) {
-  .navbar-desktop {
+/* Telegram Mini App Optimizations */
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 0.5rem;
+  }
+  
+  .navbar-content {
+    height: 3rem;  /* Even smaller for mini app */
+  }
+  
+  .navbar-logo {
+    font-size: 1.125rem;
+  }
+  
+  /* Hide username on very small screens in desktop mode */
+  .navbar-status .username-badge {
     display: none;
   }
   
+  /* Keep only connection status */
+  .status-indicator {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.625rem;
+  }
+  
+  .status-indicator span {
+    display: none;  /* Hide text, keep only dot */
+  }
+  
+  .navbar-mobile {
+    padding: 0.75rem;
+  }
+  
+  .navbar-mobile-link {
+    padding: 1rem;
+    font-size: 1.125rem;  /* Larger touch targets */
+  }
+  
+  /* Full-screen mobile menu */
+  .navbar-mobile {
+    position: fixed;
+    top: 3rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    overflow-y: auto;
+  }
+}
+
+/* Small Mobile */
+@media (min-width: 481px) and (max-width: 640px) {
+  .navbar-logo {
+    font-size: 1.25rem;
+  }
+  
+  /* Show abbreviated username */
+  .navbar-status .username-badge {
+    max-width: 80px;
+  }
+}
+
+/* Tablet Portrait */
+@media (min-width: 641px) {
+  .navbar-container {
+    padding: 0 1rem;
+  }
+  
+  .navbar-content {
+    height: 4rem;
+  }
+  
+  .navbar-logo {
+    font-size: 1.5rem;
+  }
+  
+  /* Show more status information */
+  .navbar-status .username-badge {
+    max-width: 150px;
+  }
+  
+  .status-indicator span {
+    display: inline;
+  }
+  
+  /* Still use mobile menu on tablet portrait */
   .navbar-mobile-toggle {
-    display: block;
+    display: flex;
+  }
+  
+  .navbar-desktop {
+    display: none;
+  }
+}
+
+/* Tablet Landscape and Desktop */
+@media (min-width: 769px) {
+  .navbar-container {
+    padding: 0 1rem;
+  }
+  
+  .navbar-desktop {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .navbar-mobile-toggle {
+    display: none;
+  }
+  
+  .navbar-status {
+    gap: 0.75rem;
+  }
+  
+  .navbar-status .username-badge {
+    max-width: none;
+  }
+  
+  .navbar-nav {
+    gap: 1rem;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1025px) {
+  .navbar-container {
+    padding: 0 1.5rem;
+  }
+  
+  .navbar-desktop {
+    gap: 2.5rem;
+  }
+}
+
+/* Extra Large Desktop */
+@media (min-width: 1200px) {
+  .navbar-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .navbar-content {
+    height: 2.5rem;
+  }
+  
+  .navbar-logo {
+    font-size: 1rem;
+  }
+  
+  .navbar-mobile {
+    position: fixed;
+    top: 2.5rem;
+    max-height: calc(100vh - 2.5rem);
+    overflow-y: auto;
+  }
+}
+
+/* Dark mode compatibility */
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    /* Already optimized for dark mode */
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .navbar-brand,
+  .navbar-link,
+  .navbar-mobile-link,
+  .navbar-mobile-toggle {
+    transition: none;
+  }
+  
+  .navbar-brand:hover,
+  .navbar-link:hover {
+    transform: none;
   }
 } 

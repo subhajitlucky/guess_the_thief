@@ -1,37 +1,392 @@
-/* RoomLobby.css */
+/* RoomLobby.css - Mobile First Responsive Design */
 
 .room-lobby {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: #1e1b4b;
+  max-width: 100%;  /* Mobile first: full width */
+  margin: 0.5rem auto;  /* Mobile first: smaller margin */
+  padding: 0.75rem;  /* Mobile first: smaller padding */
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(10px);
   color: #e0e7ff;
   border-radius: 0.75rem;
-  border: 1px solid #4f46e5;
+  border: 1px solid rgba(79, 70, 229, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;  /* Mobile first: smaller gap */
+  box-shadow: var(--shadow-lg);
+  min-height: calc(100vh - 4rem);  /* Mobile first: account for smaller navbar */
+  /* Improve mobile scrolling */
+  -webkit-overflow-scrolling: touch;
 }
 
 .lobby-divider {
   border: none;
   height: 1px;
-  background-color: #4f46e5;
-  opacity: 0.5;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(79, 70, 229, 0.5), 
+    rgba(139, 92, 246, 0.5), 
+    rgba(79, 70, 229, 0.5), 
+    transparent
+  );
+  margin: 0.5rem 0;  /* Mobile first: smaller margin */
+  opacity: 0.8;
 }
 
 .lobby-info {
   text-align: center;
-  padding: 1rem;
-  background-color: rgba(79, 70, 229, 0.1);
+  padding: 0.75rem;  /* Mobile first: smaller padding */
+  background: rgba(79, 70, 229, 0.15);
   border-radius: 0.5rem;
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  backdrop-filter: blur(5px);
 }
 
 .lobby-info p {
   margin: 0;
   color: #a5b4fc;
+  font-size: 0.875rem;  /* Mobile first: smaller */
+  line-height: 1.5;
 }
 
 .lobby-info p:first-child {
   margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #c7d2fe;
+}
+
+.lobby-info strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Loading states */
+.lobby-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  color: #a5b4fc;
+}
+
+.lobby-loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid rgba(79, 70, 229, 0.3);
+  border-top: 2px solid #4f46e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.lobby-loading-text {
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Error states */
+.lobby-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  color: #fca5a5;
+}
+
+.lobby-error-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #ef4444;
+}
+
+.lobby-error-message {
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Success states */
+.lobby-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  color: #86efac;
+}
+
+.lobby-success-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #22c55e;
+}
+
+.lobby-success-message {
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Telegram Mini App Optimizations */
+@media (max-width: 480px) {
+  .room-lobby {
+    margin: 0.25rem auto;
+    padding: 0.5rem;
+    gap: 0.75rem;
+    min-height: calc(100vh - 3rem);
+    border-radius: 0.5rem;
+  }
+  
+  .lobby-divider {
+    margin: 0.25rem 0;
+  }
+  
+  .lobby-info {
+    padding: 0.5rem;
+  }
+  
+  .lobby-info p {
+    font-size: 0.8rem;
+  }
+  
+  .lobby-info p:first-child {
+    margin-bottom: 0.25rem;
+  }
+  
+  .lobby-loading {
+    padding: 1.5rem;
+    gap: 0.75rem;
+  }
+  
+  .lobby-loading-spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .lobby-loading-text {
+    font-size: 0.8rem;
+  }
+  
+  .lobby-error,
+  .lobby-success {
+    padding: 0.75rem;
+  }
+  
+  .lobby-error-message,
+  .lobby-success-message {
+    font-size: 0.8rem;
+  }
+}
+
+/* Small Mobile */
+@media (min-width: 481px) and (max-width: 640px) {
+  .room-lobby {
+    margin: 0.75rem auto;
+    padding: 0.875rem;
+    gap: 0.875rem;
+  }
+  
+  .lobby-info {
+    padding: 0.875rem;
+  }
+}
+
+/* Tablet Portrait */
+@media (min-width: 641px) {
+  .room-lobby {
+    max-width: 90%;
+    margin: 1rem auto;
+    padding: 1.25rem;
+    gap: 1.25rem;
+    min-height: calc(100vh - 4rem);
+  }
+  
+  .lobby-divider {
+    margin: 0.75rem 0;
+  }
+  
+  .lobby-info {
+    padding: 1rem;
+  }
+  
+  .lobby-info p {
+    font-size: 0.875rem;
+  }
+  
+  .lobby-loading {
+    padding: 2.5rem;
+  }
+  
+  .lobby-loading-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .lobby-loading-text {
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet Landscape */
+@media (min-width: 769px) {
+  .room-lobby {
+    max-width: 800px;
+    margin: 1.5rem auto;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  .lobby-info p {
+    font-size: 1rem;
+  }
+  
+  .lobby-loading {
+    padding: 3rem;
+  }
+  
+  .lobby-loading-text {
+    font-size: 1rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .room-lobby {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    gap: 2rem;
+  }
+  
+  .lobby-divider {
+    margin: 1rem 0;
+  }
+  
+  .lobby-info {
+    padding: 1.5rem;
+  }
+  
+  .lobby-info p {
+    font-size: 1.125rem;
+  }
+  
+  .lobby-loading {
+    padding: 4rem;
+  }
+  
+  .lobby-loading-spinner {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .lobby-loading-text {
+    font-size: 1.125rem;
+  }
+  
+  .lobby-error,
+  .lobby-success {
+    padding: 1.5rem;
+  }
+  
+  .lobby-error-message,
+  .lobby-success-message {
+    font-size: 1rem;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1200px) {
+  .room-lobby {
+    max-width: 1000px;
+    padding: 2.5rem;
+  }
+  
+  .lobby-info {
+    padding: 2rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .room-lobby {
+    margin: 0.25rem auto;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    min-height: calc(100vh - 2.5rem);
+  }
+  
+  .lobby-info {
+    padding: 0.5rem;
+  }
+  
+  .lobby-info p {
+    font-size: 0.75rem;
+  }
+  
+  .lobby-info p:first-child {
+    margin-bottom: 0.25rem;
+  }
+  
+  .lobby-loading {
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  
+  .lobby-loading-spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .lobby-loading-text {
+    font-size: 0.75rem;
+  }
+}
+
+/* Dark mode optimization (already optimized) */
+@media (prefers-color-scheme: dark) {
+  .room-lobby {
+    /* Already optimized for dark theme */
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .lobby-loading-spinner {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .room-lobby,
+  .lobby-info,
+  .lobby-error,
+  .lobby-success {
+    border-width: 2px;
+  }
+  
+  .lobby-divider {
+    background: #4f46e5;
+    opacity: 1;
+  }
+}
+
+/* Print styles */
+@media print {
+  .room-lobby {
+    background: none;
+    border: 1px solid #000;
+    color: #000;
+    box-shadow: none;
+  }
+  
+  .lobby-info {
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+  }
 } 

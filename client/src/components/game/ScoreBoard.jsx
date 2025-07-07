@@ -1,4 +1,4 @@
-import './ScoreBoard.css';
+import '../../styles/ScoreBoard.css';
 
 function ScoreBoard({ scores }) {
   if (!scores) return null;

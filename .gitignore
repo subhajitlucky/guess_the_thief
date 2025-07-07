@@ -166,4 +166,4 @@ docker-compose*.yml
 
 # Runtime files
 *.out
-*.exe 
+*.exe ngrok.yml

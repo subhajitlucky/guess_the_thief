@@ -1,60 +1,88 @@
-/* JoinRoom.css */
+/* JoinRoom.css - Mobile First Responsive Design */
 
 .join-room {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
+  max-width: 100%;  /* Mobile first: full width */
+  margin: 1rem auto;  /* Mobile first: smaller margin */
+  padding: 1rem;  /* Mobile first: smaller padding */
   background-color: #1e1b4b;
   color: #e0e7ff;
   border-radius: 0.75rem;
   border: 1px solid #4f46e5;
+  min-height: calc(100vh - 5rem);  /* Mobile first: take most of screen */
+  display: flex;
+  flex-direction: column;
+  /* Improve mobile scrolling */
+  -webkit-overflow-scrolling: touch;
 }
 
 .join-room .header {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 0.75rem;  /* Mobile first: smaller gap */
+  margin-bottom: 1.5rem;  /* Mobile first: smaller margin */
+  flex-wrap: wrap;  /* Allow wrapping on very small screens */
 }
 
 .join-room .header h2 {
-  font-size: 1.875rem;
+  font-size: 1.5rem;  /* Mobile first: smaller */
   font-weight: 700;
   color: #ffffff;
+  flex: 1;
+  min-width: 200px;  /* Prevent too narrow */
 }
 
 .back-btn {
   background: none;
   border: 1px solid #4f46e5;
   color: #c7d2fe;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;  /* Mobile first: larger padding for touch */
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .back-btn:hover {
   background-color: rgba(79, 70, 229, 0.2);
+  border-color: #a78bfa;
+  transform: translateY(-1px);
+}
+
+.back-btn:active {
+  transform: translateY(0);
 }
 
 .join-section {
   text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .join-section .info {
-  margin-bottom: 2rem;
+  margin-bottom: 2rem;  /* Mobile first: smaller margin */
 }
 
 .join-section .info h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;  /* Mobile first: smaller */
   font-weight: 600;
   color: #ffffff;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;  /* Mobile first: smaller margin */
 }
 
 .join-section .info p {
   color: #a5b4fc;
   margin-bottom: 0.5rem;
+  font-size: 0.875rem;  /* Mobile first: smaller */
+  line-height: 1.6;
 }
 
 .join-form {
@@ -62,56 +90,483 @@
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  max-width: 100%;
 }
 
 .room-code-input {
   width: 100%;
   padding: 1rem;
-  font-size: 1.25rem;
+  font-size: 1.125rem;  /* Mobile first: readable size */
   text-align: center;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.3em;  /* Mobile first: smaller letter spacing */
   background-color: rgba(79, 70, 229, 0.2);
   border: 1px solid #4f46e5;
   border-radius: 0.5rem;
   color: #ffffff;
   transition: all 0.2s ease;
+  min-height: var(--touch-target);
+  text-transform: uppercase;
+  /* Improve mobile input experience */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .room-code-input::placeholder {
   letter-spacing: normal;
   color: #a5b4fc;
+  text-transform: none;
 }
 
 .room-code-input:focus {
   outline: none;
   border-color: #c7d2fe;
   box-shadow: 0 0 0 2px rgba(196, 181, 253, 0.2);
+  background-color: rgba(79, 70, 229, 0.3);
 }
 
 .join-btn {
   width: 100%;
-  padding: 1rem;
-  font-size: 1.125rem;
+  padding: 1rem 1.5rem;  /* Mobile first: good touch target */
+  font-size: 1rem;  /* Mobile first: readable size */
   font-weight: 600;
-  background-color: #4f46e5;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
   color: #ffffff;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.join-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.join-btn:hover::before {
+  left: 100%;
 }
 
 .join-btn:hover {
-  background-color: #4338ca;
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+.join-btn:active {
+  transform: translateY(0);
 }
 
 .join-btn:disabled {
-  background-color: #3730a3;
+  background: linear-gradient(135deg, #3730a3, #581c87);
   cursor: not-allowed;
+  transform: none;
+  opacity: 0.6;
+}
+
+/* Add icon to join button */
+.join-btn::after {
+  content: '🚪';
+  font-size: 1.25rem;
+  margin-left: 0.25rem;
+}
+
+/* Loading state */
+.join-btn.loading {
+  pointer-events: none;
+}
+
+.join-btn.loading::after {
+  content: '⏳';
+  animation: pulse 1.5s infinite;
+}
+
+/* Success state */
+.join-btn.success::after {
+  content: '✅';
 }
 
 .help-text {
   margin-top: 1.5rem;
   color: #a5b4fc;
-  font-size: 0.875rem;
+  font-size: 0.8rem;  /* Mobile first: smaller */
+  line-height: 1.5;
+  max-width: 100%;
+}
+
+/* Room code formatting */
+.room-code-display {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 0.375rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  margin: 0 0.25rem;
+}
+
+/* Telegram Mini App Optimizations */
+@media (max-width: 480px) {
+  .join-room {
+    margin: 0.5rem auto;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    min-height: calc(100vh - 4rem);
+  }
+  
+  .join-room .header {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .join-room .header h2 {
+    font-size: 1.25rem;
+    text-align: center;
+    min-width: auto;
+  }
+  
+  .back-btn {
+    padding: 0.875rem 1rem;
+    font-size: 0.8rem;
+    align-self: flex-start;
+    width: fit-content;
+  }
+  
+  .join-section .info {
+    margin-bottom: 1.5rem;
+  }
+  
+  .join-section .info h3 {
+    font-size: 1.125rem;
+  }
+  
+  .join-section .info p {
+    font-size: 0.8rem;
+  }
+  
+  .room-code-input {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    padding: 1.125rem 1rem;
+  }
+  
+  .join-btn {
+    font-size: 0.875rem;
+    padding: 1.125rem 1.5rem;
+  }
+  
+  .join-btn::after {
+    font-size: 1.125rem;
+  }
+  
+  .help-text {
+    font-size: 0.75rem;
+  }
+  
+  .room-code-display {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+/* Small Mobile */
+@media (min-width: 481px) and (max-width: 640px) {
+  .join-room {
+    max-width: 400px;
+    margin: 0.75rem auto;
+    padding: 1rem;
+  }
+  
+  .join-room .header {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .join-room .header h2 {
+    font-size: 1.375rem;
+  }
+  
+  .room-code-input {
+    font-size: 1.125rem;
+    letter-spacing: 0.4em;
+  }
+}
+
+/* Tablet Portrait */
+@media (min-width: 641px) {
+  .join-room {
+    max-width: 500px;
+    margin: 1.5rem auto;
+    padding: 1.5rem;
+    min-height: auto;
+  }
+  
+  .join-room .header {
+    margin-bottom: 2rem;
+  }
+  
+  .join-room .header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .back-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .join-section .info {
+    margin-bottom: 2.5rem;
+  }
+  
+  .join-section .info h3 {
+    font-size: 1.5rem;
+  }
+  
+  .join-section .info p {
+    font-size: 1rem;
+  }
+  
+  .room-code-input {
+    font-size: 1.25rem;
+    letter-spacing: 0.5em;
+  }
+  
+  .join-btn {
+    font-size: 1.125rem;
+    padding: 1rem 2rem;
+  }
+  
+  .help-text {
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet Landscape and Desktop */
+@media (min-width: 769px) {
+  .join-room {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+  }
+  
+  .join-room .header h2 {
+    font-size: 1.875rem;
+  }
+  
+  .join-section .info h3 {
+    font-size: 1.5rem;
+  }
+  
+  .join-section .info p {
+    font-size: 1rem;
+  }
+  
+  .join-form {
+    max-width: 400px;
+    margin: 0 auto 1.5rem;
+  }
+  
+  .join-btn {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  /* Enhanced hover effects on desktop */
+  .join-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+  }
+  
+  .back-btn:hover {
+    transform: translateY(-2px);
+  }
+  
+  .room-code-input:hover {
+    border-color: #a78bfa;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1025px) {
+  .join-room {
+    max-width: 700px;
+    padding: 2.5rem;
+  }
+  
+  .join-section .info {
+    margin-bottom: 3rem;
+  }
+  
+  .join-section .info h3 {
+    font-size: 1.75rem;
+  }
+  
+  .join-section .info p {
+    font-size: 1.125rem;
+  }
+  
+  .help-text {
+    font-size: 1rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .join-room {
+    margin: 0.25rem auto;
+    padding: 0.5rem;
+    min-height: calc(100vh - 3rem);
+  }
+  
+  .join-room .header {
+    margin-bottom: 0.75rem;
+  }
+  
+  .join-room .header h2 {
+    font-size: 1.125rem;
+  }
+  
+  .join-section .info {
+    margin-bottom: 1rem;
+  }
+  
+  .join-section .info h3 {
+    font-size: 1rem;
+  }
+  
+  .join-section .info p {
+    font-size: 0.75rem;
+  }
+  
+  .room-code-input {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .join-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .help-text {
+    font-size: 0.7rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .back-btn,
+  .join-btn,
+  .join-btn::before,
+  .room-code-input {
+    transition: none;
+  }
+  
+  .back-btn:hover,
+  .join-btn:hover {
+    transform: none;
+  }
+  
+  .join-btn.loading::after {
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .join-room {
+    border-width: 2px;
+    border-color: #ffffff;
+  }
+  
+  .back-btn,
+  .room-code-input {
+    border-width: 2px;
+    border-color: #ffffff;
+  }
+  
+  .join-btn {
+    border: 2px solid #ffffff;
+  }
+}
+
+/* Focus styles for accessibility */
+.back-btn:focus,
+.join-btn:focus,
+.room-code-input:focus {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
+.back-btn:focus:not(:focus-visible),
+.join-btn:focus:not(:focus-visible),
+.room-code-input:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Input validation styles */
+.room-code-input.error {
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.room-code-input.success {
+  border-color: #22c55e;
+  background-color: rgba(34, 197, 94, 0.1);
+}
+
+/* Room code suggestions */
+.room-code-suggestions {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.room-code-suggestions p {
+  font-size: 0.8rem;
+  color: #a5b4fc;
+  margin-bottom: 0.5rem;
+}
+
+.suggestion-code {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: rgba(79, 70, 229, 0.3);
+  border: 1px solid rgba(79, 70, 229, 0.5);
+  border-radius: 0.25rem;
+  color: #c7d2fe;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 0.25rem;
+}
+
+.suggestion-code:hover {
+  background: rgba(79, 70, 229, 0.5);
+  color: #ffffff;
+}
+
+/* Dark mode optimization (already optimized) */
+@media (prefers-color-scheme: dark) {
+  .join-room {
+    /* Already optimized for dark mode */
+  }
 } 

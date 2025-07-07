@@ -1,4 +1,4 @@
-/* Basic styles for HeroPage */
+/* HeroPage.css - Enhanced Mobile First Responsive Design */
 
 /* GENERAL & LAYOUT */
 .hero-page {
@@ -6,40 +6,42 @@
   background-image: linear-gradient(to bottom right, #0f172a, #581c87, #0f172a);
   color: #cbd5e1;
   overflow-x: hidden;
+  /* Improve mobile performance */
+  -webkit-overflow-scrolling: touch;
 }
 
 .section-container {
   max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0.75rem;  /* Mobile first */
+  padding-right: 0.75rem;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;  /* Mobile first: smaller */
 }
 
 .section-title {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: 1.75rem;  /* Mobile first: smaller */
+  line-height: 1.2;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 1rem;
 }
 
 .section-title-sm {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+  font-size: 1.5rem;  /* Mobile first: smaller */
+  line-height: 1.3;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 0.5rem;
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  font-size: 1rem;  /* Mobile first: smaller */
+  line-height: 1.6;
   color: rgba(226, 232, 240, 0.8);
   max-width: 42rem;
   margin-left: auto;
@@ -87,16 +89,16 @@
 .effect-1 {
   top: 25%;
   left: 25%;
-  width: 18rem;
-  height: 18rem;
+  width: 12rem;  /* Mobile first: smaller */
+  height: 12rem;
   background-color: rgba(168, 85, 247, 0.2);
 }
 
 .effect-2 {
   top: 75%;
   right: 25%;
-  width: 24rem;
-  height: 24rem;
+  width: 16rem;  /* Mobile first: smaller */
+  height: 16rem;
   background-color: rgba(236, 72, 153, 0.2);
   animation-delay: 1s;
 }
@@ -104,8 +106,8 @@
 .effect-3 {
   bottom: 25%;
   left: 33.33%;
-  width: 20rem;
-  height: 20rem;
+  width: 14rem;  /* Mobile first: smaller */
+  height: 14rem;
   background-color: rgba(59, 130, 246, 0.2);
   animation-delay: 2s;
 }
@@ -118,7 +120,7 @@
 
 .hero-content-container {
   position: relative;
-  padding: 5rem 1rem 8rem;
+  padding: 3rem 1rem 4rem;  /* Mobile first: smaller */
 }
 
 .hero-content {
@@ -126,23 +128,22 @@
 }
 
 .hero-content > * + * {
-  margin-top: 2rem;
+  margin-top: 1.5rem;  /* Mobile first: smaller */
 }
 
 .main-title {
-  font-size: 3.75rem;
-  line-height: 1;
+  font-size: 2.5rem;  /* Mobile first: smaller */
+  line-height: 1.1;
   font-weight: 700;
 }
 
 .subtitle {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+  font-size: 1rem;  /* Mobile first: smaller */
+  line-height: 1.6;
   color: #d8b4fe;
   max-width: 56rem;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.6;
 }
 
 /* CTA BUTTONS & WELCOME */
@@ -152,32 +153,44 @@
   gap: 1rem;
   justify-content: center;
   align-items: center;
-  padding-top: 2rem;
+  padding-top: 1.5rem;  /* Mobile first: smaller */
 }
 
 .cta-button-play {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   background-image: linear-gradient(to right, #9333ea, #db2777);
   color: #ffffff;
   padding: 1rem 2rem;
   border-radius: 0.75rem;
   font-weight: 600;
-  font-size: 1.125rem;
+  font-size: 1rem;  /* Mobile first: smaller */
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
+  min-height: var(--touch-target);
+  width: 100%;  /* Mobile first: full width */
+  max-width: 280px;  /* Prevent too wide on larger screens */
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .cta-button-play:hover {
   background-image: linear-gradient(to right, #7e22ce, #be185d);
   box-shadow: 0 0 25px rgba(147, 51, 234, 0.25);
+  transform: translateY(-2px);
+}
+
+.cta-button-play:active {
+  transform: translateY(0);
 }
 
 .arrow-icon {
   transition: transform 0.2s ease;
+  flex-shrink: 0;
 }
 
 .cta-button-play:hover .arrow-icon {
@@ -190,6 +203,8 @@
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
   border: 1px solid rgba(167, 139, 250, 0.3);
+  max-width: 280px;
+  word-break: break-word;
 }
 
 .username-text {
@@ -200,37 +215,47 @@
 /* STATS */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  padding-top: 4rem;
-  max-width: 48rem;
+  grid-template-columns: repeat(2, 1fr);  /* Mobile first: 2 columns */
+  gap: 1rem;  /* Mobile first: smaller gap */
+  padding-top: 2rem;  /* Mobile first: smaller */
+  max-width: 24rem;  /* Mobile first: smaller */
   margin-left: auto;
   margin-right: auto;
 }
 
 .stat-item {
   text-align: center;
+  padding: 1rem;
+  background: rgba(30, 41, 59, 0.3);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  transition: var(--transition-normal);
+}
+
+.stat-item:hover {
+  border-color: rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
 }
 
 .stat-number {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: 1.75rem;  /* Mobile first: smaller */
+  line-height: 1.3;
   font-weight: 700;
   color: #a78bfa;
+  margin-bottom: 0.25rem;
 }
 
 .stat-label {
   color: rgba(226, 232, 240, 0.8);
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
+  font-size: 0.8rem;  /* Mobile first: smaller */
 }
 
 /* SECTIONS */
 .roles-section,
 .features-section,
 .username-section {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 3rem;  /* Mobile first: smaller */
+  padding-bottom: 3rem;
   background-color: rgba(15, 23, 42, 0.5);
 }
 
@@ -241,8 +266,8 @@
 /* ROLES */
 .roles-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 2rem;
+  grid-template-columns: 1fr;  /* Mobile first: single column */
+  gap: 1.5rem;  /* Mobile first: smaller gap */
 }
 
 .role-card {
@@ -253,11 +278,13 @@
   border-radius: 0.75rem;
   padding: 1.5rem;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .role-card:hover {
   border-color: rgba(196, 181, 253, 0.4);
-  transform: scale(1.05);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
 }
 
 .role-card-content {
@@ -269,12 +296,13 @@
 }
 
 .role-emoji {
-  font-size: 3.75rem;
+  font-size: 3rem;  /* Mobile first: smaller */
   margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
 }
 
 .role-name {
-  font-size: 1.5rem;
+  font-size: 1.25rem;  /* Mobile first: smaller */
   font-weight: 700;
   color: #ffffff;
 }
@@ -310,8 +338,8 @@
 /* FEATURES */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 2rem;
+  grid-template-columns: 1fr;  /* Mobile first: single column */
+  gap: 1.5rem;  /* Mobile first: smaller gap */
 }
 
 .feature-card {
@@ -322,21 +350,24 @@
   border-radius: 0.75rem;
   padding: 1.5rem;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .feature-card:hover {
   border-color: rgba(196, 181, 253, 0.4);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
 }
 
 .feature-icon {
-  width: 3rem; /* 48px */
-  height: 3rem; /* 48px */
+  width: 2.5rem;  /* Mobile first: smaller */
+  height: 2.5rem;
   color: #a78bfa;
   margin-bottom: 1rem;
 }
 
 .feature-title {
-  font-size: 1.25rem;
+  font-size: 1.125rem;  /* Mobile first: smaller */
   font-weight: 600;
   color: #ffffff;
   margin-bottom: 0.5rem;
@@ -345,11 +376,12 @@
 .feature-description {
   color: rgba(226, 232, 240, 0.8);
   line-height: 1.6;
+  font-size: 0.875rem;  /* Mobile first: smaller */
 }
 
 /* USERNAME SECTION */
 .username-container {
-  max-width: 28rem;
+  max-width: 20rem;  /* Mobile first: smaller */
   margin-left: auto;
   margin-right: auto;
 }
@@ -360,7 +392,7 @@
   backdrop-filter: blur(4px);
   border: 1px solid rgba(167, 139, 250, 0.2);
   border-radius: 0.75rem;
-  padding: 2rem;
+  padding: 1.5rem;  /* Mobile first: smaller */
 }
 
 .username-form {
@@ -379,6 +411,8 @@
   border-radius: 0.5rem;
   color: #ffffff;
   transition: all 0.2s ease;
+  font-size: 1rem;  /* Prevent zoom on iOS */
+  min-height: var(--touch-target);
 }
 
 .username-input::placeholder {
@@ -405,71 +439,371 @@
   font-weight: 600;
   transition: all 0.2s ease;
   cursor: pointer;
+  min-height: var(--touch-target);
+  font-size: 1rem;
 }
 
 .cta-button-form:hover {
   background-image: linear-gradient(to right, #7e22ce, #be185d);
+  transform: translateY(-1px);
+}
+
+.cta-button-form:active {
+  transform: translateY(0);
 }
 
 .cta-button-form:disabled {
   background-image: linear-gradient(to right, #4b5563, #374151);
   cursor: not-allowed;
+  transform: none;
 }
 
 /* ICONS */
 .icon-sm {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-.icon-xs {
-  width: 1.25rem;
+  width: 1.25rem;  /* Mobile first: smaller */
   height: 1.25rem;
 }
+.icon-xs {
+  width: 1rem;  /* Mobile first: smaller */
+  height: 1rem;
+}
 
-/* RESPONSIVENESS */
-@media (min-width: 640px) {
-  .section-container,
-  .hero-content-container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+/* TELEGRAM MINI APP OPTIMIZATIONS */
+@media (max-width: 480px) {
+  .section-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
+  
+  .hero-content-container {
+    padding: 2rem 0.5rem 3rem;
+  }
+  
+  .main-title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 0.875rem;
+  }
+  
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .section-subtitle {
+    font-size: 0.875rem;
+  }
+  
+  .stats-grid {
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    max-width: 20rem;
+  }
+  
+  .stat-item {
+    padding: 0.75rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+  }
+  
+  .roles-section,
+  .features-section,
+  .username-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .roles-grid,
+  .features-grid {
+    gap: 1rem;
+  }
+  
+  .role-card,
+  .feature-card {
+    padding: 1rem;
+  }
+  
+  .role-emoji {
+    font-size: 2.5rem;
+  }
+  
+  .feature-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .username-container {
+    max-width: 18rem;
+  }
+  
+  .username-card {
+    padding: 1rem;
+  }
+  
+  .cta-button-play {
+    font-size: 0.875rem;
+    padding: 0.875rem 1.5rem;
+    max-width: 260px;
+  }
+  
+  .welcome-message {
+    max-width: 260px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Reduce background effects for performance */
+  .effect-1, .effect-2, .effect-3 {
+    filter: blur(40px);
+  }
+  
+  .effect-1 {
+    width: 8rem;
+    height: 8rem;
+  }
+  
+  .effect-2 {
+    width: 10rem;
+    height: 10rem;
+  }
+  
+  .effect-3 {
+    width: 9rem;
+    height: 9rem;
+  }
+}
+
+/* SMALL MOBILE */
+@media (min-width: 481px) and (max-width: 640px) {
+  .section-container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .cta-button-play {
+    width: auto;
+    min-width: 200px;
+  }
+  
+  .stats-grid {
+    max-width: 28rem;
+    gap: 1.25rem;
+  }
+}
+
+/* TABLET PORTRAIT */
+@media (min-width: 641px) {
+  .section-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .hero-content-container {
+    padding: 4rem 1.5rem 6rem;
+  }
+  
+  .main-title {
+    font-size: 3.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+  }
+  
+  .section-title {
+    font-size: 2.25rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1.125rem;
+  }
+  
   .cta-buttons {
     flex-direction: row;
   }
+  
+  .cta-button-play {
+    width: auto;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 48rem;
+    gap: 1.5rem;
+    padding-top: 3rem;
+  }
+  
+  .roles-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .username-container {
+    max-width: 28rem;
+  }
+  
+  .username-card {
+    padding: 2rem;
+  }
 }
 
-@media (min-width: 768px) {
+/* TABLET LANDSCAPE */
+@media (min-width: 769px) {
+  .section-title {
+    font-size: 2.75rem;
+  }
+  
+  .main-title {
+    font-size: 4rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* DESKTOP */
+@media (min-width: 1025px) {
+  .section-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .hero-content-container {
+    padding: 5rem 2rem 8rem;
+  }
+  
   .section-title {
     font-size: 3rem;
-    line-height: 1;
   }
+  
   .main-title {
     font-size: 5rem;
   }
+  
   .subtitle {
     font-size: 1.5rem;
   }
-  .stats-grid {
+  
+  .roles-grid {
     grid-template-columns: repeat(4, 1fr);
   }
-  .roles-grid {
-    grid-template-columns: repeat(2, 1fr);
+  
+  .sections {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
+  
+  /* Enhanced hover effects on desktop */
+  .role-card:hover {
+    transform: translateY(-5px) scale(1.02);
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px) scale(1.02);
+  }
+  
+  /* Larger background effects */
+  .effect-1 {
+    width: 18rem;
+    height: 18rem;
+  }
+  
+  .effect-2 {
+    width: 24rem;
+    height: 24rem;
+  }
+  
+  .effect-3 {
+    width: 20rem;
+    height: 20rem;
   }
 }
 
-@media (min-width: 1024px) {
-  .section-container,
-  .hero-content-container {
+/* LARGE DESKTOP */
+@media (min-width: 1200px) {
+  .section-container {
     padding-left: 2rem;
     padding-right: 2rem;
   }
-  .roles-grid {
-    grid-template-columns: repeat(4, 1fr);
+}
+
+/* LANDSCAPE ORIENTATION ON MOBILE */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-content-container {
+    padding: 1.5rem 1rem 2rem;
   }
-  .features-grid {
-    grid-template-columns: repeat(3, 1fr);
+  
+  .hero-content > * + * {
+    margin-top: 1rem;
+  }
+  
+  .main-title {
+    font-size: 2rem;
+  }
+  
+  .roles-section,
+  .features-section,
+  .username-section {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* REDUCED MOTION ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+  .effect-1,
+  .effect-2,
+  .effect-3,
+  .role-emoji {
+    animation: none;
+  }
+  
+  .role-card,
+  .feature-card,
+  .stat-item,
+  .cta-button-play,
+  .cta-button-form {
+    transition: none;
+  }
+  
+  .role-card:hover,
+  .feature-card:hover,
+  .stat-item:hover,
+  .cta-button-play:hover,
+  .cta-button-form:hover {
+    transform: none;
+  }
+}
+
+/* HIGH CONTRAST MODE */
+@media (prefers-contrast: high) {
+  .role-card,
+  .feature-card,
+  .stat-item,
+  .username-card {
+    border-width: 2px;
   }
 } 
