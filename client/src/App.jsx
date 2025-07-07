@@ -12,12 +12,11 @@ import RoomLobby from './pages/RoomLobby'
 import GamePage from './pages/GamePage'
 import './styles/global.css'
 
-// Use URL from env during dev; default to local backend if not supplied
-// const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4000'
-// const socket = io(SOCKET_URL)
-
-// Connect to the same server that serves this page (via proxy)
-const socket = io()
+// Environment-aware socket connection
+// In development: uses Vite proxy to localhost:4000
+// In production: uses VITE_SOCKET_URL environment variable
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || (import.meta.env.DEV ? '' : 'http://localhost:4000')
+const socket = io(SOCKET_URL)
 
 function App() {
   const [isConnected, setIsConnected] = useState(false)
