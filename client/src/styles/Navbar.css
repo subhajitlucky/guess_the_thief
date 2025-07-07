@@ -149,35 +149,86 @@
   text-overflow: ellipsis;
 }
 
-/* Mobile Menu Toggle */
+/* Mobile Menu Toggle - Clean QuantumTicket Style */
 .navbar-mobile-toggle {
   display: flex;  /* Mobile first: visible */
   align-items: center;
   justify-content: center;
-  color: var(--purple-200);
-  transition: all 0.3s ease;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1));
-  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
   cursor: pointer;
-  padding: 0.625rem;
-  margin: -0.5rem;
-  border-radius: 0.75rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: var(--touch-target);
   min-width: var(--touch-target);
-  font-size: 1.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.navbar-mobile-toggle:hover {
-  color: white;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(168, 85, 247, 0.3));
-  border-color: rgba(139, 92, 246, 0.4);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
-  transform: translateY(-1px);
+.hamburger-btn:hover {
+  transform: scale(1.1);
 }
 
-.navbar-mobile-toggle:active {
-  transform: translateY(0) scale(0.98);
+.hamburger-btn:active {
+  transform: scale(0.95);
+}
+
+.hamburger-icon {
+  width: 24px;
+  height: 18px;
+  position: relative;
+  transform: rotate(0deg);
+  transition: 0.3s ease-in-out;
+}
+
+.hamburger-icon span {
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: var(--purple-200);
+  border-radius: 2px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: 0.25s ease-in-out;
+}
+
+.hamburger-icon span:nth-child(1) {
+  top: 0px;
+}
+
+.hamburger-icon span:nth-child(2) {
+  top: 8px;
+}
+
+.hamburger-icon span:nth-child(3) {
+  top: 16px;
+}
+
+/* Animation to X when open */
+.hamburger-icon.open span:nth-child(1) {
+  top: 8px;
+  transform: rotate(135deg);
+}
+
+.hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+  left: -60px;
+}
+
+.hamburger-icon.open span:nth-child(3) {
+  top: 8px;
+  transform: rotate(-135deg);
+}
+
+/* Hover effect - make lines brighter */
+.hamburger-btn:hover .hamburger-icon span {
+  background: white;
 }
 
 /* Mobile Navigation Menu */

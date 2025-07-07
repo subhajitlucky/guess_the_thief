@@ -8,8 +8,7 @@ function Navbar({ username, isConnected }) {
   const location = useLocation()
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Play', href: '/play' }
+    { name: 'Home', href: '/' }
   ]
 
   const isActive = (path) => location.pathname === path
@@ -55,8 +54,12 @@ function Navbar({ username, isConnected }) {
 
           {/* Mobile menu button */}
           <div className="navbar-mobile-toggle">
-            <button onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? '✕' : '☰'}
+            <button onClick={() => setIsOpen(!isOpen)} className="hamburger-btn">
+              <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </button>
           </div>
         </div>
