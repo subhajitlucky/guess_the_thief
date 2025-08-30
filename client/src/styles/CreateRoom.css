@@ -1,413 +1,208 @@
-/* CreateRoom.css - Mobile First Responsive Design */
+/* CreateRoom.css - Enhanced Layout Design */
 
 .create-room {
-  max-width: 100%;  /* Mobile first: full width */
-  margin: 1rem auto;  /* Mobile first: smaller margin */
-  padding: 1rem;  /* Mobile first: smaller padding */
-  background-color: #1e1b4b;
-  color: #e0e7ff;
+  max-width: 500px;
+  margin: 1rem auto;
+  padding: 1rem;
+  background-color: var(--slate-900);
+  color: var(--slate-200);
   border-radius: 0.75rem;
-  border: 1px solid #4f46e5;
-  min-height: calc(100vh - 5rem);  /* Mobile first: take most of screen */
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
-  /* Improve mobile scrolling */
-  -webkit-overflow-scrolling: touch;
 }
 
 .create-room .header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;  /* Mobile first: smaller gap */
-  margin-bottom: 1.5rem;  /* Mobile first: smaller margin */
-  flex-wrap: wrap;  /* Allow wrapping on very small screens */
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
 .create-room .header h2 {
-  font-size: 1.5rem;  /* Mobile first: smaller */
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: white;
+  margin: 0;
+  text-align: center;
   flex: 1;
-  min-width: 200px;  /* Prevent too narrow */
 }
 
 .back-btn {
   background: none;
-  border: 1px solid #4f46e5;
-  color: #c7d2fe;
-  padding: 0.75rem 1rem;  /* Mobile first: larger padding for touch */
+  border: 1px solid var(--purple-700);
+  color: var(--purple-200);
+  padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  min-height: var(--touch-target);
-  min-width: var(--touch-target);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: var(--transition-fast);
   font-size: 0.875rem;
   font-weight: 500;
-  white-space: nowrap;
 }
 
 .back-btn:hover {
-  background-color: rgba(79, 70, 229, 0.2);
-  border-color: #a78bfa;
-  transform: translateY(-1px);
-}
-
-.back-btn:active {
-  transform: translateY(0);
+  background-color: rgba(139, 92, 246, 0.1);
+  border-color: var(--purple-400);
 }
 
 .create-section {
-  text-align: center;
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+}
+
+.game-card {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid var(--purple-700);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.game-card-icon {
+  font-size: 2.5rem;
+  color: var(--purple-400);
+  margin-bottom: 1rem;
+}
+
+.game-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 1rem 0;
+}
+
+.game-card p {
+  color: var(--purple-200);
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.players-info {
+  display: flex;
   justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
 }
 
-.create-section .info {
-  margin-bottom: 2rem;  /* Mobile first: smaller margin */
+.player-spot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(139, 92, 246, 0.2);
+  border: 1px solid var(--purple-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--purple-300);
 }
 
-.create-section .info h3 {
-  font-size: 1.25rem;  /* Mobile first: smaller */
+.player-spot.filled {
+  background: var(--purple-600);
+  color: white;
+  border-color: var(--purple-400);
+}
+
+.requirements {
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.requirements h4 {
+  font-size: 1rem;
   font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 0.75rem;  /* Mobile first: smaller margin */
+  color: white;
+  margin: 0 0 0.5rem 0;
+  text-align: center;
 }
 
-.create-section .info p {
-  color: #a5b4fc;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;  /* Mobile first: smaller */
-  line-height: 1.6;
+.requirements ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
 }
 
-.create-section .create-btn {
-  width: 100%;
-  padding: 1rem 1.5rem;  /* Mobile first: good touch target */
-  font-size: 1rem;  /* Mobile first: readable size */
+.requirements li {
+  color: var(--purple-200);
+  font-size: 0.85rem;
+  padding: 0.25rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.requirements li::before {
+  content: "•";
+  color: var(--purple-400);
+  font-weight: bold;
+}
+
+.create-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.create-btn {
+  padding: 0.875rem 2rem;
+  font-size: 1.125rem;
   font-weight: 600;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: #ffffff;
+  background-color: var(--purple-600);
+  color: white;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition-fast);
   min-height: var(--touch-target);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: var(--shadow-lg);
-  position: relative;
-  overflow: hidden;
 }
 
-.create-section .create-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.5s ease;
-}
-
-.create-section .create-btn:hover::before {
-  left: 100%;
-}
-
-.create-section .create-btn:hover {
-  background: linear-gradient(135deg, #4338ca, #6d28d9);
+.create-btn:hover {
+  background-color: var(--purple-700);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-xl);
 }
 
-.create-section .create-btn:active {
-  transform: translateY(0);
-}
-
-.create-section .create-btn:disabled {
-  background: linear-gradient(135deg, #3730a3, #581c87);
+.create-btn:disabled {
+  background-color: var(--slate-600);
   cursor: not-allowed;
-  transform: none;
   opacity: 0.6;
+  transform: none;
 }
 
-/* Add icon to create button */
-.create-section .create-btn::after {
-  content: '🏠';
-  font-size: 1.25rem;
-  margin-left: 0.25rem;
-}
-
-/* Loading state */
-.create-section .create-btn.loading {
-  pointer-events: none;
-}
-
-.create-section .create-btn.loading::after {
-  content: '⏳';
-  animation: pulse 1.5s infinite;
-}
-
-/* Success state */
-.create-section .create-btn.success::after {
-  content: '✅';
-}
-
-/* Telegram Mini App Optimizations */
+/* Simple responsive adjustments */
 @media (max-width: 480px) {
   .create-room {
-    margin: 0.5rem auto;
+    margin: 0.5rem;
     padding: 0.75rem;
-    border-radius: 0.5rem;
-    min-height: calc(100vh - 4rem);
-  }
-  
-  .create-room .header {
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    flex-direction: column;
-    align-items: stretch;
   }
   
   .create-room .header h2 {
     font-size: 1.25rem;
-    text-align: center;
-    min-width: auto;
   }
   
-  .back-btn {
-    padding: 0.875rem 1rem;
-    font-size: 0.8rem;
-    align-self: flex-start;
-    width: fit-content;
+  .game-card {
+    padding: 1.25rem;
   }
   
-  .create-section .info {
-    margin-bottom: 1.5rem;
+  .game-card h3 {
+    font-size: 1.25rem;
   }
   
-  .create-section .info h3 {
-    font-size: 1.125rem;
+  .game-card p {
+    font-size: 0.85rem;
   }
   
-  .create-section .info p {
-    font-size: 0.8rem;
-  }
-  
-  .create-section .create-btn {
-    font-size: 0.875rem;
-    padding: 1.125rem 1.5rem;
-  }
-  
-  .create-section .create-btn::after {
-    font-size: 1.125rem;
-  }
-}
-
-/* Small Mobile */
-@media (min-width: 481px) and (max-width: 640px) {
-  .create-room {
-    max-width: 400px;
-    margin: 0.75rem auto;
-    padding: 1rem;
-  }
-  
-  .create-room .header {
-    flex-direction: row;
-    align-items: center;
-  }
-  
-  .create-room .header h2 {
-    font-size: 1.375rem;
-  }
-}
-
-/* Tablet Portrait */
-@media (min-width: 641px) {
-  .create-room {
-    max-width: 500px;
-    margin: 1.5rem auto;
-    padding: 1.5rem;
-    min-height: auto;
-  }
-  
-  .create-room .header {
-    margin-bottom: 2rem;
-  }
-  
-  .create-room .header h2 {
-    font-size: 1.75rem;
-  }
-  
-  .back-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-  }
-  
-  .create-section .info {
-    margin-bottom: 2.5rem;
-  }
-  
-  .create-section .info h3 {
-    font-size: 1.5rem;
-  }
-  
-  .create-section .info p {
+  .create-btn {
+    padding: 0.75rem 1.5rem;
     font-size: 1rem;
   }
-  
-  .create-section .create-btn {
-    font-size: 1.125rem;
-    padding: 1rem 2rem;
-  }
 }
-
-/* Tablet Landscape and Desktop */
-@media (min-width: 769px) {
-  .create-room {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-  }
-  
-  .create-room .header h2 {
-    font-size: 1.875rem;
-  }
-  
-  .create-section .info h3 {
-    font-size: 1.5rem;
-  }
-  
-  .create-section .info p {
-    font-size: 1rem;
-  }
-  
-  .create-section .create-btn {
-    max-width: 300px;
-    margin: 0 auto;
-  }
-  
-  /* Enhanced hover effects on desktop */
-  .create-section .create-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-  }
-  
-  .back-btn:hover {
-    transform: translateY(-2px);
-  }
-}
-
-/* Large Desktop */
-@media (min-width: 1025px) {
-  .create-room {
-    max-width: 700px;
-    padding: 2.5rem;
-  }
-  
-  .create-section .info {
-    margin-bottom: 3rem;
-  }
-  
-  .create-section .info h3 {
-    font-size: 1.75rem;
-  }
-  
-  .create-section .info p {
-    font-size: 1.125rem;
-  }
-}
-
-/* Landscape orientation on mobile */
-@media (max-height: 500px) and (orientation: landscape) {
-  .create-room {
-    margin: 0.25rem auto;
-    padding: 0.5rem;
-    min-height: calc(100vh - 3rem);
-  }
-  
-  .create-room .header {
-    margin-bottom: 0.75rem;
-  }
-  
-  .create-room .header h2 {
-    font-size: 1.125rem;
-  }
-  
-  .create-section .info {
-    margin-bottom: 1rem;
-  }
-  
-  .create-section .info h3 {
-    font-size: 1rem;
-  }
-  
-  .create-section .info p {
-    font-size: 0.75rem;
-  }
-  
-  .create-section .create-btn {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.875rem;
-  }
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-  .back-btn,
-  .create-section .create-btn,
-  .create-section .create-btn::before {
-    transition: none;
-  }
-  
-  .back-btn:hover,
-  .create-section .create-btn:hover {
-    transform: none;
-  }
-  
-  .create-section .create-btn.loading::after {
-    animation: none;
-  }
-}
-
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  .create-room {
-    border-width: 2px;
-    border-color: #ffffff;
-  }
-  
-  .back-btn {
-    border-width: 2px;
-    border-color: #ffffff;
-  }
-  
-  .create-section .create-btn {
-    border: 2px solid #ffffff;
-  }
-}
-
-/* Focus styles for accessibility */
-.back-btn:focus,
-.create-section .create-btn:focus {
-  outline: 2px solid #a78bfa;
-  outline-offset: 2px;
-}
-
-.back-btn:focus:not(:focus-visible),
-.create-section .create-btn:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* Dark mode optimization (already optimized) */
-@media (prefers-color-scheme: dark) {
-  .create-room {
-    /* Already optimized for dark mode */
-  }
-} 

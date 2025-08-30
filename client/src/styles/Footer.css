@@ -1,7 +1,7 @@
 /* Footer.css - Mobile First Responsive Design */
 
 .footer {
-  background: linear-gradient(135deg, var(--slate-900), var(--purple-900), var(--slate-900));
+  background-color: var(--slate-900);
   border-top: 1px solid rgba(139, 92, 246, 0.2);
   margin-top: auto;  /* Push footer to bottom */
 }

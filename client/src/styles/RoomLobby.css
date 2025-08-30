@@ -21,13 +21,7 @@
 .lobby-divider {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(79, 70, 229, 0.5), 
-    rgba(139, 92, 246, 0.5), 
-    rgba(79, 70, 229, 0.5), 
-    transparent
-  );
+  background-color: rgba(79, 70, 229, 0.5);
   margin: 0.5rem 0;  /* Mobile first: smaller margin */
   opacity: 0.8;
 }

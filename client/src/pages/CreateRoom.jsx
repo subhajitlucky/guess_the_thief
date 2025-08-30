@@ -45,22 +45,45 @@ function CreateRoom({ socket, username }) {
           ← Back
         </button>
         <h2>🏠 Create Room</h2>
+        <div style={{ width: '74px' }}></div> {/* Spacer to balance the layout */}
       </div>
 
       <div className="create-section">
-        <div className="info">
+        <div className="game-card">
+          <div className="game-card-icon">🎮</div>
           <h3>Start a New Game</h3>
-          <p>Create a room and invite your friends</p>
-          <p>You need 4 players total to start the game</p>
+          
+          <p>Gather your friends for an exciting game of deception and deduction</p>
+          <p>Perfect for 4 players - each with a unique role to play</p>
+          
+          <div className="players-info">
+            <div className="player-spot filled">1</div>
+            <div className="player-spot">2</div>
+            <div className="player-spot">3</div>
+            <div className="player-spot">4</div>
+          </div>
+          
+          <div className="requirements">
+            <h4>Game Requirements</h4>
+            <ul>
+              <li>Exactly 4 players needed to start</li>
+              <li>Each player gets a secret role</li>
+              <li>One round takes approximately 5-10 minutes</li>
+              <li>No experience necessary - easy to learn!</li>
+            </ul>
+          </div>
         </div>
-
-        <button 
-          className="create-btn"
-          onClick={handleCreateRoom}
-          disabled={isCreating}
-        >
-          {isCreating ? 'Creating Room...' : 'Create Room'}
-        </button>
+        
+        <div className="create-btn-container">
+          <button 
+            className="create-btn"
+            onClick={handleCreateRoom}
+            disabled={isCreating}
+          >
+            <span>🏠</span>
+            <span>{isCreating ? 'Creating Room...' : 'Create Game Room'}</span>
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -95,13 +95,6 @@ function HeroPage({ username, onUsernameSubmit, isSubmitting, setIsSubmitting })
     <div className="hero-page">
       {/* Hero Section */}
       <div className="hero-section">
-        {/* Background Effects */}
-        <div className="hero-background-effects">
-          <div className="effect-1" />
-          <div className="effect-2" />
-          <div className="effect-3" />
-        </div>
-
         <div className="hero-content-container">
           <div className="hero-content">
             {/* Main Title */}

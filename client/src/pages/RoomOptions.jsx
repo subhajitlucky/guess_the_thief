@@ -13,21 +13,23 @@ function RoomOptions({ username }) {
       </div>
 
       <div className="options-container">
-        <button 
-          className="option-btn create-btn"
+        <div 
+          className="option-card"
           onClick={() => navigate('/create')}
         >
-          🏠 Create Room
-          <span>Start a new game</span>
-        </button>
+          <div className="option-icon">🏠</div>
+          <h3 className="option-title">Create Room</h3>
+          <p className="option-description">Start a new game and invite friends</p>
+        </div>
 
-        <button 
-          className="option-btn join-btn"
+        <div 
+          className="option-card"
           onClick={() => navigate('/join')}
         >
-          🚪 Join Room
-          <span>Enter room code</span>
-        </button>
+          <div className="option-icon">🚪</div>
+          <h3 className="option-title">Join Room</h3>
+          <p className="option-description">Enter a room code to join an existing game</p>
+        </div>
       </div>
     </div>
   )

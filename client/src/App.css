@@ -65,7 +65,7 @@
 
 /* Username Form Styles */
 .username-form {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #667eea;
   padding: 3rem;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -157,14 +157,12 @@
 .welcome-screen h1 {
   font-size: 3rem;
   margin-bottom: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #667eea;
+  font-weight: bold;
 }
 
 .welcome-message {
-  background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+  background-color: #4ecdc4;
   padding: 2rem;
   border-radius: 20px;
   color: white;

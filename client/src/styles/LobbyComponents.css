@@ -18,12 +18,8 @@
 .lobby-header-title h2 {
   font-size: 1.5rem;  /* Mobile first: smaller */
   font-weight: 700;
-  color: #ffffff;
+  color: var(--purple-400);
   margin: 0 0 0.5rem 0;
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .room-code-display {
@@ -252,40 +248,40 @@
 }
 
 .ready-btn.ready {
-  background: linear-gradient(135deg, #16a34a, #22c55e);
+  background-color: #16a34a;
   color: #ffffff;
 }
 
 .ready-btn.ready:hover {
-  background: linear-gradient(135deg, #15803d, #16a34a);
+  background-color: #15803d;
   transform: translateY(-2px);
   box-shadow: var(--shadow-xl);
 }
 
 .ready-btn.not-ready {
-  background: linear-gradient(135deg, #b91c1c, #ef4444);
+  background-color: #b91c1c;
   color: #ffffff;
 }
 
 .ready-btn.not-ready:hover {
-  background: linear-gradient(135deg, #991b1b, #b91c1c);
+  background-color: #991b1b;
   transform: translateY(-2px);
   box-shadow: var(--shadow-xl);
 }
 
 .start-btn {
-  background: var(--gradient-primary);
+  background-color: var(--purple-600);
   color: #ffffff;
 }
 
 .start-btn:hover {
-  background: linear-gradient(135deg, var(--purple-700), var(--pink-500));
+  background-color: var(--purple-700);
   transform: translateY(-2px);
   box-shadow: var(--shadow-purple);
 }
 
 .start-btn:disabled {
-  background: linear-gradient(135deg, var(--slate-600), var(--slate-500));
+  background-color: var(--slate-600);
   cursor: not-allowed;
   opacity: 0.6;
   transform: none;
