@@ -10,6 +10,17 @@ function assert(cond, msg) {
   if (!cond) failures++;
 }
 
+/** Polls until pred(inbox) or timeout. A fixed sleep is not reliable against
+ *  a remote TLS endpoint where the socket opens far slower than in local dev. */
+async function waitFor(c, pred, ms = 15000) {
+  for (let i = 0; i < ms / 250; i++) {
+    const hit = [...c.inbox].reverse().find(pred);
+    if (hit) return hit;
+    await sleep(250);
+  }
+  return undefined;
+}
+
 (async () => {
   const ROOM = 'SOLO' + Math.random().toString(36).slice(2, 5).toUpperCase();
   console.log(`room: ${ROOM}  (one human, no friends)\n`);
@@ -18,10 +29,10 @@ function assert(cond, msg) {
   const inbox = [];
   ws.addEventListener('message', (e) => inbox.push(JSON.parse(e.data)));
   const send = (t, p = {}) => { if (ws.readyState === 1) ws.send(JSON.stringify({ t, ...p })); };
-  await sleep(1500);
+  const lobby = await waitFor({ inbox }, (m) => m.t === 'lobby-update');
+  await sleep(600);
 
   console.log('1. bots fill the empty seats');
-  const lobby = [...inbox].reverse().find((m) => m.t === 'lobby-update');
   const seats = lobby?.players ?? [];
   assert(seats.length === 4, `lobby shows 4 players (${seats.map((p) => p.username).join(', ')})`);
   const botSeats = seats.filter((p) => p.username !== 'solo');
@@ -31,13 +42,11 @@ function assert(cond, msg) {
 
   console.log('\n2. host readies up and starts');
   send('toggle-ready', { roomCode: ROOM });
-  await sleep(900);
-  const ready = [...inbox].reverse().find((m) => m.t === 'lobby-update');
-  assert(ready?.canStart === true, 'canStart true once the lone human readies up');
+  const ready = await waitFor({ inbox }, (m) => m.t === 'lobby-update' && m.canStart === true);
+  assert(!!ready, 'canStart true once the lone human readies up');
 
   send('start-game', { roomCode: ROOM });
-  await sleep(1200);
-  const started = [...inbox].reverse().find((m) => m.t === 'game-started');
+  const started = await waitFor({ inbox }, (m) => m.t === 'game-started');
   assert(!!started, 'game-started received');
   assert(!!started?.yourRole, `the solo player was dealt a role: ${started?.yourRole}`);
 

@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: worker
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Unit tests
+        run: npx vitest run
+
+      - name: Build the client
+        working-directory: client
+        run: npm ci && npm run build
+
+      # Fails on a bad import, a binding typo, or an assets path that has
+      # drifted from the client build.
+      - name: Verify the worker bundles
+        run: npx wrangler deploy --dry-run --outdir=dist-check

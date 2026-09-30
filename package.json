@@ -23,12 +23,17 @@
   "author": "Subhajit <subhajitlucky@github>",
   "license": "MIT",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "wrangler": "^4.144.0"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
     "socket.io-client": "^4.8.1"
+  },
+  "allowScripts": {
+    "workerd@1.20260926.1": true,
+    "esbuild@0.28.1": true
   }
 }

@@ -1,276 +1,183 @@
-# 🕵️ Guess the Thief - Multiplayer Social Deduction
+# 🕵️ Guess the Thief
 
-![Live Demo](https://img.shields.io/badge/Live_Demo-Ready_For_Deploy-brightgreen?style=for-the-badge&logo=vercel)
-![Build Status](https://img.shields.io/badge/Build-Passing-success?style=for-the-badge&logo=github-actions)
-![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&logo=opensourceinitiative)
+A real-time multiplayer social-deduction game. Four players, four secret roles
+— King, Queen, Police, Thief. The King calls out, the Police accuses, and the
+Thief tries to survive ten rounds.
 
-## 📊 **Project Progress Dashboard**
+**Play it:** <https://guess-the-thief.subhajitlucky.workers.dev>
 
-![Progress](https://img.shields.io/badge/Progress-85%25-brightgreen?style=for-the-badge&logo=github)
-![Phase](https://img.shields.io/badge/Current_Phase-Ready_For_Deployment-green?style=for-the-badge)
-![Tech Stack](https://img.shields.io/badge/Tech_Stack-React%20%2B%20Node.js-61DAFB?style=for-the-badge&logo=react)
-
-### 🚀 **Development Metrics**
-
-| **📈 Progress** | **🔥 Streak** | **🎯 Features** | **🧪 Tests** |
-|-----------------|---------------|-----------------|--------------|
-| 85% | 20 days | 16/17 | 0/12 |
-
-### 📋 **Phase Breakdown**
-
-| Phase | Status | Progress | Features | Weight |
-|-------|--------|----------|----------|---------|
-| **🏗️ Foundation** | ✅ Complete | `██████████` 100% | 4/4 | 15% |
-| **🚪 Lobby System** | ✅ Complete | `██████████` 100% | 5/5 | 25% |
-| **🎲 Role Assignment** | ✅ Complete | `██████████` 100% | 2/2 | 20% |
-| **🕵️ Game Mechanics** | ✅ Complete | `██████████` 100% | 3/3 | 25% |
-| **🔄 Game Loop** | ✅ Complete | `██████████` 100% | 1/1 | 10% |
-| **🎨 UI Polish** | ✅ Complete | `██████████` 100% | 1/1 | 3% |
-| **🚀 Deployment** | 📋 Planned | `░░░░░░░░░░` 0% | 0/1 | 2% |
-
-**Overall Completion:** `█████████████████▓░░` **85%**
+Open it in one tab. You don't need friends — bots fill the empty seats.
 
 ---
 
-## 🛠️ **Tech Stack**
+## Why this exists
 
-|     |     |     |     |
-|-----|-----|-----|-----|
-| ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) | ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) | ![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white) | ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) |
-| ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge) | ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) | ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) |
+The original version was a React + Express + Socket.IO app whose rooms lived in
+a `Map` in server memory. If the process died mid-round, the game was gone. It
+had no tests, no deployment, and a progress-bar README that reported `0/12`
+tests in bold.
 
-### 🏗️ **Architecture Overview**
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   React Client  │◄──►│  Socket.IO      │◄──►│   Game Rooms    │
-│   (Port 5173)   │    │   Server        │    │   Memory Store  │
-│                 │    │   (Port 4000)   │    │                 │
-│  ┌─────────────┐│    │ ┌─────────────┐ │    │ ┌─────────────┐ │
-│  │ Components  ││    │ │ Room Logic  │ │    │ │ Player Data │ │
-│  │ • Lobby     ││    │ │ • Create    │ │    │ │ • Roles     │ │
-│  │ • Game      ││    │ │ • Join      │ │    │ │ • Status    │ │
-│  │ • Forms     ││    │ │ • Ready     │ │    │ │ • Scores    │ │
-│  └─────────────┘│    │ └─────────────┘ │    │ └─────────────┘ │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+This is the rewrite: one Cloudflare Durable Object per room, state in SQLite,
+the game loop driven by Durable Object Alarms, and a test suite that exercises
+the real thing.
 
 ---
 
-## ⚡ **Quick Start**
+## Architecture
 
-### 📋 **Prerequisites**
+```
+Browser (React + partysocket)
+        │  wss://…/room/<CODE>?name=<player>
+        ▼
+┌──────────────────────────────────────────┐
+│ Worker                                   │
+│  /room/<CODE> → Durable Object stub      │
+│  everything else → static assets         │
+└───────────────────┬──────────────────────┘
+                    ▼
+┌──────────────────────────────────────────┐
+│ GameRoom (Durable Object)                │
+│  ID = idFromName(CODE)                   │
+│  • SQLite: room, players, round_log      │
+│  • alarm(): phase transitions            │
+│  • acceptWebSocket(): hibernation        │
+│  • bots fill empty seats                 │
+└──────────────────────────────────────────┘
+```
 
-- **Node.js** (v14+) - [Download](https://nodejs.org/)
-- **npm/yarn** - Package manager
-- **Git** - [Download](https://git-scm.com/)
+**One Durable Object per room.** The DO *is* the room — there is no room
+registry to look up, so state cannot be addressed across rooms. Each instance
+is single-threaded, which means no locks and no cross-room interference.
 
-### 🚀 **Installation**
+### Three constraints that shaped the code
+
+**1. The room has to be in the URL.**
+
+Socket.IO connected once and then sent `join-room` with the room code as a
+*message*. A Durable Object is addressed by *path*. There is no server-side
+table to look a room up in.
+
+```
+before:  connect(host) → emit('join-room', { roomCode: 'ABCD' })
+after:   connect(host/room/ABCD?name=Subhajit)
+```
+
+This reorders the client flow — name first, then room — and deleted the
+`set-username` handshake entirely. It also means a message naming a different
+room than the path is refused before it can touch state.
+
+**2. `setTimeout` does not work on a Durable Object.**
+
+A DO instance is evicted from memory when idle, and in-memory timers die with
+it. A game that stops when nobody is looking is not a game. All four phase
+delays are Durable Object Alarms, which persist across eviction.
+
+Each alarm re-reads state from SQLite and re-checks the phase, so a stale alarm
+that outlived its phase is a no-op rather than a corruption.
+
+**3. Hibernation forces state out of memory.**
+
+Per Cloudflare's pricing, *"calling `accept()` on a WebSocket in an Object will
+incure duration charges for the entire time the WebSocket is connected."* So the
+socket is handed to the runtime with `acceptWebSocket()`, the instance is
+evicted while it sleeps, and **nothing may live in an instance variable**. All
+state is in SQLite — which is also exactly what the old `Map`-based server was
+missing.
+
+---
+
+## Bots
+
+A four-player multiplayer game opened by a single visitor shows an empty lobby,
+and the visitor closes the tab. Bots fill the empty seats so one person can play
+a full round.
+
+Three things that are easy to get wrong, all of which bit during the build:
+
+- **Bots get no timers of their own.** Every bot action is scheduled through the
+  room's single pending Alarm — the same one used for human timeouts. A second
+  timer would break the one-alarm-per-instance rule and add billable duration.
+- **Bots are evicted *before* the capacity check, not after.** Padding a room to
+  four with bots and *then* checking the cap meant every real player who came to
+  take one of those seats was told the room was full — a group of friends could
+  never assemble. The smoke suite caught this.
+- **A human turn still gets a 45s grace period.** A solo visitor who is dealt
+  King and walks away would otherwise wedge the room forever, since no human is
+  left to trigger the next phase. On expiry a bot stands in.
+
+Set `BOT_FILL = "off"` to disable.
+
+---
+
+## Bugs fixed from the original
+
+| | |
+|---|---|
+| **Role leak** | `handlers/lobby.js` broadcast `room.players` unfiltered. Once `assignRoles()` attached a role, a later `lobby-update` sent *every client's secret role to every client*. In a social-deduction game that ends the game. Now a role may only appear in the `yourRole` field of a message addressed to that player — with a test. |
+| **Stranded rounds** | When the Police ran out of time, the original set the phase to `round-over` and scheduled no continuation, so the game stopped there forever. Only an explicit guess advanced it. Both paths continue now. |
+| **Client-supplied identity** | `toggle-ready` and `send-emoji` trusted the client's own `username` field. The server now derives identity from the socket. |
+| **Server-side timestamps** | `new Date().toLocaleTimeString()` ran on the server, which would have pinned every chat timestamp to Workers' UTC. Epoch milliseconds now, formatted client-side. |
+| **Duplicate shuffle** | `shuffleArray` was defined twice; one copy was dead. |
+
+---
+
+## Tests
 
 ```bash
-# 📥 Clone the repository
-git clone https://github.com/subhajitlucky/guess_the_thief.git
-cd guess_the_thief
-
-# ⚡ Quick setup (installs everything)
-npm run install:all
-
-# 🚀 Start development
-npm run dev
-# ✅ Server running on http://localhost:4000
-# ✅ Client running on http://localhost:5173
+cd worker
+npm test                    # 17 unit tests
+node scripts/smoke.mjs      # lobby, capacity, role-leak, route guard
+node scripts/game-flow.mjs  # four humans, two full rounds
+node scripts/solo.mjs       # one human + bots, full round
 ```
 
-### 🎯 **Usage**
+Unit tests are pure and run in the Node environment in ~300ms, because none of
+them touch SQLite or WebSockets. The three integration suites run against a real
+`wrangler dev` Durable Object — not a mock — and drive real WebSocket clients
+through actual gameplay.
 
-1. **🆔 Set Username** - Enter unique username to join
-2. **🏠 Create Room** - Generate 6-character room code
-3. **🚪 Join Room** - Enter friend's room code
-4. **👥 Wait for Players** - Need exactly 4 players
-5. **✅ Ready Up** - All players must be ready
-6. **🎲 Get Role** - Receive secret role assignment
-7. **🕵️ Play Game** - Use deduction to win!
-
----
-
-## 🌐 **Real-time Events**
-
-**🔗 Socket.IO Communication**
-
-| Event | Direction | Purpose | Payload | Status |
-|-------|-----------|---------|---------|---------|
-| `set-username` | Client → Server | Set player name | `{ username }` | ✅ |
-| `create-room` | Client → Server | Create new room | `{ roomCode, username }` | ✅ |
-| `join-room` | Client → Server | Join existing room | `{ roomCode, username }` | ✅ |
-| `toggle-ready` | Client → Server | Toggle ready state | `{ roomCode, username }` | ✅ |
-| `start-game` | Client → Server | Start game (host) | `{ roomCode }` | ✅ |
-| `spin-role` | Client → Server | Get role assignment | `{ roomCode, username }` | ✅ |
-| `king-reveals-police` | Client → Server | King action | `{ roomCode }` | ✅ |
-| `police-guess-thief` | Client → Server | Police guess | `{ roomCode, guess }` | ✅ |
-| `send-emoji` | Client → Server | Send emoji | `{ roomCode, emoji, from }` | ✅ |
-| `lobby-update` | Server → Client | Real-time lobby | `{ players, host, canStart }` | ✅ |
-| `game-started` | Server → Client | Game start notification | `{ roomCode, players }` | ✅ |
-| `role-assigned` | Server → Client | Private role reveal | `{ role, description }` | ✅ |
-| `game-update` | Server → Client | Game state changes | `{ gameState, message }` | ✅ |
-| `game-result` | Server → Client | Game outcome | `{ winner, scores }` | ✅ |
-
----
-
-## 📁 **Project Structure**
-
-```
-guess_the_thief/
-├── 🖥️ server/
-│   ├── index.js            # Socket.IO server
-│   ├── handlers/           # Modular event handlers
-│   │   ├── connection.js   # User connection handling
-│   │   ├── room.js         # Room creation/joining
-│   │   ├── lobby.js        # Lobby management
-│   │   └── game.js         # Game mechanics
-│   └── package.json        # Server dependencies
-├── 🎨 client/
-│   ├── src/
-│   │   ├── App.jsx         # Main router
-│   │   ├── components/     # Reusable components
-│   │   │   ├── game/       # Game-specific components
-│   │   │   ├── lobby/      # Lobby components
-│   │   │   ├── layout/     # Layout components
-│   │   │   └── UsernameForm.jsx
-│   │   ├── pages/          # Route-based pages
-│   │   │   ├── HeroPage.jsx       # Landing page
-│   │   │   ├── RoomOptions.jsx    # Home page
-│   │   │   ├── CreateRoom.jsx     # Room creation
-│   │   │   ├── JoinRoom.jsx       # Room joining
-│   │   │   ├── RoomLobby.jsx      # Multiplayer lobby
-│   │   │   └── GamePage.jsx       # Game interface
-│   │   └── styles/         # Component CSS
-│   ├── index.html          # HTML template
-│   └── package.json        # Client dependencies
-├── 📊 scripts/
-│   └── progress-check.js   # Auto-progress tracker
-├── 📁 .github/workflows/
-│   └── progress-tracker.yml # CI/CD pipeline
-├── 📋 ROADMAP.md          # Development plan
-└── 📄 README.md           # This file
-```
-
----
-
-## 🎮 **Game Rules & Mechanics**
-
-### 👥 **Roles Overview**
-
-| Role | Icon | Objective | Special Power |
-|------|------|-----------|---------------|
-| **King** | 👑 | Identify Police | Can reveal Police identity |
-| **Queen** | 👸 | Support Police | Provides hints to Police |
-| **Police** | 👮 | Catch the Thief | Must guess who is Thief |
-| **Thief** | 🥷 | Avoid detection | Wins if not caught |
-
-### 🎯 **Game Flow**
-
-```
-1. Lobby (4 players) → 2. Role Assignment → 3. King Phase → 4. Police Phase → 5. Results
-```
-
-### 🏆 **Scoring System**
-
-| Scenario | Police Score | Thief Score | Others |
-|----------|--------------|-------------|---------|
-| Police catches Thief | +300 points | 0 points | +100 |
-| Thief escapes | 0 points | +300 points | +50 |
-| Wrong guess | -100 points | +200 points | +75 |
-
----
-
-## 🤖 **Auto-Progress Tracking**
-
-This project features **automated progress tracking** that updates this README!
-
-### 🔄 **Manual Update**
+`scripts/` read `BASE` and `WS` from the environment, so the same suites run
+against production:
 
 ```bash
-npm run progress
-```
-
-### ⚙️ **GitHub Actions**
-
-The project automatically tracks progress on every push via GitHub Actions:
-
-- 📊 Analyzes file structure
-- 🔢 Counts completed features
-- 📈 Updates progress badges
-- 📋 Generates metrics
-
----
-
-## 🚀 **Next Milestones**
-
-| 🎯 Current Focus | 📅 This Week | 🔮 Next Sprint |
-|------------------|--------------|----------------|
-| • Production deployment<br>• Environment setup<br>• CORS configuration | • Live demo deployment<br>• Performance optimization<br>• Bug fixes | • Testing framework<br>• Sound effects<br>• Mobile optimization |
-
----
-
-## 🔧 **Development Commands**
-
-```bash
-# 🚀 Quick Development
-npm run dev                    # Start both client & server
-npm run client                 # Start only frontend
-npm run server                 # Start only backend
-
-# 📊 Analysis
-npm run progress              # Check completion status
-
-# 📦 Installation
-npm run install:all           # Install all dependencies
-
-# 🏗️ Building
-npm run build                 # Build client for production
+WS=wss://guess-the-thief.subhajitlucky.workers.dev node scripts/solo.mjs
 ```
 
 ---
 
-## 📈 **Performance Metrics**
+## Cost
 
-| Metric | Current | Target | Status |
-|--------|---------|---------|--------|
-| **Bundle Size** | ~180KB | <500KB | ✅ Excellent |
-| **Load Time** | <1.5s | <3s | ✅ Excellent |
-| **Socket Latency** | <50ms | <200ms | ✅ Excellent |
-| **Memory Usage** | ~25MB | <100MB | ✅ Excellent |
-| **Lighthouse Score** | 95/100 | >90 | ✅ Excellent |
+Verified against Cloudflare's pricing documentation.
 
----
+| Resource | Free allowance | Expected use |
+|---|---|---|
+| DO requests | 100,000/day | ~5,000 |
+| DO duration | 13,000 GB-s/day | ~200 |
+| Row reads | 5,000,000/day | ~50,000 |
+| Row writes | 100,000/day | ~10,000 |
+| Storage | 5 GB | <50 MB |
 
-## 🎯 **Contributing Guidelines**
+**$0, with roughly 100× headroom.** Two details matter:
 
-1. **📋 Check Roadmap** - Review [`ROADMAP.md`](./ROADMAP.md) for current phase
-2. **🏗️ Follow Structure** - Match existing component patterns
-3. **🧪 Add Tests** - Include tests for new features
-4. **📊 Update Progress** - Run `npm run progress` after changes
-5. **🔄 Auto-Update** - Progress badges update automatically
-
----
-
-## 📝 **License & Credits**
-
-- **License:** MIT - see [LICENSE](./LICENSE)
-- **Author:** [Subhajit](https://github.com/subhajitlucky)
-- **Inspired by:** Classic social deduction games
+- WebSocket messages bill at **20:1** (100 messages = 5 requests), so message
+  volume is the real constraint, not request count.
+- **Hibernation is what makes idle rooms free.** Without it a room would bill
+  duration for as long as a socket stayed open. An idle, hibernated room costs
+  nothing — which is the reason the idle-cost figure is a measured estimate
+  rather than a guess.
 
 ---
 
-<div align="center">
+## Tech
 
-**Last Updated:** `December 2024` | **Version:** `1.0.0` | **Status:** `🚧 Active Development`
+TypeScript · Cloudflare Workers · Durable Objects (SQLite backend) · WebSocket
+Hibernation API · Durable Object Alarms · partysocket · React 18 + Vite · Vitest
 
-![GitHub stars](https://img.shields.io/github/stars/subhajitlucky/guess_the_thief?style=social)
-![GitHub forks](https://img.shields.io/github/forks/subhajitlucky/guess_the_thief?style=social)
+## Design documents
 
+- [`docs/plans/2026-09-29-cloudflare-do-port-design.md`](docs/plans/2026-09-29-cloudflare-do-port-design.md) — why the port looks like this
+- [`docs/plans/2026-09-29-cloudflare-do-port-implementation.md`](docs/plans/2026-09-29-cloudflare-do-port-implementation.md) — the build plan and its gates
 
+## License
 
-*🔄 Progress tracking auto-updates with each commit*
-
-</div>
+MIT

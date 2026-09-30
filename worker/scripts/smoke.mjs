@@ -11,7 +11,16 @@ function client(name, room) {
   const ws = new WebSocket(`${WS}/room/${room}?name=${encodeURIComponent(name)}`);
   const inbox = [];
   ws.addEventListener('message', (e) => inbox.push(JSON.parse(e.data)));
-  return { name, ws, inbox, send: (t, p = {}) => ws.send(JSON.stringify({ t, ...p })) };
+  return {
+    name,
+    ws,
+    inbox,
+    send: (t, p = {}) => {
+      // Guard readyState: against a remote TLS endpoint the socket is
+      // measurably slower to open than it is in local dev.
+      if (ws.readyState === 1) ws.send(JSON.stringify({ t, ...p }));
+    },
+  };
 }
 
 function assert(cond, msg) {
