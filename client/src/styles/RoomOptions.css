@@ -7,8 +7,8 @@
   justify-content: center;
   min-height: calc(100vh - 3.5rem);
   padding: 1rem;
-  background-color: --bg-base;
-  color: --text-secondary;
+  background-color: var(--bg-base);
+  color: var(--text-secondary);
   -webkit-overflow-scrolling: touch;
 }
 
@@ -21,7 +21,7 @@
 .welcome-header h1 {
   font-size: 2rem;
   font-weight: 700;
-  color: --accent;
+  color: var(--accent);
   margin-bottom: 0.5rem;
 }
 
@@ -34,7 +34,7 @@
 
 .welcome-header p {
   font-size: 1rem;
-  color: --text-secondary;
+  color: var(--text-secondary);
 }
 
 .options-container {
@@ -55,7 +55,7 @@
   border-radius: 1rem;
   background: var(--bg-scrim);
   backdrop-filter: blur(10px);
-  color: --text-primary;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all var(--duration-base) var(--ease-out);
   text-align: center;
@@ -67,7 +67,7 @@
 }
 
 .option-card:hover {
-  border-color: --accent;
+  border-color: var(--accent);
   background: var(--bg-scrim);
   transform: translateY(-5px);
   box-shadow: var(--shadow-md);
@@ -80,7 +80,7 @@
 .option-icon {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: --accent;
+  color: var(--accent);
 }
 
 .option-title {
@@ -92,7 +92,7 @@
 
 .option-description {
   font-size: 0.875rem;
-  color: --text-secondary;
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
@@ -333,11 +333,11 @@
 @media (prefers-contrast: high) {
   .option-card {
     border-width: 2px;
-    border-color: --text-primary;
+    border-color: var(--text-primary);
   }
   
   .option-card:hover {
-    border-color: --text-primary;
+    border-color: var(--text-primary);
     background: var(--bg-scrim);
   }
 }

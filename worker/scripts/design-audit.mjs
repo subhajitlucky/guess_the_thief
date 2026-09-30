@@ -120,6 +120,57 @@ for (const f of styleFiles) {
 }
 if (!literalHits) ok(`${styleFiles.length} style files are fully tokenised`);
 
+// ------------------------------------------------------ malformed var()
+
+console.log('\n3b. No bare --token used as a value');
+// `color: --text-primary;` is invalid CSS. The browser discards the whole
+// declaration silently, so the element loses its colour with no console
+// error anywhere. This exact bug shipped once already.
+let malformed = 0;
+for (const f of styleFiles) {
+  const body = readFileSync(f, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const hits = [...body.matchAll(/:\s*(--[a-z][a-z0-9-]+)\s*[;!]/g)];
+  if (hits.length) {
+    malformed += hits.length;
+    fail(`${relative(CLIENT, f)}: ${hits.length} bare --token value(s) — wrap in var()`);
+  }
+}
+if (!malformed) ok('every token reference is a valid var()');
+
+// ------------------------------------------------------- unstyled classes
+
+console.log('\n3c. No JSX class without a CSS rule');
+// A rewritten component whose stylesheet was not rewritten renders raw
+// unstyled markup — the single most common "this looks broken" cause.
+const combinedCss = styleFiles.map((f) => readFileSync(f, 'utf8')).join('\n');
+const defined = new Set([...combinedCss.matchAll(/\.([a-zA-Z][\w-]*)/g)].map((m) => m[1]));
+const used = new Map();
+for (const f of walk(CLIENT, ['.jsx'])) {
+  const body = readFileSync(f, 'utf8');
+  const names = new Set();
+  for (const m of body.matchAll(/className="([^"{]+)"/g)) {
+    m[1].split(/\s+/).forEach((c) => names.add(c));
+  }
+  for (const m of body.matchAll(/className=\{[^}]*?'([^']+)'/g)) {
+    m[1].split(/\s+/).forEach((c) => names.add(c));
+  }
+  for (const c of names) {
+    if (!used.has(c)) used.set(c, []);
+    used.get(c).push(f);
+  }
+}
+const orphans = [...used].filter(([c]) => !defined.has(c) && c !== 'root');
+if (orphans.length) {
+  const byFile = new Map();
+  for (const [c, files] of orphans) {
+    for (const f of files) byFile.set(f, (byFile.get(f) || 0) + 1);
+  }
+  fail(`${orphans.length} class(es) used in JSX with no CSS rule`);
+  for (const [f, n] of [...byFile].sort((a, b) => b[1] - a[1]).slice(0, 6)) {
+    console.log(`       ${relative(CLIENT, f)}: ${n}`);
+  }
+} else ok('every JSX class has a CSS rule');
+
 // ------------------------------------------------------------------- emoji
 
 console.log('\n4. No emoji left in component source');

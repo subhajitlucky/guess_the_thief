@@ -773,3 +773,49 @@ select.input {
     display: none;
   }
 }
+
+/* ============================================================
+   12. App shell
+   ============================================================
+   These lived in App.css, which was deleted as Vite scaffold.
+   That was wrong: App.jsx depends on all three, and losing them
+   removed the page layout entirely. They belong here.
+   ============================================================ */
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.App {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-inline: var(--gutter);
+  padding-block: var(--space-lg) var(--space-2xl);
+  max-width: var(--shell-max);
+  width: 100%;
+  margin-inline: auto;
+}
+
+@media (max-width: 40rem) {
+  .main-content {
+    padding-block: var(--space-md) var(--space-xl);
+  }
+}

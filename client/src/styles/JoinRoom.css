@@ -570,3 +570,19 @@
     /* Already optimized for dark mode */
   }
 } 
+/* The room-code field is the whole point of this screen, so it gets the
+   mono treatment: uppercase, wide tracking, generous size. */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.input-group .input {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-widest);
+  text-align: center;
+  text-transform: uppercase;
+  min-height: 3.75rem;
+}

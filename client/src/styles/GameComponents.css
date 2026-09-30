@@ -875,3 +875,28 @@
     font-size: var(--text-4xl);
   }
 }
+
+/* --- chat ---------------------------------------------------------------
+   A player's line and a system line are told apart by a left rule colour,
+   not by background fills — the feed stays quiet to read. */
+
+.chat-message {
+  display: flex;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-2xs);
+  border-left: 2px solid transparent;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
+.chat-message.player {
+  border-left-color: var(--border-strong);
+}
+
+.chat-message.system {
+  border-left-color: var(--accent);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+}
