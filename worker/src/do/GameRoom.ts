@@ -26,13 +26,11 @@ import type { PlayerRecord } from './protocol';
 import { allPublicPlayers, gameStartedFor } from './protocol';
 import { assignRoles, type Role } from './roles';
 import { createInitialGameState, updateScores, type GameState } from './game';
+import * as bot from './bot';
 import * as db from './state';
 
 export const MAX_PLAYERS = 4;
 export const MAX_ROUNDS = 10;
-const SPIN_MS = 5_000;
-const INVESTIGATION_MS = 60_000;
-const ROUND_RESULT_MS = 8_000;
 const BOT_NAMES = ['Cipher', 'Rook', 'Nova', 'Vex', 'Juno', 'Onyx'] as const;
 
 type Attachment = { username: string };
@@ -224,17 +222,38 @@ export class GameRoom extends DurableObject<Env> {
         this.enterKingTurn(room, players);
         return;
 
-      case 'police-investigation':
-        // Police ran out of time: the Thief evades.
-        this.scoreAndEndRound(room, players, 'incorrect', `Time's up! The Police failed to catch the thief.`);
+      case 'king-turn': {
+        // Reached either by a bot King, or by the human grace period
+        // expiring — in which case a bot stands in so the round cannot wedge.
+        const king = bot.actorFor(players, 'King');
+        if (king) this.transition(room, players, 'king-turn', king.username, 'King');
         return;
+      }
+
+      case 'waiting-police-response': {
+        const police = bot.actorFor(players, 'Police');
+        if (police) this.transition(room, players, 'waiting-police-response', police.username, 'Police');
+        return;
+      }
+
+      case 'police-investigation': {
+        const police = bot.roleHolder(players, 'Police');
+        if (police?.isBot) {
+          // A bot decides; it can still guess wrong, which is the point.
+          this.resolveGuess(room, players, police.username, bot.botGuess(players));
+        } else {
+          // Human Police ran out of time: the Thief evades.
+          this.scoreAndEndRound(room, players, 'incorrect', "Time's up! The Police failed to catch the thief.");
+        }
+        return;
+      }
 
       case 'round-over':
         this.advanceRound(room, players);
         return;
 
       default:
-        return; // king-turn / waiting-police-response: waiting on a human
+        return; // waiting on a human
     }
   }
 
@@ -265,7 +284,7 @@ export class GameRoom extends DurableObject<Env> {
     // The spinner, then the King's turn. This is the alarm that setTimeout
     // used to provide — and the reason the game no longer dies when the
     // instance is evicted during the spin.
-    this.alarmIn(SPIN_MS);
+    this.scheduleNext(players);
   }
 
   private enterKingTurn(room: db.RoomRecord, players: PlayerRecord[]): void {
@@ -274,6 +293,8 @@ export class GameRoom extends DurableObject<Env> {
     room.updatedAt = Date.now();
     db.saveRoom(this.sql, room);
     this.broadcastGameUpdate(room, "The King is now in charge!");
+    // The King now owes a move: soon if a bot, after the grace period if human.
+    this.scheduleNext(players);
   }
 
   private transition(
@@ -293,6 +314,7 @@ export class GameRoom extends DurableObject<Env> {
       db.saveRoom(this.sql, room);
       this.broadcastChat(me, 'Who is the Police here? Find the thief in 1 minute!');
       this.broadcastGameUpdate(room, 'Waiting for Police to respond...');
+      this.scheduleNext(players);
       return;
     }
 
@@ -302,7 +324,7 @@ export class GameRoom extends DurableObject<Env> {
     db.saveRoom(this.sql, room);
     this.broadcastChat(me, 'Your Majesty, I am the Police! I will find the thief in 1 minute!');
     this.broadcastGameUpdate(room, 'The Police is now investigating. 1 minute remaining!');
-    this.alarmIn(INVESTIGATION_MS);
+    this.scheduleNext(players);
   }
 
   private resolveGuess(room: db.RoomRecord, players: PlayerRecord[], me: string, guess: string): void {
@@ -340,7 +362,7 @@ export class GameRoom extends DurableObject<Env> {
     // The Express build left the game stranded here when the Police timed
     // out — it only scheduled a continuation after an explicit guess. Both
     // paths now continue.
-    this.alarmIn(ROUND_RESULT_MS);
+    this.scheduleNext(players);
   }
 
   private advanceRound(room: db.RoomRecord, players: PlayerRecord[]): void {
@@ -370,7 +392,7 @@ export class GameRoom extends DurableObject<Env> {
       });
     }
 
-    this.alarmIn(SPIN_MS);
+    this.scheduleNext(players);
   }
 
   // ------------------------------------------------------------ membership
@@ -379,7 +401,7 @@ export class GameRoom extends DurableObject<Env> {
     | { ok: true; players: ReturnType<typeof allPublicPlayers> }
     | { ok: false; reason: string }
   > {
-    const players = db.allPlayers(this.sql);
+    let players = db.allPlayers(this.sql);
     const existing = players.find((p) => p.username === name);
 
     if (existing) {
@@ -392,10 +414,6 @@ export class GameRoom extends DurableObject<Env> {
       return { ok: true, players: allPublicPlayers(players) };
     }
 
-    if (players.length >= MAX_PLAYERS) {
-      return { ok: false, reason: `Room is full (${MAX_PLAYERS}/${MAX_PLAYERS} players)` };
-    }
-
     let room = this.load();
     if (!room) {
       room = {
@@ -406,6 +424,24 @@ export class GameRoom extends DurableObject<Env> {
         status: 'lobby',
         updatedAt: Date.now(),
       };
+    }
+
+    // Bots must be evicted BEFORE the capacity check, not after. Otherwise a
+    // room padded to four with bots rejects every real player who then tries
+    // to take one of those seats, and a group can never assemble.
+    const botsOn = bot.botsEnabled(this.env.BOT_FILL) && room.status === 'lobby';
+    if (botsOn) {
+      const humans = bot.humanPlayers(players);
+      if (humans.length !== players.length) {
+        for (const p of players) {
+          if (p.isBot) db.removePlayer(this.sql, p.username);
+        }
+        players = humans;
+      }
+    }
+
+    if (players.length >= MAX_PLAYERS) {
+      return { ok: false, reason: `Room is full (${MAX_PLAYERS}/${MAX_PLAYERS} players)` };
     }
 
     const isFirst = players.length === 0;
@@ -421,6 +457,7 @@ export class GameRoom extends DurableObject<Env> {
     if (player.isHost) room.host = name;
     room.updatedAt = Date.now();
 
+    this.applyBotFill(room, players);
     this.persistPlayers(players);
     db.saveRoom(this.sql, room);
 
@@ -429,6 +466,28 @@ export class GameRoom extends DurableObject<Env> {
     }
 
     return { ok: true, players: allPublicPlayers(players) };
+  }
+
+  /**
+   * Keeps the room playable by one visitor.
+   *
+   * Bots are re-seeded on every human arrival, so a real player always
+   * displaces them, and a room with four humans never grows a bot. Once the
+   * game starts bots are left alone — they are dealt roles like anyone else.
+   */
+  private applyBotFill(room: db.RoomRecord, players: PlayerRecord[]): void {
+    if (!bot.botsEnabled(this.env.BOT_FILL)) return;
+    if (room.status !== 'lobby') return;
+    if (bot.humanPlayers(players).length === 0) return;
+
+    const before = players.length;
+    bot.fillWithBots(players, MAX_PLAYERS);
+    if (players.length > before) {
+      const now = Date.now();
+      for (const p of players) {
+        if (p.isBot) db.upsertPlayer(this.sql, p, now);
+      }
+    }
   }
 
   private removePlayer(me: string, players: PlayerRecord[], room: db.RoomRecord | null): void {
@@ -549,8 +608,18 @@ export class GameRoom extends DurableObject<Env> {
     return this.ctx.getWebSockets().filter((ws) => this.usernameOf(ws) === username);
   }
 
-  private alarmIn(ms: number): void {
-    this.ctx.storage.setAlarm(Date.now() + ms);
+  /**
+   * Sets the room's single pending Alarm.
+   *
+   * The delay depends on who is due to act: a bot needs only a few seconds,
+   * a human gets the full window. A null result means a human must act and
+   * no timeout is worth scheduling, so the alarm is cleared.
+   */
+  private scheduleNext(players: PlayerRecord[]): void {
+    const phase = this.load()?.phase ?? 'role-spinning';
+    const delay = bot.nextBotDelay(players, phase);
+    if (delay === null) this.ctx.storage.deleteAlarm();
+    else this.ctx.storage.setAlarm(Date.now() + delay);
   }
 }
 
