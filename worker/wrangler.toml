@@ -1,0 +1,28 @@
+name = "guess-the-thief"
+main = "src/index.ts"
+compatibility_date = "2026-09-30"
+compatibility_flags = ["nodejs_compat"]
+
+# One Durable Object per game room. The DO IS the room — there is no
+# registry, so rooms are addressed deterministically by
+# idFromName(roomCode). Each instance is placed near the first client
+# that creates it.
+[[durable_objects.bindings]]
+name = "GAME"
+class_name = "GameRoom"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["GameRoom"]
+
+# Static client. Build output of ../client (Vite).
+[assets]
+directory = "../client/dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[vars]
+BOT_FILL = "on"
+
+[observability]
+enabled = true
