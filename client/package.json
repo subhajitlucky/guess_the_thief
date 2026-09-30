@@ -13,10 +13,10 @@
     "@heroicons/react": "^2.2.0",
     "framer-motion": "^12.22.0",
     "lucide-react": "^0.525.0",
+    "partysocket": "^1.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2",
-    "socket.io-client": "^4.8.1"
+    "react-router-dom": "^7.6.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
