@@ -1,97 +1,97 @@
+import Icon from '../icons/Icon'
+
 import '../../styles/Footer.css'
 
 function Footer() {
   const currentYear = new Date().getFullYear()
 
   const features = [
-    { icon: '👥', text: '4-Player Multiplayer' },
-    { icon: '🛡️', text: 'Real-time Security' },
-    { icon: '💻', text: 'Open Source' },
+    { icon: 'users', text: '4-Player Multiplayer' },
+    { icon: 'lock', text: 'Real-time Security' },
+    { icon: 'scale', text: 'Open Source' },
+  ]
+
+  const rules = [
+    { icons: ['crown'], text: 'King commands the Police to find the Thief' },
+    { icons: ['shield'], text: 'Police investigates and makes their guess' },
+    { icons: ['gem', 'mask'], text: 'Queen & Thief send confusing emojis' },
+    { icons: ['trophy'], text: 'Score points and become the champion!' },
   ]
 
   return (
     <footer className="footer">
-      <div className="footer-container">
-        {/* Main Footer Content */}
-        <div className="footer-main">
-          <div className="footer-grid">
-            {/* Brand Section */}
-            <div className="footer-brand">
-              <div className="footer-logo">
-                🕵️ Guess the Thief
-              </div>
-              <p className="footer-description">
-                The ultimate social deduction game. Outsmart your friends, uncover the thief, 
-                and claim victory in this thrilling multiplayer experience.
-              </p>
-              <div className="footer-made-with">
-                <span>Made with</span>
-                <span className="footer-heart">❤️</span>
-                <span>using React & Socket.IO</span>
-              </div>
-            </div>
+      <div className="footer__inner">
+        <div className="footer__body">
+          {/* Brand Section */}
+          <div className="footer__brand">
+            <p className="footer__logo">
+              <Icon name="fingerprint" size={18} className="footer__logo-mark" />
+              <span>Guess the Thief</span>
+            </p>
+            <p className="footer__description">
+              The ultimate social deduction game. Outsmart your friends, uncover the
+              thief, and claim victory in this thrilling multiplayer experience.
+            </p>
+            <ul className="footer__features">
+              {features.map((feature, index) => (
+                <li key={index} className="footer__feature">
+                  <Icon name={feature.icon} size={14} className="footer__feature-icon" />
+                  <span>{feature.text}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="footer__made-with">
+              <span className="footer__made-label">Built with</span>
+              <span>React</span>
+              <span className="footer__sep" aria-hidden="true">·</span>
+              <span>Cloudflare Durable Objects</span>
+            </p>
+          </div>
 
-            {/* Features Section */}
-            <div className="footer-section">
-              <h3 className="footer-section-title">Game Features</h3>
-              <div className="footer-features">
-                {features.map((feature, index) => (
-                  <div key={index} className="footer-feature">
-                    <span className="footer-feature-icon">{feature.icon}</span>
-                    <span>{feature.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Game Rules Section */}
-            <div className="footer-section">
-              <h3 className="footer-section-title">How to Play</h3>
-              <div className="footer-rules">
-                <div className="footer-rule">
-                  <span className="footer-rule-emoji">👑</span>
-                  <span>King commands the Police to find the Thief</span>
-                </div>
-                <div className="footer-rule">
-                  <span className="footer-rule-emoji">👮</span>
-                  <span>Police investigates and makes their guess</span>
-                </div>
-                <div className="footer-rule">
-                  <span className="footer-rule-emoji">👸</span>
-                  <span>Queen & Thief send confusing emojis</span>
-                </div>
-                <div className="footer-rule">
-                  <span className="footer-rule-emoji">🏆</span>
-                  <span>Score points and become the champion!</span>
-                </div>
-              </div>
-            </div>
+          {/* Game Rules Section */}
+          <div className="footer__section">
+            <h2 className="footer__label">How to play</h2>
+            <ul className="footer__rules">
+              {rules.map((rule, index) => (
+                <li key={index} className="footer__rule">
+                  <span className="footer__rule-icons" aria-hidden="true">
+                    {rule.icons.map((icon) => (
+                      <Icon key={icon} name={icon} size={14} />
+                    ))}
+                  </span>
+                  <span>{rule.text}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="footer-bottom">
-          <div className="footer-bottom-content">
-            <div className="footer-copyright">
-              © {currentYear} Guess the Thief. Built for fun and learning.
-            </div>
-            
-            <div className="footer-links">
-              <a href="https://github.com" className="footer-link" target="_blank" rel="noopener noreferrer">
-                GitHub
-              </a>
-              <a href="#" className="footer-link">
-                Discord
-              </a>
-              <a href="#" className="footer-link">
-                Support
-              </a>
-            </div>
-          </div>
+        <div className="footer__bottom">
+          <p className="footer__copyright">
+            © {currentYear} Guess the Thief. Built for fun and learning.
+          </p>
+
+          <nav className="footer__links" aria-label="Footer">
+            <a
+              href="https://github.com"
+              className="footer__link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a href="#" className="footer__link">
+              Discord
+            </a>
+            <a href="#" className="footer__link">
+              Support
+            </a>
+          </nav>
         </div>
       </div>
     </footer>
   )
 }
 
-export default Footer 
+export default Footer

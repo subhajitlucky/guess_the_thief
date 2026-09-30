@@ -1,0 +1,253 @@
+/* ============================================================
+   tokens.css — the noir detective design system
+   ============================================================
+   One file owns the entire theme. Components never reference a raw
+   colour; they reference a semantic token, so re-theming means editing
+   this file and nothing else.
+
+   Discipline: ONE accent (streetlight amber) against pure grayscale.
+   That restraint is what separates noir from "dark mode with purple in
+   it". Role hues are the only other colour in the system, and they are
+   load-bearing — each player needs an identity at a glance.
+   ============================================================ */
+
+/* ---------- 1. Raw ramps (private; do not reference directly) ---------- */
+
+:root {
+  --noir-950: #08080a;
+  --noir-900: #0c0d11;
+  --noir-850: #121419;
+  --noir-800: #191c22;
+  --noir-700: #262a33;
+  --noir-600: #3a3f4b;
+  /* --noir-500 is the quietest tone that still clears 3:1 on --bg-base.
+     The original #565c6b measured 2.99:1 and failed. Do not darken it. */
+  --noir-500: #6b7384;
+  --noir-400: #7d8494;
+  --noir-300: #a8aeba;
+  --noir-200: #d2d6de;
+  --noir-100: #eceef2;
+  --noir-050: #f7f8fa;
+
+  --gold-400: #f0b429;
+  --gold-300: #f7d070;
+  --gold-200: #fbe6a8;
+  --gold-800: #8a6414;
+  --gold-900: #5c420d;
+
+  --rose-400: #e879a6;
+  --steel-400: #5b9dd9;
+  --violet-400: #9b7bd4;
+  --crimson-400: #d94a4a;
+  --verdant-400: #52a773;
+}
+
+/* ---------- 2. Semantic surface ---------- */
+
+:root {
+  --bg-base: var(--noir-950);
+  --bg-sunken: var(--noir-950);
+  --bg-raised: var(--noir-900);
+  --bg-overlay: var(--noir-850);
+  --bg-inset: var(--noir-800);
+  --bg-hover: var(--noir-800);
+  --bg-active: var(--noir-700);
+  --bg-scrim: rgb(8 8 10 / 0.82);
+
+  /* Card = the frame. Noir is graphic, so borders carry the structure
+     instead of soft elevation. */
+  --border-subtle: var(--noir-800);
+  --border-default: var(--noir-700);
+  --border-strong: var(--noir-600);
+  --border-accent: var(--gold-800);
+}
+
+/* ---------- 3. Semantic type ---------- */
+
+:root {
+  --text-primary: var(--noir-050);
+  --text-secondary: var(--noir-200);
+  --text-muted: var(--noir-400);
+  --text-faint: var(--noir-500);
+  --text-inverse: var(--noir-950);
+  --text-accent: var(--gold-400);
+}
+
+/* ---------- 4. Accent ---------- */
+
+:root {
+  --accent: var(--gold-400);
+  --accent-hover: var(--gold-300);
+  --accent-press: var(--gold-200);
+  --accent-dim: var(--gold-800);
+  --accent-muted: rgb(240 180 41 / 0.12);
+  --accent-contrast: var(--noir-950);
+  --accent-on-surface: var(--gold-400);
+}
+
+/* ---------- 5. Roles (load-bearing identity) ---------- */
+
+:root {
+  --role-king: var(--gold-400);
+  --role-queen: var(--rose-400);
+  --role-police: var(--steel-400);
+  --role-thief: var(--violet-400);
+  --role-civilian: var(--noir-300);
+
+  --role-king-muted: rgb(240 180 41 / 0.14);
+  --role-queen-muted: rgb(232 121 166 / 0.14);
+  --role-police-muted: rgb(91 157 217 / 0.14);
+  --role-thief-muted: rgb(155 123 212 / 0.14);
+}
+
+/* ---------- 6. Status ---------- */
+
+:root {
+  --success: var(--verdant-400);
+  --danger: var(--crimson-400);
+  --warning: var(--gold-400);
+  --info: var(--steel-400);
+
+  --success-muted: rgb(82 167 115 / 0.14);
+  --danger-muted: rgb(217 74 74 / 0.14);
+  --warning-muted: var(--accent-muted);
+  --info-muted: var(--role-police-muted);
+}
+
+/* ---------- 7. Typography ---------- */
+
+:root {
+  --font-display: 'Bodoni Moda', 'Didot', 'Playfair Display', Georgia, serif;
+  --font-ui: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Fluid scale — clamp() so nothing needs a breakpoint ladder. */
+  --text-3xs: 0.6875rem;
+  --text-2xs: 0.75rem;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1rem;
+  --text-lg: clamp(1.0625rem, 0.4vw + 1rem, 1.1875rem);
+  --text-xl: clamp(1.25rem, 0.8vw + 1.1rem, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.6vw + 1.2rem, 2rem);
+  --text-3xl: clamp(1.875rem, 3vw + 1.2rem, 2.75rem);
+  --text-4xl: clamp(2.25rem, 5vw + 1.2rem, 4rem);
+  --text-5xl: clamp(2.75rem, 8vw + 1.2rem, 6rem);
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+  --tracking-widest: 0.22em; /* used for eyebrow labels */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+}
+
+/* ---------- 8. Space ---------- */
+
+:root {
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  /* Noir lives on empty space. Generous by default. */
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --measure: 68ch;
+}
+
+/* ---------- 9. Radius, elevation, motion ---------- */
+
+:root {
+  /* Near-zero radius. Rounded blobs read soft; noir is graphic. */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-pill: 999px;
+
+  /* Hard, tight shadows. No large diffuse glows. */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 16px 40px rgb(0 0 0 / 0.55);
+  --shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  --shadow-accent: 0 0 0 1px var(--accent-dim), 0 8px 24px rgb(240 180 41 / 0.12);
+
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 320ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Slight overshoot for the role reveal. */
+  --ease-reveal: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---------- 10. Film grain + vignette ---------- */
+
+:root {
+  --grain-opacity: 0.035;
+  --vignette-strength: 0.55;
+  --noise-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ---------- 11. Layout ---------- */
+
+:root {
+  --shell-max: 76rem;
+  --shell-narrow: 46rem;
+  --navbar-height: 4.5rem;
+  --touch-target: 44px;
+  --z-grain: 100;
+  --z-header: 50;
+  --z-overlay: 200;
+  --z-toast: 300;
+}
+
+/* ---------- 12. Component primitives ---------- */
+
+:root {
+  --focus-ring: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--accent);
+  --focus-ring-danger: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--danger);
+}
+
+/* ============================================================
+   Reduced motion — honour it everywhere.
+   The role reveal is the most motion-heavy element in the app.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   Forced colours (Windows high contrast) — keep structure legible.
+   ============================================================ */
+
+@media (forced-colors: active) {
+  :root {
+    --border-default: CanvasText;
+    --border-strong: CanvasText;
+    --text-muted: CanvasText;
+    --text-faint: CanvasText;
+  }
+}

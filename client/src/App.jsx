@@ -57,8 +57,14 @@ function App() {
     <div className="App">
       <Router>
         <div className="app-container">
+          {/* Noir atmosphere. Both are pointer-events:none and sit above the
+              app; without these the film-grain and vignette primitives in
+              global.css never appear and the theme reads as flat dark. */}
+          <div className="vignette" aria-hidden="true" />
+          <div className="film-grain" aria-hidden="true" />
+
           <Navbar username={username} isConnected={isConnected} />
-          
+
           <main className="main-content">
             <Routes>
               <Route path="/" element={renderHomePage()} />

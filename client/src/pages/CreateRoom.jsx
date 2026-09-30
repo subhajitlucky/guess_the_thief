@@ -1,3 +1,5 @@
+import Icon from '../components/icons/Icon.jsx'
+
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../styles/CreateRoom.css'
@@ -44,13 +46,13 @@ function CreateRoom({ socket, username }) {
         <button className="back-btn" onClick={() => navigate('/')}>
           ← Back
         </button>
-        <h2>🏠 Create Room</h2>
+        <h2><Icon name="door-open" /> Create Room</h2>
         <div style={{ width: '74px' }}></div> {/* Spacer to balance the layout */}
       </div>
 
       <div className="create-section">
         <div className="game-card">
-          <div className="game-card-icon">🎮</div>
+          <div className="game-card-icon"><Icon name="play" /></div>
           <h3>Start a New Game</h3>
           
           <p>Gather your friends for an exciting game of deception and deduction</p>
@@ -80,7 +82,7 @@ function CreateRoom({ socket, username }) {
             onClick={handleCreateRoom}
             disabled={isCreating}
           >
-            <span>🏠</span>
+            <span><Icon name="door-open" /></span>
             <span>{isCreating ? 'Creating Room...' : 'Create Game Room'}</span>
           </button>
         </div>

@@ -1,3 +1,5 @@
+import Icon from '../icons/Icon.jsx'
+
 import { useRef, useEffect } from 'react';
 
 function PublicChat({ messages }) {
@@ -13,7 +15,7 @@ function PublicChat({ messages }) {
   return (
     <div className="public-chat">
       <div className="chat-header">
-        <h3>💬 Game Chat</h3>
+        <h3><Icon name="chat" /> Game Chat</h3>
       </div>
       <div className="chat-messages" ref={chatRef}>
         {messages.length === 0 && (

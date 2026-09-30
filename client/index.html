@@ -2,9 +2,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Noir is a single dark theme: tell the browser before first paint so
+         scrollbars, form controls and the canvas never flash light. -->
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#08080a" />
+
+    <title>Guess the Thief</title>
+    <meta
+      name="description"
+      content="A real-time game of deception. Four players, one hidden thief."
+    />
+
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+
+    <!-- Connect to both font origins before asking for the stylesheet, then
+         load the faces non-blocking (media=print -> onload swap) so text
+         paints immediately in the fallback serif. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bodoni+Moda:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      media="print"
+      onload="this.media='all'; this.onload=null;"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bodoni+Moda:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      />
+    </noscript>
+
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
   </head>
   <body>

@@ -1,11 +1,13 @@
+import Icon from '../icons/Icon.jsx'
+
 import { useState } from 'react';
 
 function QueenThiefView({ onSendEmoji }) {
-  const emojis = ['👍', '👎', '😂', '🤔', '🤫', '👀', '🤥', '😇'];
+  const emojis = ['👍', '👎', '😂', '🤔', '🤫', '👀', '🥷', '😇'];
   const [selectedEmoji, setSelectedEmoji] = useState(null);
 
   const handleSelect = (emoji) => {
-    console.log('🚀 Sending emoji:', emoji);
+    console.log('Sending emoji:', emoji);
     setSelectedEmoji(emoji);
     onSendEmoji(emoji);
     // Maybe add a cooldown later

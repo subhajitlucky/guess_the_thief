@@ -1,3 +1,5 @@
+import Icon from '../icons/Icon';
+
 import { useState, useEffect } from 'react';
 
 function InvestigationTimer({ startTime, duration = 60, onTimeUp }) {
@@ -14,9 +16,9 @@ function InvestigationTimer({ startTime, duration = 60, onTimeUp }) {
     const interval = setInterval(() => {
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const remaining = Math.max(0, duration - elapsed);
-      
+
       setTimeLeft(remaining);
-      
+
       if (remaining === 0) {
         clearInterval(interval);
         if (onTimeUp) onTimeUp();
@@ -29,32 +31,41 @@ function InvestigationTimer({ startTime, duration = 60, onTimeUp }) {
     };
   }, [startTime, duration, onTimeUp]);
 
-  const getTimerColor = () => {
-    if (timeLeft > 20) return '#22c55e'; // Green
-    if (timeLeft > 10) return '#f59e0b'; // Yellow
-    return '#ef4444'; // Red
-  };
+  /* Presentation only: which of three moods the clock is in. The colour
+     itself is a CSS decision keyed off data-level — the clock stays calm
+     while there is time and only starts shouting in the last seconds. */
+  const timeLevel = timeLeft > 20 ? 'calm' : timeLeft > 10 ? 'urgent' : 'critical';
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = String(timeLeft % 60).padStart(2, '0');
 
   return (
-    <div className="investigation-timer">
-      <div className="timer-label">⏱️ Investigation Time:</div>
-      <div 
-        className="timer-display" 
-        style={{ color: getTimerColor() }}
+    <div className="investigation-timer" data-level={timeLevel}>
+      <p className="case-label timer-label">
+        <Icon name="hourglass" size={14} />
+        Investigation window
+      </p>
+
+      <p className="timer-display">
+        <span>{minutes}:{seconds}</span>
+        <span className="timer-unit">sec remaining</span>
+      </p>
+
+      <div
+        className="timer-track"
+        role="progressbar"
+        aria-label="Investigation time remaining"
+        aria-valuemin={0}
+        aria-valuemax={duration}
+        aria-valuenow={timeLeft}
       >
-        {timeLeft}s
-      </div>
-      <div className="timer-progress">
-        <div 
-          className="timer-progress-bar"
-          style={{ 
-            width: `${(timeLeft / duration) * 100}%`,
-            backgroundColor: getTimerColor()
-          }}
+        <div
+          className="timer-bar"
+          style={{ width: `${(timeLeft / duration) * 100}%` }}
         />
       </div>
     </div>
   );
 }
 
-export default InvestigationTimer; 
+export default InvestigationTimer;

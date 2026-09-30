@@ -1,3 +1,5 @@
+import Icon from '../components/icons/Icon.jsx'
+
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../styles/JoinRoom.css'
@@ -54,7 +56,7 @@ function JoinRoom({ socket, username }) {
         <button className="back-btn" onClick={() => navigate('/')}>
           ← Back
         </button>
-        <h2>🚪 Join Room</h2>
+        <h2><Icon name="door-open" /> Join Room</h2>
       </div>
 
       <div className="join-section">
@@ -87,7 +89,7 @@ function JoinRoom({ socket, username }) {
         </form>
 
         <div className="help-text">
-          <p>💡 Ask your friend for the 6-character room code</p>
+          <p><Icon name="info" /> Ask your friend for the 6-character room code</p>
         </div>
       </div>
     </div>

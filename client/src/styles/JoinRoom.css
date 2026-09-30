@@ -4,10 +4,10 @@
   max-width: 100%;  /* Mobile first: full width */
   margin: 1rem auto;  /* Mobile first: smaller margin */
   padding: 1rem;  /* Mobile first: smaller padding */
-  background-color: #1e1b4b;
-  color: #e0e7ff;
+  background-color: var(--bg-inset);
+  color: var(--accent-hover);
   border-radius: 0.75rem;
-  border: 1px solid #4f46e5;
+  border: 1px solid var(--accent-dim);
   min-height: calc(100vh - 5rem);  /* Mobile first: take most of screen */
   display: flex;
   flex-direction: column;
@@ -26,15 +26,15 @@
 .join-room .header h2 {
   font-size: 1.5rem;  /* Mobile first: smaller */
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   flex: 1;
   min-width: 200px;  /* Prevent too narrow */
 }
 
 .back-btn {
   background: none;
-  border: 1px solid #4f46e5;
-  color: #c7d2fe;
+  border: 1px solid var(--accent-dim);
+  color: var(--accent-hover);
   padding: 0.75rem 1rem;  /* Mobile first: larger padding for touch */
   border-radius: 0.5rem;
   cursor: pointer;
@@ -50,8 +50,8 @@
 }
 
 .back-btn:hover {
-  background-color: rgba(79, 70, 229, 0.2);
-  border-color: #a78bfa;
+  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  border-color: var(--accent);
   transform: translateY(-1px);
 }
 
@@ -74,12 +74,12 @@
 .join-section .info h3 {
   font-size: 1.25rem;  /* Mobile first: smaller */
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 0.75rem;  /* Mobile first: smaller margin */
 }
 
 .join-section .info p {
-  color: #a5b4fc;
+  color: var(--accent);
   margin-bottom: 0.5rem;
   font-size: 0.875rem;  /* Mobile first: smaller */
   line-height: 1.6;
@@ -99,10 +99,10 @@
   font-size: 1.125rem;  /* Mobile first: readable size */
   text-align: center;
   letter-spacing: 0.3em;  /* Mobile first: smaller letter spacing */
-  background-color: rgba(79, 70, 229, 0.2);
-  border: 1px solid #4f46e5;
+  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  border: 1px solid var(--accent-dim);
   border-radius: 0.5rem;
-  color: #ffffff;
+  color: var(--text-primary);
   transition: all 0.2s ease;
   min-height: var(--touch-target);
   text-transform: uppercase;
@@ -114,15 +114,15 @@
 
 .room-code-input::placeholder {
   letter-spacing: normal;
-  color: #a5b4fc;
+  color: var(--accent);
   text-transform: none;
 }
 
 .room-code-input:focus {
   outline: none;
-  border-color: #c7d2fe;
-  box-shadow: 0 0 0 2px rgba(196, 181, 253, 0.2);
-  background-color: rgba(79, 70, 229, 0.3);
+  border-color: var(--accent-hover);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-hover) 20%, transparent);
+  background-color: color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 .join-btn {
@@ -130,8 +130,8 @@
   padding: 1rem 1.5rem;  /* Mobile first: good touch target */
   font-size: 1rem;  /* Mobile first: readable size */
   font-weight: 600;
-  background-color: #4f46e5;
-  color: #ffffff;
+  background-color: var(--accent-dim);
+  color: var(--text-primary);
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -153,7 +153,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent);
   transition: left 0.5s ease;
 }
 
@@ -162,9 +162,9 @@
 }
 
 .join-btn:hover {
-  background-color: #4338ca;
+  background-color: var(--accent-dim);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--shadow-md);
 }
 
 .join-btn:active {
@@ -172,7 +172,7 @@
 }
 
 .join-btn:disabled {
-  background-color: #3730a3;
+  background-color: var(--accent-dim);
   cursor: not-allowed;
   transform: none;
   opacity: 0.6;
@@ -202,7 +202,7 @@
 
 .help-text {
   margin-top: 1.5rem;
-  color: #a5b4fc;
+  color: var(--accent);
   font-size: 0.8rem;  /* Mobile first: smaller */
   line-height: 1.5;
   max-width: 100%;
@@ -212,8 +212,8 @@
 .room-code-display {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: rgba(139, 92, 246, 0.2);
-  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   border-radius: 0.375rem;
   font-family: 'Courier New', monospace;
   letter-spacing: 0.2em;
@@ -399,7 +399,7 @@
   }
   
   .room-code-input:hover {
-    border-color: #a78bfa;
+    border-color: var(--accent);
   }
 }
 
@@ -494,17 +494,17 @@
 @media (prefers-contrast: high) {
   .join-room {
     border-width: 2px;
-    border-color: #ffffff;
+    border-color: var(--text-primary);
   }
   
   .back-btn,
   .room-code-input {
     border-width: 2px;
-    border-color: #ffffff;
+    border-color: var(--text-primary);
   }
   
   .join-btn {
-    border: 2px solid #ffffff;
+    border: 2px solid var(--text-primary);
   }
 }
 
@@ -512,7 +512,7 @@
 .back-btn:focus,
 .join-btn:focus,
 .room-code-input:focus {
-  outline: 2px solid #a78bfa;
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -524,13 +524,13 @@
 
 /* Input validation styles */
 .room-code-input.error {
-  border-color: #ef4444;
-  background-color: rgba(239, 68, 68, 0.1);
+  border-color: var(--danger);
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 .room-code-input.success {
-  border-color: #22c55e;
-  background-color: rgba(34, 197, 94, 0.1);
+  border-color: var(--success);
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 /* Room code suggestions */
@@ -541,17 +541,17 @@
 
 .room-code-suggestions p {
   font-size: 0.8rem;
-  color: #a5b4fc;
+  color: var(--accent);
   margin-bottom: 0.5rem;
 }
 
 .suggestion-code {
   display: inline-block;
   padding: 0.25rem 0.5rem;
-  background: rgba(79, 70, 229, 0.3);
-  border: 1px solid rgba(79, 70, 229, 0.5);
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
   border-radius: 0.25rem;
-  color: #c7d2fe;
+  color: var(--accent-hover);
   font-family: 'Courier New', monospace;
   font-size: 0.75rem;
   cursor: pointer;
@@ -560,8 +560,8 @@
 }
 
 .suggestion-code:hover {
-  background: rgba(79, 70, 229, 0.5);
-  color: #ffffff;
+  background: color-mix(in srgb, var(--accent) 50%, transparent);
+  color: var(--text-primary);
 }
 
 /* Dark mode optimization (already optimized) */

@@ -37,3 +37,18 @@ jobs:
       # drifted from the client build.
       - name: Verify the worker bundles
         run: npx wrangler deploy --dry-run --outdir=dist-check
+
+  design-system:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Enforces the noir design system: WCAG contrast on the noir ground, no
+      # raw colour literals outside tokens.css, no emoji left in component
+      # source, 44px touch targets, and the three faces actually loaded.
+      # A rebrand rots silently otherwise — one hardcoded hex at a time.
+      - name: Audit the design system
+        run: node worker/scripts/design-audit.mjs

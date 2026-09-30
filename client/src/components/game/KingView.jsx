@@ -1,3 +1,5 @@
+import Icon from '../icons/Icon.jsx'
+
 function KingView({ onKingAction }) {
   return (
     <div className="game-view">
@@ -6,7 +8,7 @@ function KingView({ onKingAction }) {
         You are the King! Send a message to reveal the Police to everyone.
       </p>
       <button onClick={onKingAction} className="action-btn">
-        💬 "Who is the Police here? Find the thief in 1 minute!"
+        <Icon name="chat" /> "Who is the Police here? Find the thief in 1 minute!"
       </button>
     </div>
   );

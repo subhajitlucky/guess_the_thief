@@ -1,3 +1,5 @@
+import Icon from '../components/icons/Icon.jsx'
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/GamePage.css';
@@ -36,11 +38,11 @@ function GamePage({ socket, username }) {
     }
 
     socket.on('game-started', (data) => {
-      console.log('🎮 Game started event received:', data);
-      console.log(`🎭 My role is: ${data.yourRole} for Round ${data.gameState?.round}`);
+      console.log('Game started event received:', data);
+      console.log(`My role is: ${data.yourRole} for Round ${data.gameState?.round}`);
       
       if (!data.yourRole) {
-        console.error('❌ No role received in game-started event!');
+        console.error('No role received in game-started event!');
         return;
       }
       
@@ -59,12 +61,12 @@ function GamePage({ socket, username }) {
         setChatMessages([]);
       }
       
-      console.log(`✅ Round ${data.gameState?.round} role set successfully: ${data.yourRole}`);
-      console.log(`🎯 Game state phase: ${data.gameState?.phase}`);
+      console.log(`Round ${data.gameState?.round} role set successfully: ${data.yourRole}`);
+      console.log(`Game state phase: ${data.gameState?.phase}`);
     });
 
     socket.on('game-update', (data) => {
-      console.log('🔄 Game update received:', data);
+      console.log('Game update received:', data);
       if (data.gameState) setGameState(data.gameState);
       if (data.message) setGameMessage(data.message);
     });
@@ -80,7 +82,7 @@ function GamePage({ socket, username }) {
     });
 
     socket.on('chat-message', (data) => {
-        console.log('💬 Chat message received:', data);
+        console.log('Chat message received:', data);
         setChatMessages(prevMessages => [...prevMessages, data]);
     });
 
@@ -91,16 +93,16 @@ function GamePage({ socket, username }) {
     });
 
     socket.on('game-error', (error) => {
-        console.error('🚨 Game error:', error);
+        console.error('Game error:', error);
         alert('Game Error: ' + error.message);
     });
 
     socket.on('error', (error) => {
-        console.error('🚨 Socket error:', error);
+        console.error('Socket error:', error);
     });
 
     return () => {
-      console.log('🧹 Cleaning up GamePage socket listeners');
+      console.log('Cleaning up GamePage socket listeners');
       socket.off('game-started');
       socket.off('game-update');
       socket.off('emoji-broadcast');
@@ -143,13 +145,8 @@ function GamePage({ socket, username }) {
   };
 
   const getRoleEmoji = (role) => {
-    const emojis = {
-      'King': '👑',
-      'Queen': '👸',
-      'Police': '👮',
-      'Thief': '🥷'
-    };
-    return emojis[role] || '❓';
+    const icons = { King: 'crown', Queen: 'gem', Police: 'shield', Thief: 'mask' };
+    return <Icon name={icons[role] || 'search'} />;
   };
 
   const renderCurrentPhase = () => {
@@ -211,7 +208,7 @@ function GamePage({ socket, username }) {
   return (
     <div className="game-page">
       <div className="game-header">
-        <h1>🕵️ Guess the Thief</h1>
+        <h1><Icon name="mask" /> Guess the Thief</h1>
         <h2>Game in Progress</h2>
         <button className="leave-btn" onClick={handleLeaveGame}>Leave Game</button>
         {gameState && (
@@ -252,7 +249,7 @@ function GamePage({ socket, username }) {
             <div key={index} className={`player-card ${player.username === username ? 'current-player' : ''}`}>
               <span className="player-name">
                 {player.username}
-                {player.isHost && ' 👑'}
+                {player.isHost && <Icon name="crown" />}
               </span>
             </div>
           ))}

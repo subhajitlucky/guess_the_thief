@@ -1,3 +1,5 @@
+import Icon from '../components/icons/Icon.jsx'
+
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import '../styles/RoomLobby.css'
@@ -93,8 +95,8 @@ function RoomLobby({ socket, username }) {
       />
       <hr className="lobby-divider" />
       <div className="lobby-info">
-        <p>💡 Share the room code with your friends to invite them!</p>
-        <p>🎯 Game will start when all 4 players are ready</p>
+        <p><Icon name="info" /> Share the room code with your friends to invite them!</p>
+        <p><Icon name="magnify" /> Game will start when all 4 players are ready</p>
       </div>
     </div>
   )

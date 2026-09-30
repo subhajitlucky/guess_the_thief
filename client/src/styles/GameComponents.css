@@ -1,944 +1,877 @@
-/* GameComponents.css - Mobile First Responsive Design */
+/* ============================================================
+   GameComponents.css — everything that lives inside the case file.
 
-/* ROLE SPINNER */
+   Shared primitives (.case-label, .case-mono) live in GamePage.css,
+   which is imported by the page that renders all of this.
+   ============================================================ */
+
+/* ============================================================
+   1. ROLE SPINNER — the deal
+   ============================================================ */
+
 .spinner-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem 0.75rem;  /* Mobile first: smaller padding */
+  gap: var(--space-sm);
+  min-height: 12rem;
+  padding: var(--space-md) 0;
   text-align: center;
-  color: #c7d2fe;
-  min-height: 200px;  /* Mobile first: smaller height */
 }
 
+/* A squared aperture with a print turning inside it and a single amber
+   corner tick — a camera shutter, not a friendly loading donut. */
 .spinner {
-  width: 3rem;  /* Mobile first: smaller */
-  height: 3rem;
-  border-radius: 50%;
-  border: 4px solid rgba(79, 70, 229, 0.3);
-  border-top-color: #a5b4fc;
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
-  box-shadow: 0 0 20px rgba(165, 180, 252, 0.3);
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spinner-text {
-  font-size: 0.875rem;  /* Mobile first: smaller */
-  font-weight: 600;
-  color: #a5b4fc;
-  margin-top: 0.5rem;
-}
-
-/* ROLE CARD */
-.role-card-section {
-  padding: 1rem;  /* Mobile first: smaller padding */
-  background: rgba(79, 70, 229, 0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 0.75rem;
-  border: 1px solid rgba(79, 70, 229, 0.3);
-  transition: var(--transition-normal);
-}
-
-.role-card-section:hover {
-  border-color: rgba(79, 70, 229, 0.5);
-  transform: translateY(-1px);
-}
-
-.role-card-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;  /* Mobile first: smaller gap */
-  margin-bottom: 1rem;
-  flex-wrap: wrap;  /* Allow wrapping on mobile */
-  justify-content: center;  /* Mobile first: centered */
-}
-
-.role-emoji {
-  font-size: 2rem;  /* Mobile first: smaller */
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-}
-
-.role-card-header h3 {
-  font-size: 1.25rem;  /* Mobile first: smaller */
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  text-align: center;
-}
-
-.role-description {
-  margin-bottom: 1rem;
-  color: #c7d2fe;
-  font-size: 0.875rem;  /* Mobile first: smaller */
-  line-height: 1.5;
-  text-align: center;  /* Mobile first: centered */
-}
-
-.role-warning {
-  font-size: 0.75rem;  /* Mobile first: smaller */
-  font-style: italic;
-  color: #a5b4fc;
-  text-align: center;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-}
-
-/* GAME VIEWS */
-.game-view {
-  text-align: center;
-  width: 100%;
-  padding: 0.75rem;  /* Mobile first: smaller padding */
-}
-
-.view-title {
-  font-size: 1.25rem;  /* Mobile first: smaller */
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--purple-400);
-}
-
-.view-description {
-  margin-bottom: 1.25rem;  /* Mobile first: smaller */
-  color: #a5b4fc;
-  font-size: 0.875rem;  /* Mobile first: smaller */
-  line-height: 1.5;
-}
-
-.action-btn {
-  padding: 0.875rem 1.5rem;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: var(--purple-600);
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition-normal);
-  min-height: var(--touch-target);
-  width: 100%;  /* Mobile first: full width */
-  max-width: 280px;  /* Prevent too wide */
-  box-shadow: var(--shadow-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.action-btn:hover {
-  background-color: var(--purple-700);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-purple);
-}
-
-.action-btn:active {
-  transform: translateY(0);
-}
-
-.action-btn:disabled {
-  background-color: var(--slate-600);
-  cursor: not-allowed;
-  opacity: 0.6;
-  transform: none;
-}
-
-.suspects-grid {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr;  /* Mobile first: single column */
-  gap: 0.75rem;  /* Mobile first: smaller gap */
-  margin-top: 1.25rem;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  color: var(--accent);
+  border: 1px solid var(--border-default);
+  background: var(--bg-inset);
 }
 
-.suspect-btn {
-  padding: 0.875rem;  /* Mobile first: smaller padding */
-  border: 1px solid rgba(79, 70, 229, 0.4);
-  background: rgba(79, 70, 229, 0.2);
-  border-radius: 0.5rem;
-  color: #c7d2fe;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition-normal);
-  min-height: var(--touch-target);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+.spinner::before {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--space-2xs));
+  border: 1px solid var(--border-subtle);
 }
 
-.suspect-btn:hover {
-  background: rgba(79, 70, 229, 0.4);
-  border-color: rgba(79, 70, 229, 0.6);
-  transform: translateY(-1px);
-  color: #ffffff;
+.spinner::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: var(--space-2xs);
+  height: var(--space-2xs);
+  background: var(--accent);
 }
 
-.suspect-btn:active {
-  transform: translateY(0);
+.spinner .icon {
+  animation: gtt-spin 3.2s linear infinite;
 }
 
-.suspect-btn.selected {
-  background: var(--gradient-primary);
-  border-color: var(--purple-400);
-  color: #ffffff;
-  box-shadow: var(--shadow-purple);
+@keyframes gtt-spin {
+  to { transform: rotate(360deg); }
 }
 
-/* EMOJI PICKER */
-.emoji-picker {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;  /* Mobile first: smaller gap */
-  justify-content: center;
-  margin-top: 1rem;
-  padding: 0.75rem;  /* Mobile first: padding */
-  background: rgba(30, 41, 59, 0.3);
-  border-radius: 0.5rem;
-  border: 1px solid rgba(79, 70, 229, 0.2);
-}
-
-.emoji-btn {
-  font-size: 1.75rem;  /* Mobile first: smaller but still touch-friendly */
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: var(--transition-fast);
-  padding: 0.25rem;
-  border-radius: 0.375rem;
-  min-height: var(--touch-target);
-  min-width: var(--touch-target);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.emoji-btn:hover {
-  transform: scale(1.1);
-  background: rgba(79, 70, 229, 0.2);
-}
-
-.emoji-btn:active {
-  transform: scale(0.95);
-}
-
-.emoji-btn.selected {
-  transform: scale(1.15);
-  background: rgba(79, 70, 229, 0.4);
-  box-shadow: 0 0 15px rgba(79, 70, 229, 0.5);
-}
-
-/* EMOJI FEED */
-.emoji-feed {
-  background: rgba(79, 70, 229, 0.1);
-  border-radius: 0.5rem;
-  border: 1px solid rgba(79, 70, 229, 0.2);
-  padding: 0.5rem;
-  max-height: 150px;  /* Mobile first: smaller */
-  overflow-y: auto;
-  margin-top: 1rem;
-  /* Improve mobile scrolling */
-  -webkit-overflow-scrolling: touch;
-}
-
-.emoji-message {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  margin-bottom: 0.25rem;
-  font-size: 1.25rem;  /* Mobile first: smaller */
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  transition: var(--transition-fast);
-}
-
-.emoji-message:hover {
-  background: rgba(79, 70, 229, 0.2);
-}
-
-.emoji-sender {
-  font-size: 0.75rem;  /* Mobile first: smaller */
-  color: #a5b4fc;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-/* PUBLIC CHAT */
-.public-chat {
-  background: rgba(79, 70, 229, 0.1);
-  border-radius: 0.5rem;
-  border: 1px solid rgba(79, 70, 229, 0.2);
-  margin-bottom: 1rem;  /* Mobile first: smaller */
-  max-height: 250px;  /* Mobile first: smaller */
-  display: flex;
-  flex-direction: column;
-  backdrop-filter: blur(5px);
-}
-
-.chat-header {
-  padding: 0.75rem;  /* Mobile first: smaller padding */
-  border-bottom: 1px solid rgba(79, 70, 229, 0.3);
-  background: rgba(79, 70, 229, 0.2);
-  border-radius: 0.5rem 0.5rem 0 0;
-}
-
-.chat-header h3 {
+.spinner-title {
   margin: 0;
-  font-size: 0.875rem;  /* Mobile first: smaller */
-  font-weight: 600;
-  color: #c7d2fe;
-  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-style: italic;
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
 }
 
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0.5rem;
-  max-height: 200px;  /* Mobile first: smaller */
-  min-height: 120px;  /* Mobile first: smaller */
-  /* Improve mobile scrolling */
-  -webkit-overflow-scrolling: touch;
-}
-
-.chat-message {
-  margin-bottom: 0.5rem;  /* Mobile first: smaller */
-  padding: 0.5rem;
-  border-radius: 0.375rem;
-  transition: var(--transition-fast);
-}
-
-.chat-message:hover {
-  transform: translateX(2px);
-}
-
-.chat-message.system {
-  background: rgba(79, 70, 229, 0.2);
-  border-left: 3px solid #4f46e5;
-}
-
-.chat-message.player {
-  background: rgba(34, 197, 94, 0.2);
-  border-left: 3px solid #22c55e;
-}
-
-.chat-message.emoji .message-text {
-  font-size: 1.25rem;  /* Mobile first: smaller */
-}
-
-.message-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.25rem;
-  font-size: 0.7rem;  /* Mobile first: smaller */
-  gap: 0.5rem;
-}
-
-.message-sender {
-  font-weight: 600;
-  color: #a5b4fc;
-  flex-shrink: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 120px;  /* Mobile first: prevent overflow */
-}
-
-.message-time {
-  color: #64748b;
-  font-size: 0.65rem;  /* Mobile first: smaller */
-  flex-shrink: 0;
-}
-
-.message-text {
-  color: #e2e8f0;
-  line-height: 1.4;
-  font-size: 0.8rem;  /* Mobile first: smaller */
-  word-break: break-word;  /* Prevent overflow */
-}
-
-/* INVESTIGATION TIMER */
-.investigation-timer {
-  background: rgba(79, 70, 229, 0.2);
-  backdrop-filter: blur(10px);
-  padding: 0.875rem;  /* Mobile first: smaller padding */
-  border-radius: 0.5rem;
-  border: 1px solid rgba(79, 70, 229, 0.3);
-  text-align: center;
-  margin-bottom: 1rem;
-  box-shadow: var(--shadow-lg);
-}
-
-.timer-label {
-  font-size: 0.8rem;  /* Mobile first: smaller */
-  color: #a5b4fc;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+.spinner-note {
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  color: var(--text-muted);
 }
 
-.timer-display {
-  font-size: 1.75rem;  /* Mobile first: smaller */
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: #ffffff;
-  text-shadow: 0 0 10px rgba(165, 180, 252, 0.5);
-}
+/* ============================================================
+   2. ROLE CARD — the one second that matters
+   ============================================================ */
 
-.timer-display.warning {
-  color: #f59e0b;
-  animation: pulse 1s infinite;
-}
+/* Each role re-points three local variables — its own hue, its own tint —
+   and the rest of the card is written once against them. The JSX only
+   has to say which role it is; no colour is chosen in script. */
+.role-card-section {
+  --role: var(--role-civilian);
+  --tint: var(--bg-inset);
 
-.timer-display.danger {
-  color: #ef4444;
-  animation: pulse 0.5s infinite;
-}
-
-.timer-progress {
-  width: 100%;
-  height: 6px;  /* Mobile first: smaller */
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
+  position: relative;
+  isolation: isolate;
   overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg);
+  background-color: var(--tint);
+  border: 1px solid var(--role);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  animation: gtt-role-reveal var(--duration-slow) var(--ease-reveal) both;
 }
 
-.timer-progress-bar {
-  height: 100%;
-  transition: width 1s ease, background-color 0.3s ease;
-  border-radius: 3px;
-  background-color: #22c55e;
+.role-card-section[data-role='King'] {
+  --role: var(--role-king);
+  --tint: var(--role-king-muted);
 }
 
-.timer-progress-bar.warning {
-  background-color: #f59e0b;
+.role-card-section[data-role='Queen'] {
+  --role: var(--role-queen);
+  --tint: var(--role-queen-muted);
 }
 
-.timer-progress-bar.danger {
-  background-color: #ef4444;
+.role-card-section[data-role='Police'] {
+  --role: var(--role-police);
+  --tint: var(--role-police-muted);
 }
 
-/* ROUND OVER & GAME OVER VIEWS */
-.summary-view {
-  text-align: center;
-  padding: 1rem;  /* Mobile first: smaller padding */
+.role-card-section[data-role='Thief'] {
+  --role: var(--role-thief);
+  --tint: var(--role-thief-muted);
 }
 
-.summary-title {
-  font-size: 1.5rem;  /* Mobile first: smaller */
-  font-weight: 700;
-  color: var(--purple-400);
-  margin-bottom: 1rem;
+/* Paper grain. The card is a physical document; the rest of the screen
+   is the desk it lies on. */
+.role-card-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--noise-svg);
+  opacity: var(--grain-opacity);
+  pointer-events: none;
 }
 
-.summary-message {
-  font-size: 1rem;  /* Mobile first: smaller */
-  margin-bottom: 1.5rem;
-  color: #c7d2fe;
-  line-height: 1.5;
-}
-
-.scores-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto 1.5rem;
-  max-width: 100%;  /* Mobile first: full width */
-}
-
-.score-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem;  /* Mobile first: larger padding for touch */
-  border-bottom: 1px solid rgba(79, 70, 229, 0.3);
-  background: rgba(30, 41, 59, 0.3);
-  margin-bottom: 0.25rem;
-  border-radius: 0.375rem;
-  transition: var(--transition-fast);
-}
-
-.score-item:hover {
-  background: rgba(30, 41, 59, 0.5);
-  transform: translateX(2px);
-}
-
-.score-item:last-child {
-  border-bottom: none;
-}
-
-.score-item .player-name {
-  font-weight: 600;
-  color: #c7d2fe;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 60%;  /* Mobile first: prevent overflow */
-}
-
-.score-item .player-score {
-  font-weight: 700;
-  color: #ffffff;
-  font-size: 1.125rem;
-}
-
-.leave-btn {
-  background-color: #ef4444;
-  color: white;
-  border: none;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.875rem;
-  transition: var(--transition-normal);
-  min-height: var(--touch-target);
-  min-width: var(--touch-target);
-  box-shadow: var(--shadow-lg);
-  z-index: 10;
-}
-
-.leave-btn:hover {
-  background-color: #dc2626;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-xl);
-}
-
-.leave-btn:active {
-  transform: translateY(0);
-}
-
-.stats-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;  /* Mobile first: smaller gap */
-  align-items: center;
-  justify-content: center;
-  margin-top: 0.5rem;
-}
-
-.game-info {
-  display: flex;
-  flex-wrap: wrap;  /* Mobile first: allow wrapping */
-  gap: 0.5rem;  /* Mobile first: smaller gap */
-  font-size: 0.8rem;  /* Mobile first: smaller */
-  color: #c7d2fe;
-  justify-content: center;
-}
-
-.game-info-item {
-  background: rgba(79, 70, 229, 0.2);
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  border: 1px solid rgba(79, 70, 229, 0.3);
-  white-space: nowrap;
-}
-
-/* Telegram Mini App Optimizations */
-@media (max-width: 480px) {
-  .spinner-container {
-    padding: 1rem 0.5rem;
-    min-height: 150px;
-  }
-  
-  .spinner {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-width: 3px;
-  }
-  
-  .spinner-text {
-    font-size: 0.8rem;
-  }
-  
-  .role-card-section {
-    padding: 0.75rem;
-  }
-  
-  .role-emoji {
-    font-size: 1.75rem;
-  }
-  
-  .role-card-header h3 {
-    font-size: 1.125rem;
-  }
-  
-  .role-description {
-    font-size: 0.8rem;
-  }
-  
-  .view-title {
-    font-size: 1.125rem;
-  }
-  
-  .view-description {
-    font-size: 0.8rem;
-  }
-  
-  .action-btn {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.875rem;
-    max-width: 260px;
-  }
-  
-  .suspects-grid {
-    gap: 0.5rem;
-  }
-  
-  .suspect-btn {
-    padding: 0.75rem;
-  }
-  
-  .emoji-picker {
-    gap: 0.25rem;
-    padding: 0.5rem;
-  }
-  
-  .emoji-btn {
-    font-size: 1.5rem;
-    min-height: 40px;
-    min-width: 40px;
-  }
-  
-  .emoji-feed {
-    max-height: 120px;
-  }
-  
-  .emoji-message {
-    font-size: 1.125rem;
-  }
-  
-  .emoji-sender {
-    font-size: 0.7rem;
-  }
-  
-  .public-chat {
-    max-height: 200px;
-  }
-  
-  .chat-header {
-    padding: 0.625rem;
-  }
-  
-  .chat-header h3 {
-    font-size: 0.8rem;
-  }
-  
-  .chat-messages {
-    max-height: 150px;
-    min-height: 100px;
-  }
-  
-  .message-meta {
-    font-size: 0.65rem;
-  }
-  
-  .message-sender {
-    max-width: 80px;
-  }
-  
-  .message-time {
-    font-size: 0.6rem;
-  }
-  
-  .message-text {
-    font-size: 0.75rem;
-  }
-  
-  .investigation-timer {
-    padding: 0.75rem;
-  }
-  
-  .timer-display {
-    font-size: 1.5rem;
-  }
-  
-  .timer-progress {
-    height: 4px;
-  }
-  
-  .summary-title {
-    font-size: 1.25rem;
-  }
-  
-  .summary-message {
-    font-size: 0.875rem;
-  }
-  
-  .score-item {
-    padding: 0.625rem;
-  }
-  
-  .score-item .player-name {
-    max-width: 50%;
-  }
-  
-  .leave-btn {
-    top: 0.25rem;
-    right: 0.25rem;
-    padding: 0.375rem 0.625rem;
-    font-size: 0.8rem;
-  }
-  
-  .game-info {
-    font-size: 0.75rem;
-    gap: 0.375rem;
-  }
-}
-
-/* Small Mobile */
-@media (min-width: 481px) and (max-width: 640px) {
-  .suspects-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .emoji-picker {
-    padding: 0.875rem;
-  }
-  
-  .public-chat {
-    max-height: 280px;
-  }
-}
-
-/* Tablet Portrait */
-@media (min-width: 641px) {
-  .spinner-container {
-    padding: 2rem 1rem;
-    min-height: 250px;
-  }
-  
-  .spinner {
-    width: 4rem;
-    height: 4rem;
-    border-width: 6px;
-  }
-  
-  .role-card-section {
-    padding: 1.5rem;
-  }
-  
-  .role-card-header {
-    justify-content: flex-start;
-  }
-  
-  .role-description {
-    text-align: left;
-  }
-  
-  .view-title {
-    font-size: 1.5rem;
-  }
-  
-  .view-description {
-    font-size: 1rem;
-  }
-  
-  .action-btn {
-    width: auto;
-    min-width: 200px;
-  }
-  
-  .suspects-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-  
-  .public-chat {
-    max-height: 350px;
-  }
-  
-  .chat-messages {
-    max-height: 280px;
-    min-height: 180px;
-  }
-  
-  .timer-display {
-    font-size: 2.25rem;
-  }
-  
-  .timer-progress {
-    height: 8px;
-  }
-  
-  .summary-title {
-    font-size: 2rem;
-  }
-  
-  .summary-message {
-    font-size: 1.125rem;
-  }
-  
-  .scores-list {
-    max-width: 400px;
-  }
-}
-
-/* Tablet Landscape */
-@media (min-width: 769px) {
-  .suspects-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  .emoji-picker {
-    gap: 0.5rem;
-  }
-  
-  .emoji-btn {
-    font-size: 2rem;
-  }
-}
-
-/* Desktop */
-@media (min-width: 1025px) {
-  .spinner-container {
-    padding: 3rem 1.5rem;
-  }
-  
-  .role-card-section {
-    padding: 2rem;
-  }
-  
-  .role-emoji {
-    font-size: 3rem;
-  }
-  
-  .role-card-header h3 {
-    font-size: 1.75rem;
-  }
-  
-  .suspects-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .public-chat {
-    max-height: 400px;
-  }
-  
-  .chat-messages {
-    max-height: 320px;
-    min-height: 200px;
-  }
-  
-  .timer-display {
-    font-size: 2.5rem;
-  }
-  
-  .scores-list {
-    max-width: 500px;
-  }
-  
-  /* Enhanced hover effects on desktop */
-  .role-card-section:hover {
-    transform: translateY(-2px);
-  }
-  
-  .suspect-btn:hover {
-    transform: translateY(-2px);
-  }
-}
-
-/* Landscape orientation on mobile */
-@media (max-height: 500px) and (orientation: landscape) {
-  .spinner-container {
-    padding: 1rem 0.5rem;
-    min-height: 120px;
-  }
-  
-  .role-card-section {
-    padding: 0.75rem;
-  }
-  
-  .role-card-header {
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .public-chat {
-    max-height: 150px;
-  }
-  
-  .chat-messages {
-    max-height: 100px;
-    min-height: 80px;
-  }
-  
-  .investigation-timer {
-    padding: 0.5rem;
-  }
-  
-  .timer-display {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-  }
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-  .spinner,
-  .role-emoji,
-  .timer-display,
-  .emoji-btn,
-  .suspect-btn,
-  .score-item,
-  .chat-message {
-    animation: none;
-    transition: none;
-  }
-  
-  .spinner {
-    opacity: 0.7;
-  }
-  
-  .role-card-section:hover,
-  .suspect-btn:hover,
-  .score-item:hover {
+@keyframes gtt-role-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-sm)) scale(0.985);
+  }
+  to {
+    opacity: 1;
     transform: none;
   }
 }
 
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  .role-card-section,
-  .public-chat,
-  .investigation-timer,
-  .emoji-feed,
-  .emoji-picker {
-    border-width: 2px;
-  }
-  
-  .action-btn,
-  .suspect-btn,
-  .emoji-btn {
-    border: 2px solid;
-  }
+/* The role mark, printed large behind the type like a watermark on a
+   passport. */
+.role-card-ghost {
+  position: absolute;
+  right: calc(-1 * var(--space-md));
+  bottom: calc(-1 * var(--space-md));
+  z-index: -1;
+  color: var(--role);
+  opacity: 0.08;
+  pointer-events: none;
 }
 
-/* Focus styles for accessibility */
-.action-btn:focus,
-.suspect-btn:focus,
-.emoji-btn:focus,
-.leave-btn:focus {
-  outline: 2px solid #a78bfa;
-  outline-offset: 2px;
+/* THIEF. Two rules where every other role has one, a heavier watermark,
+   and a slow breath on the inner rule — a siren seen from the street.
+   Never a strobe, never a glow. */
+.role-card-section[data-role='Thief'] {
+  box-shadow: var(--shadow-md), inset 0 0 0 1px var(--role);
 }
 
-.action-btn:focus:not(:focus-visible),
-.suspect-btn:focus:not(:focus-visible),
-.emoji-btn:focus:not(:focus-visible),
-.leave-btn:focus:not(:focus-visible) {
+.role-card-section[data-role='Thief']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 1px solid var(--role);
+  animation: gtt-siren 3.2s var(--ease-in-out) infinite;
+  pointer-events: none;
+}
+
+.role-card-section[data-role='Thief'] .role-card-ghost {
+  opacity: 0.14;
+}
+
+@keyframes gtt-siren {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.8; }
+}
+
+.role-card-eyebrow {
+  color: var(--role);
+}
+
+.role-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: var(--space-2xs) 0 var(--space-sm);
+}
+
+.role-card-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--role);
+}
+
+.role-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-black);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  color: var(--role);
+}
+
+/* The instruction line, then the sharper one-liner under it. */
+.role-description {
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+.role-directive {
+  margin: var(--space-2xs) 0 0;
+  padding-top: var(--space-2xs);
+  border-top: 1px solid var(--role);
+  max-width: var(--measure);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  line-height: var(--leading-snug);
+  color: var(--text-primary);
+}
+
+.role-warning {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.role-warning .icon {
+  flex: none;
+  color: var(--text-faint);
+}
+
+/* ============================================================
+   3. GAME VIEWS — one beat of the story
+   ============================================================ */
+
+.game-view {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  width: 100%;
+}
+
+.view-eyebrow {
+  color: var(--text-faint);
+}
+
+.view-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+}
+
+.view-description {
+  margin: 0 0 var(--space-2xs);
+  max-width: var(--measure);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+/* The lineup. A ruled sheet of names — the arrest is one tap and it is
+   final, so the row itself is the whole affordance. */
+.suspects-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 26rem;
+  margin: var(--space-2xs) 0 0;
+  border-top: 1px solid var(--border-default);
+}
+
+.suspect-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: var(--space-2xs) var(--space-2xs);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-normal);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    padding-left var(--duration-fast) var(--ease-out);
+}
+
+.suspect-btn .icon {
+  flex: none;
+  color: var(--text-faint);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.suspect-btn:hover {
+  background: var(--info-muted);
+  color: var(--text-primary);
+  padding-left: var(--space-sm);
+}
+
+.suspect-btn:hover .icon {
+  color: var(--role-police);
+}
+
+.suspect-btn:active {
+  background: var(--bg-active);
+}
+
+.suspect-btn:focus-visible {
   outline: none;
-} 
+  box-shadow: var(--focus-ring);
+}
+
+.suspect-btn__hint {
+  margin-left: auto;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.suspect-btn:hover .suspect-btn__hint,
+.suspect-btn:focus-visible .suspect-btn__hint {
+  opacity: 1;
+}
+
+/* ============================================================
+   4. EMOJI — the payload, not the chrome
+   ============================================================
+   The glyphs themselves are the wire format: they are what gets sent to
+   the server and what arrives back in the feed, so they stay literal.
+   Only the furniture around them is re-dressed. */
+
+.emoji-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-top: var(--space-2xs);
+  padding-top: var(--space-2xs);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.emoji-btn {
+  display: grid;
+  place-items: center;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  padding: 0;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xl);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.emoji-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+
+.emoji-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.emoji-btn.selected {
+  background: var(--accent-muted);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.emoji-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  max-height: 10rem;
+  overflow-y: auto;
+  padding: var(--space-2xs) var(--space-sm);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  -webkit-overflow-scrolling: touch;
+}
+
+.emoji-feed__empty {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-faint);
+}
+
+.emoji-message {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+}
+
+.emoji-sender {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   5. PUBLIC CHAT — the transcript
+   ============================================================
+   Player and system lines are told apart by the colour of a 2px rule
+   down the left edge. Never by a background fill: a wall of tinted
+   blocks would drown the words. */
+
+.public-chat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  background: var(--bg-inset);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.chat-header__count {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+}
+
+.chat-messages {
+  flex: 1;
+  min-height: 7rem;
+  max-height: 16rem;
+  overflow-y: auto;
+  padding: var(--space-2xs) 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chat-line {
+  --rule: var(--border-strong);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-left: 2px solid var(--rule);
+}
+
+.chat-line + .chat-line {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* A voice on the wire. */
+.chat-line[data-type='player'] {
+  --rule: var(--role-police);
+}
+
+/* The table itself speaking. */
+.chat-line[data-type='system'] {
+  --rule: var(--accent);
+}
+
+/* A tap, not a sentence. */
+.chat-line[data-type='emoji'] {
+  --rule: var(--border-default);
+}
+
+.message-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+}
+
+.message-sender {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.message-time {
+  flex: none;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+}
+
+.message-text {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+  overflow-wrap: break-word;
+}
+
+.chat-line[data-type='system'] .message-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+.chat-line[data-type='emoji'] .message-text {
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+}
+
+.chat-empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-left: 2px solid var(--border-subtle);
+}
+
+.chat-empty .message-text {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-faint);
+}
+
+/* ============================================================
+   6. INVESTIGATION TIMER — a clock under pressure
+   ============================================================
+   Calm while there is time. It only starts shouting in the last twenty
+   seconds, so the colour change actually means something. */
+
+.investigation-timer {
+  --clock: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  width: 100%;
+  max-width: 26rem;
+  margin: 0 auto var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-top: 2px solid var(--clock);
+  box-shadow: var(--shadow-sm);
+}
+
+.investigation-timer[data-level='urgent'] {
+  --clock: var(--warning);
+}
+
+.investigation-timer[data-level='critical'] {
+  --clock: var(--danger);
+  border-color: var(--danger);
+}
+
+.timer-label {
+  color: var(--clock);
+}
+
+.timer-display {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  margin: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--clock);
+}
+
+.timer-unit {
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.investigation-timer[data-level='urgent'] .timer-display {
+  animation: gtt-tick 1.6s var(--ease-in-out) infinite;
+}
+
+.investigation-timer[data-level='critical'] .timer-display {
+  animation: gtt-tick 0.8s var(--ease-in-out) infinite;
+}
+
+@keyframes gtt-tick {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* A ruled track with a hard deadline mark at the far end. */
+.timer-track {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: var(--bg-active);
+  border-radius: var(--radius-none);
+  overflow: hidden;
+}
+
+.timer-track::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: var(--border-strong);
+}
+
+.timer-bar {
+  height: 100%;
+  background: var(--clock);
+  transition: width 1s linear, background-color var(--duration-base) var(--ease-out);
+}
+
+/* ============================================================
+   7. VERDICTS — round over / game over
+   ============================================================ */
+
+.summary-view {
+  --verdict: var(--accent);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  width: 100%;
+  padding: var(--space-lg) 0;
+}
+
+/* The winning side announces itself in its own colour. The default is
+   the streetlight accent; a parent that learns who won can drop
+   data-verdict="King|Queen|Police|Thief" on the element and the whole
+   block — rule, labels, tally — takes that role's hue. */
+.summary-view[data-verdict='King'] { --verdict: var(--role-king); }
+.summary-view[data-verdict='Queen'] { --verdict: var(--role-queen); }
+.summary-view[data-verdict='Police'] { --verdict: var(--role-police); }
+.summary-view[data-verdict='Thief'] { --verdict: var(--role-thief); }
+
+.summary-eyebrow {
+  color: var(--verdict);
+}
+
+.summary-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-black);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.summary-message {
+  margin: 0;
+  max-width: var(--measure);
+  padding-left: var(--space-sm);
+  border-left: 2px solid var(--verdict);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  line-height: var(--leading-snug);
+  color: var(--text-primary);
+}
+
+/* The winner. The loudest single word on the screen. */
+.verdict-winner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: var(--space-2xs) 0 0;
+  padding-left: var(--space-sm);
+  border-left: 2px solid var(--verdict);
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-black);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--verdict);
+  overflow-wrap: break-word;
+}
+
+.verdict-winner .icon {
+  flex: none;
+  align-self: center;
+  color: var(--verdict);
+}
+
+/* The tally — a ledger, not a leaderboard. */
+.tally {
+  width: 100%;
+  max-width: 28rem;
+  margin-top: var(--space-sm);
+}
+
+.tally-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding-bottom: var(--space-2xs);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.tally-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tally-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-height: var(--touch-target);
+  padding: var(--space-2xs) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.tally-row:hover {
+  background: var(--bg-hover);
+}
+
+.tally-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tally-value {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+/* Round-over deltas are the one place a number goes green. */
+.tally-row--delta .tally-value {
+  color: var(--success);
+}
+
+/* Final standing: the leader carries a single amber mark. */
+.tally-row--leading {
+  border-bottom-color: var(--border-default);
+}
+
+.tally-row--leading .tally-name {
+  color: var(--text-primary);
+  font-weight: var(--weight-semibold);
+}
+
+.tally-row--leading .tally-value {
+  color: var(--accent);
+}
+
+.tally-row--leading .tally-mark {
+  color: var(--accent);
+}
+
+.tally-mark {
+  display: inline-flex;
+  flex: none;
+  color: var(--text-faint);
+}
+
+/* ============================================================
+   8. Responsive
+   ============================================================ */
+
+@media (min-width: 40rem) {
+  .role-card-section {
+    padding: var(--space-lg) var(--space-lg) var(--space-lg) var(--space-xl);
+  }
+
+  .role-name {
+    font-size: var(--text-4xl);
+  }
+
+  .summary-title {
+    font-size: var(--text-4xl);
+  }
+
+  .verdict-winner {
+    font-size: var(--text-5xl);
+  }
+
+  .timer-display {
+    font-size: var(--text-5xl);
+  }
+}
+
+@media (min-width: 60rem) {
+  .spinner-container {
+    min-height: 18rem;
+  }
+
+  .chat-messages {
+    max-height: 22rem;
+  }
+
+  .summary-title {
+    font-size: var(--text-4xl);
+  }
+}

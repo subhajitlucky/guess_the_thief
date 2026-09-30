@@ -8,7 +8,13 @@
     "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "audit:design": "node scripts/design-audit.mjs",
+    "verify": "npm run typecheck && npm run test && npm run audit:design",
+    "shot": "node scripts/shot.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "game-flow": "node scripts/game-flow.mjs",
+    "solo": "node scripts/solo.mjs"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.22.0",

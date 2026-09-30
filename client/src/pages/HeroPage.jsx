@@ -1,3 +1,5 @@
+import Icon from '../components/icons/Icon.jsx'
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../styles/HeroPage.css'
@@ -62,28 +64,28 @@ function HeroPage({ username, onUsernameSubmit, isSubmitting, setIsSubmitting })
 
   const roles = [
     {
-      emoji: '👑',
+      icon: 'crown',
       name: 'King',
       points: '1000 pts',
       description: 'Commands the Police to find the Thief',
       gradient: 'from-yellow-400 to-orange-500'
     },
     {
-      emoji: '👸',
+      icon: 'gem',
       name: 'Queen',
       points: '500 pts',
       description: 'Supports the Police with subtle hints',
       gradient: 'from-pink-400 to-purple-500'
     },
     {
-      emoji: '👮',
+      icon: 'shield',
       name: 'Police',
       points: '300 pts',
       description: 'Investigates and arrests the Thief',
       gradient: 'from-blue-400 to-cyan-500'
     },
     {
-      emoji: '🥷',
+      icon: 'mask',
       name: 'Thief',
       points: '300 pts',
       description: 'Hides in plain sight and avoids capture',
@@ -117,7 +119,7 @@ function HeroPage({ username, onUsernameSubmit, isSubmitting, setIsSubmitting })
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              The ultimate social deduction game. 🕵️ Outsmart your friends, uncover secrets, and
+              The ultimate social deduction game. <Icon name="mask" /> Outsmart your friends, uncover secrets, and
               claim victory in this thrilling 4-player multiplayer experience.
             </motion.p>
 
@@ -146,7 +148,7 @@ function HeroPage({ username, onUsernameSubmit, isSubmitting, setIsSubmitting })
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.6 }}
                 >
-                  Welcome back, <span className="username-text">{username}</span>! 👋
+                  Welcome back, <span className="username-text">{username}</span>! 
                 </motion.div>
               )}
             </motion.div>
@@ -162,10 +164,10 @@ function HeroPage({ username, onUsernameSubmit, isSubmitting, setIsSubmitting })
                 { number: '4', label: 'Players' },
                 { number: '10', label: 'Rounds' },
                 { number: '∞', label: 'Fun' },
-                { number: '🏆', label: 'Winner' }
+                { number: '', icon: 'trophy', label: 'Winner' }
               ].map((stat, index) => (
                 <div key={index} className="stat-item">
-                  <div className="stat-number">{stat.number}</div>
+                  <div className="stat-number">{stat.icon ? <Icon name={stat.icon} /> : stat.number}</div>
                   <div className="stat-label">{stat.label}</div>
                 </div>
               ))}
@@ -204,7 +206,7 @@ function HeroPage({ username, onUsernameSubmit, isSubmitting, setIsSubmitting })
                 whileHover={{ y: -5 }}
               >
                 <div className="role-card-content">
-                  <div className="role-emoji">{role.emoji}</div>
+                  <div className="role-emoji"><Icon name={role.icon} /></div>
                   <h3 className="role-name">{role.name}</h3>
                   <div className={`role-points ${role.name.toLowerCase()}`}>{role.points}</div>
                   <p className="role-description">{role.description}</p>

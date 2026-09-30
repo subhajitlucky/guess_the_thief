@@ -1,3 +1,5 @@
+import Icon from '../icons/Icon.jsx'
+
 function GameOverView({ message, scores, onLeave }) {
     // Sort scores for final leaderboard
     const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
@@ -7,7 +9,7 @@ function GameOverView({ message, scores, onLeave }) {
         <div className="summary-view">
             <h2 className="summary-title">Game Over!</h2>
             <p className="summary-message">{message}</p>
-            <h3 className="winner-announcement">🏆 Winner: {winner} 🏆</h3>
+            <h3 className="winner-announcement"><Icon name="trophy" /> Winner: {winner} <Icon name="trophy" /></h3>
             <h4>Final Scores:</h4>
             <ul className="scores-list">
                 {sortedScores.map(([username, score]) => (
