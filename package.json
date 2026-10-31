@@ -24,7 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "wrangler": "^4.144.0"
+    "wrangler": "^4.156.0"
   },
   "engines": {
     "node": ">=14.0.0"
