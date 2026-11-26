@@ -167,3 +167,6 @@ docker-compose*.yml
 # Runtime files
 *.out
 *.exe ngrok.yml
+
+# Local build output
+worker/dist-check/
